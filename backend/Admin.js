@@ -7,10 +7,6 @@ class Admin extends User {
     viewReportedAuctions(){
         //DATABASE TO VIEW REPORTED AUCTIONS ????
     }
-
-    manageSuspiciousUsers(){
-        //DATABASE TO MANAGE SUSPICIOUS USERS ????
-    }
  
     viewReportedUsers(){
         //DATABASE TO VIEW REPORTED USERS ????
