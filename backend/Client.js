@@ -10,6 +10,7 @@ class Client extends User{
     #suspended; //bool
     #ownedCosmetics = []; //string array of cosmetics
     #purchaseHistory = []; //item array for items won in auctions
+    #wishlist = []; //auction array
     #wallet; //type wallet
     #points; //int
     #level; //int
@@ -38,7 +39,8 @@ class Client extends User{
     setSuspicious(suspicious){this.#suspicious = suspicious;}
     isSuspended(){return this.#suspended;}
     setSuspended(suspended){this.#suspended = suspended;}
-
+    getWishlist(){return this.#wishlist;}
+    setWishlist(wishlist){this.#wishlist = wishlist;}
 
 
 
