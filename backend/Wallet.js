@@ -18,7 +18,16 @@ class Wallet{
     getCurrency() {return this.#currency;}
     setCurrency(currency) {this.#currency = currency;}
     
-    withdraw(amount){}
-    deposit(amount){}
+    withdraw(amount){
+        if(amount*1.3 > this.#balance){
+            return -1; //insufficient funds
+        }
+        this.#balance -= amount*1.3; //30% PROFITTTT
+        return this.#balance;
+
+    }
+    deposit(amount){
+        this.#balance += amount;
+    }
 
 }
