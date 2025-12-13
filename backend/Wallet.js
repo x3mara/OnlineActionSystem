@@ -1,4 +1,4 @@
-class Wallet{
+export default class Wallet{
 
     #balance;
     #points;
@@ -22,7 +22,7 @@ class Wallet{
         if(amount*1.3 > this.#balance){
             return -1; //insufficient funds
         }
-        this.#balance -= amount*1.3; //30% PROFITTTT
+        this.#balance -= amount*1.3; //30% PROFITTTT WE RIIICHHHHH
         return this.#balance;
 
     }
