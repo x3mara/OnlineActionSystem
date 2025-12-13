@@ -1,4 +1,4 @@
-class Bid { 
+export default class Bid { 
     bidderId;
     bidAmount;
 

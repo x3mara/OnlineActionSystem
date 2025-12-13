@@ -1,4 +1,4 @@
-class Auction {
+export default class Auction {
     auctionId;
     suspicious;
     bids = [];
