@@ -1,7 +1,14 @@
-class Admin extends User {
+import User from "./User.js";
+export default class Admin extends User {
 
-    viewAllAuctions(){
-        //DATABASE TO VIEW ALL AUCTIONS ????
+    async viewAllAuctions(){
+        try {
+         const [rows] = await pool.query("SELECT * FROM auctions");
+        res.json(rows);
+        } 
+        catch (err) {
+        res.status(500).json({ error: err.message });
+        }
     }
 
     viewReportedAuctions(){

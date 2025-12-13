@@ -1,4 +1,4 @@
-class Cosmetic{
+export default class Cosmetic{
 
     #cosmeticID;
     #cosmeticName;

@@ -1,4 +1,4 @@
-class User{
+export default class User{
     
     #userID;
     #username;
