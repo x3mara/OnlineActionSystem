@@ -46,8 +46,11 @@ export default class Client extends User{
 
 
 
-    reportSuspiciousAuction(){
-
+    async reportSuspiciousAuction(auctionID){
+        const [rows] = await pool.query(
+        'SELECT * FROM auctions WHERE auctionID = ?',
+        [auctionID]);
+        return rows;
     }
 
     reportSuspicousUser(){

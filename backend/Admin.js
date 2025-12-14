@@ -2,28 +2,33 @@ import User from "./User.js";
 export default class Admin extends User {
 
     async viewAllAuctions(){
-        try {
-         const [rows] = await pool.query("SELECT * FROM auctions");
-        res.json(rows);
-        } 
-        catch (err) {
-        res.status(500).json({ error: err.message });
-        }
+        const [rows] = await pool.query('SELECT * FROM auctions');
+        return rows;
     }
 
-    viewReportedAuctions(){
-        //DATABASE TO VIEW REPORTED AUCTIONS ????
+    async viewReportedAuctions(){
+        const [rows] = await pool.query(
+        'SELECT * FROM auctions WHERE suspicious > ?',
+        [5]);
+        return rows;
     }
  
-    viewReportedUsers(){
-        //DATABASE TO VIEW REPORTED USERS ????
+    async viewReportedUsers(){
+        const [rows] = await pool.query(
+        'SELECT * FROM auctions WHERE suspicious > ?',
+        [5]);
+        return rows;
     }
 
-    searchForSpecificUser(clientID){
-        //DATABASE TO SEARCH FOR A SPECIFIC USER ????
+    async searchForSpecificUser(clientID){
+        const [rows] = await pool.query(
+        'SELECT * FROM clients WHERE clientID = ?',
+        [clientID]);
+        return rows;
     }
 
-    viewAllClients(){
-        //DATABASE TO VIEW ALL CLIENTS ????
+    async viewAllClients(){
+        const [rows] = await pool.query('SELECT * FROM clients');
+        return rows;
     }
 }
