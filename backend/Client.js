@@ -6,12 +6,21 @@ export default class Client extends User{
 
     #suspicious; //int
     #suspended; //bool
-    #ownedCosmetics = []; //string array of cosmetics
-    #purchaseHistory = []; //item array for items won in auctions
-    #wishlist = []; //auction array
     #points; //int
     #level; //int
     #walletID; //string
+    #currentCosmetic; //string
+
+    toSQL(){
+        return{
+        user_id: super.getUserID(), 
+        suscounter: this.#suspicious,
+        suspended: this.#suspended,
+        current_cosmetic: this.#currentCosmetic,
+        points: this.#points,
+        levels: this.#level};
+        
+    }
 
     constructor(username, password, email, walletID){
         super(username, password);
@@ -41,11 +50,9 @@ export default class Client extends User{
         return rows;
     }
 
-    static async insertClient(inputUsername, inputPassword, inputEmail){
+    static async insertClient(inputUsername, inputPassword, inputEmail, walletID){
         [rows] = await Client.searchClient(inputUsername);
         if(rows.length === 0){
-            sessionWallet = new Wallet();
-            let walletID = wallet.getWalletID();
             sessionClient = new Client(inputUsername, inputPassword, inputEmail, walletID);
             let suspicious = 0;
             let suspended = false;

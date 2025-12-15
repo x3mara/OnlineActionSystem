@@ -10,6 +10,17 @@ export default class Auction {
     duetime;
     seller;
 
+    toSQL(){
+        return{
+        id: this.auctionId,
+        sus_counter: this.suspicious,
+        suspended: false,
+        item_id: this.AuctionedItem,
+        highest_bidder: this.highestBidder,
+        due_date: this.duetime,
+        seller_id: this.seller};
+    }
+
 
     constructor(auctionId, suspicious, AuctionedItem, duetime, seller) {
         this.auctionId = auctionId;

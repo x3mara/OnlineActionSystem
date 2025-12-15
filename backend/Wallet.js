@@ -2,14 +2,18 @@ export default class Wallet{
 
     #balance;
     #walletID;
+
+    toSQL(){
+        return{
+        wallet_id:this.#walletID,
+        balance:this.#balance};
+    }
     
     constructor(){
-        this.#walletID= 'w' + Math.trunc((Math.random() + Date.now()));
+        this.#walletID =  Math.trunc((Math.random() + Date.now()));
         this.#balance = 0;
     }
-    constructor(balance, points){
-        this.#balance = balance;
-    }
+
 
     //setters and getters
     getWalletID(){return this.#walletID;}
@@ -23,12 +27,24 @@ export default class Wallet{
         return rows;
     }
 
-    static async insertWallet(){
-        sessionWallet = new Wallet();
+    static async insertWallet(sessionWallet){
         let walletID = sessionWallet.getWalletID();
         let balance = 0;
-        database.insertWallet(walletID, balance);
-        return walletID; 
+        database.insert(walletID, balance); 
+    }
+
+    static async fetchWallet(walletID){
+        [rows] = await Wallet.searchWallet(walletID);
+        sessionWallet = new Wallet();
+        sessionWallet.setwalletID(rows[0].walletID);
+        sessionWallet.setBalance(rows[0].balance);
+        return sessionWallet;
+    }
+
+    static async updateWallet(sessionWallet){
+        let walletID = sessionWallet.getWalletID();
+        let balance = sessionWallet.getBalance();
+        database.updateWallet(walletID, balance);
     }
 
 }
