@@ -63,30 +63,6 @@ export default class Client extends User{
 
 
 
-    static async verifyLogin(inputUsername, inputPassword, client){
-        [rows] = await Client.searchClient(inputUsername);
-        if(rows.length === 0){
-            return null;
-        }
-        if(rows[0].password === inputPassword){
-            sessionclient = new Client();
-            sessionclient.setUsername(rows[0].username);
-            sessionclient.setPassword(rows[0].password);
-            sessionclient.setEmail(rows[0].email);
-            sessionclient.setSuspicious(rows[0].suspicious);
-            sessionclient.setSuspended(rows[0].suspended);
-            sessionclient.setPoints(rows[0].points);
-            sessionclient.setLevel(rows[0].level);
-            sessionclient.setWalletID(rows[0].walletID);
-            return sessionclient;
-        }
-        else{
-            return false;
-        }
-    }
-
-
-
 
 
 

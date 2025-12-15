@@ -1,3 +1,5 @@
+import Client from "./Client.js";
+import Admin from "./Admin.js";
 export default class User{
     
     #userID;
@@ -22,7 +24,55 @@ export default class User{
     getEmail(){return this.#email;}
 
 
-    
+    static async searchUser(inputUsername){
+        [rows] = database.searchUser(inputUsername);
+        return rows;
+    }
+
+
+   static async verifyLogin(inputUsername, inputPassword){
+        [rows] = await User.searchUser(inputUsername);
+        if(rows.length === 0){
+            return null;
+        }
+        else if (rows[0].userID[0] === 'a'){
+            if(rows[0].password === inputPassword){
+            sessionadmin = new Admin();
+            sessionadmin.setUsername(rows[0].username);
+            sessionadmin.setPassword(rows[0].password);
+            sessionadmin.setEmail(rows[0].email);
+            return sessionadmin;
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            if(rows[0].password === inputPassword){
+                [rows2] = await Client.searchClient(inputUsername);
+                sessionclient = new Client();
+                sessionclient.setUsername(rows2[0].username);
+                sessionclient.setPassword(rows2[0].password);
+                sessionclient.setEmail(rows2[0].email);
+                sessionclient.setSuspicious(rows2[0].suspicious);
+                sessionclient.setSuspended(rows2[0].suspended);
+                sessionclient.setPoints(rows2[0].points);
+                sessionclient.setLevel(rows2[0].level);
+                sessionclient.setWalletID(rows2[0].walletID);
+                return sessionclient;
+            }
+
+            else{
+                return false;
+            }
+
+
+        }
+       
+    }
+
+
+
 
 
 

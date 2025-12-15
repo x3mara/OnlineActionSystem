@@ -24,7 +24,7 @@ export default class clientController{
 
     async login(inputUsername, inputPassword){
 
-        this.sessionClient = await client.login(inputUsername, inputPassword);
+        this.sessionClient = await User.verifyLogin(inputUsername, inputPassword);
         if (this.sessionClient==false){
             return "Incorrect password";
         }
