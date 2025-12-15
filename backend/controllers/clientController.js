@@ -23,16 +23,16 @@ export default class clientController{
     }
 
     async login(inputUsername, inputPassword){
-        client = new Client();
-        let loginSuccess = await client.login(inputUsername, inputPassword);
-        if (loginSuccess==true){
-            return "Login successful";
-        }
-        else if (loginSuccess==false){
+
+        let sessionClient = await client.login(inputUsername, inputPassword);
+        if (sessionClient==false){
             return "Incorrect password";
         }
-        else{
+        else if (sessionClient==null){
             return "Username does not exist";
+        }
+        else{
+            return "Login successful";
         }
     }
 }

@@ -4,9 +4,12 @@ export default class walletController{
     constructor(){}
 
     constructor(walletID){
-        wallet = new Wallet();
-        
+       
     }
     
 
+
+
 }
+
+
