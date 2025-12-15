@@ -17,8 +17,11 @@ export default class Auction {
     }
 
 
-    validateBid(ClientID,Amount) {
-    if(Amount < bids[0].getBidAmount() && Amount > AuctionedItem.getBuyoutPrice && Amount > ClientID.wallet.balance) {
+    async validateBid(ClientID,Amount) {
+       
+    const [Client] = await pool.query('SELECT [0] FROM clients WHERE clientID = ?', [ClientID]);
+    
+    if(Amount < bids[0].getBidAmount() || Amount > AuctionedItem.getBuyoutPrice || Amount > ClientID.wallet.balance) {
         return;
     } else { newbid = new Bid(ClientID, Amount);
         bids.push(newbid);
@@ -26,41 +29,41 @@ export default class Auction {
         }
     }
 
-    suspendAuction() {
+    async suspendAuction() {
         //implementation to suspend auction
     }
 
-    buyOut(ClientID) {
+    async buyOut(ClientID) {
         validateBid(ClientID, AuctionedItem.getBuyoutPrice);
     }
 
-    showCurrentBidders() { 
+    async showCurrentBidders() { 
         //implementation to show current bidders
     }
 
-    showCurrentBids(){
+    async showCurrentBids(){
         //implementation to show current bids
     }
 
-    getAuctionId() {   
+    async getAuctionId() {   
         return this.auctionId;
     }
-    isSuspicious() {
+    async isSuspicious() {
         return this.suspicious;
     }
-    getAuctionedItem() {
+    async getAuctionedItem() {
         return this.AuctionedItem;
     }
-    getDueTime() {
+    async getDueTime() {
         return this.duetime;
     }
-    getSeller() {
+    async getSeller() {
         return this.seller;
     }
-    getBids() {
+    async getBids() {
         return this.bids;
     }
-    getHighestBidder() {
+    async getHighestBidder() {
         return this.highestBidder;
     }   
 
