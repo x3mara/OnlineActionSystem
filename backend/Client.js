@@ -21,7 +21,7 @@ export default class Client extends User{
         super(userID, username, password);
         this.#suspicious = 0;
         this.#suspended = false;
-        this.#wallet = Wallet();
+        this.#wallet = new Wallet();
         this.#points = 0;
         this.#level = 0;
     }

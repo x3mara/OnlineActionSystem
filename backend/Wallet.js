@@ -4,10 +4,14 @@ export default class Wallet{
     #points;
     #currency; //string
 
-    constructor(balance, points, currency){
+    constructor(balance, points){
         this.#balance = balance;
         this.#points = points;
-        this.#currency = currency;
+    }
+
+    constructor(){
+        this.#balance = 0;
+        this.#points = 0;
     }
 
     //setters and getters
