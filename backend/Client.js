@@ -41,11 +41,9 @@ export default class Client extends User{
         return rows;
     }
 
-    static async insertClient(inputUsername, inputPassword, inputEmail){
+    static async insertClient(inputUsername, inputPassword, inputEmail, walletID){
         [rows] = await Client.searchClient(inputUsername);
         if(rows.length === 0){
-            sessionWallet = new Wallet();
-            let walletID = wallet.getWalletID();
             sessionClient = new Client(inputUsername, inputPassword, inputEmail, walletID);
             let suspicious = 0;
             let suspended = false;
@@ -59,30 +57,6 @@ export default class Client extends User{
             return null; // username already exists
         }
        
-    }
-
-
-
-    static async verifyLogin(inputUsername, inputPassword, client){
-        [rows] = await Client.searchClient(inputUsername);
-        if(rows.length === 0){
-            return null;
-        }
-        if(rows[0].password === inputPassword){
-            sessionclient = new Client();
-            sessionclient.setUsername(rows[0].username);
-            sessionclient.setPassword(rows[0].password);
-            sessionclient.setEmail(rows[0].email);
-            sessionclient.setSuspicious(rows[0].suspicious);
-            sessionclient.setSuspended(rows[0].suspended);
-            sessionclient.setPoints(rows[0].points);
-            sessionclient.setLevel(rows[0].level);
-            sessionclient.setWalletID(rows[0].walletID);
-            return sessionclient;
-        }
-        else{
-            return false;
-        }
     }
 
 
