@@ -13,9 +13,7 @@ export default class Wallet{
         this.#walletID =  Math.trunc((Math.random() + Date.now()));
         this.#balance = 0;
     }
-    constructor(balance){
-        this.#balance = balance;
-    }
+
 
     //setters and getters
     getWalletID(){return this.#walletID;}
