@@ -42,12 +42,11 @@ export default class Client extends User{
     }
 
     static async insertClient(inputUsername, inputPassword, inputEmail){
-        [rows] = Client.searchClient(inputUsername);
+        [rows] = await Client.searchClient(inputUsername);
         if(rows.length === 0){
             wallet = new Wallet();
             let walletID = wallet.getWalletID();
             sessionClient = new Client(inputUsername, inputPassword, inputEmail, walletID);
-
             let suspicious = 0;
             let suspended = false;
             let points = 0;
@@ -60,6 +59,19 @@ export default class Client extends User{
             return null; // username already exists
         }
        
+    }
+
+    static async verifyLogin(inputUsername, inputPassword){
+        [rows] = await Client.searchClient(inputUsername);
+        if(rows.length === 0){
+            return null;
+        }
+        if(rows[0].password === inputPassword){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
 
