@@ -23,8 +23,6 @@ export default class walletController{
         const { amount } = req.body;
         req.session.wallet.setBalance(req.session.wallet.getBalance() + amount);
         await Wallet.updateWallet(req.session.wallet);
-        //handle responses
-        return req.session.wallet.getBalance();
     }
 
 }

@@ -2,6 +2,12 @@ export default class Wallet{
 
     #balance;
     #walletID;
+
+    toSQL(){
+        return{
+        wallet_id:this.#walletID,
+        balance:this.#balance};
+    }
     
     constructor(){
         this.#walletID =  Math.trunc((Math.random() + Date.now()));
@@ -26,7 +32,7 @@ export default class Wallet{
     static async insertWallet(sessionWallet){
         let walletID = sessionWallet.getWalletID();
         let balance = 0;
-        database.insertWallet(walletID, balance); 
+        database.insert(walletID, balance); 
     }
 
     static async fetchWallet(walletID){
