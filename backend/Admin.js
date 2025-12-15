@@ -14,6 +14,7 @@ export default class Admin extends User {
     }
  
     async viewReportedUsers(){
+        // getReportedUsers();
         const [rows] = await pool.query(
         'SELECT * FROM auctions WHERE suspicious > ?',
         [5]);

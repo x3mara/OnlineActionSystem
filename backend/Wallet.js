@@ -2,28 +2,22 @@ export default class Wallet{
 
     #balance;
     #points;
-
+    #walletID;
+    
+    constructor(){
+        this.#walletID= 'w' + Math.trunc((Math.random() + Date.now()));
+        this.#balance = 0;
+        this.#points = 0;
+    }
     constructor(balance, points){
         this.#balance = balance;
         this.#points = points;
     }
 
-    constructor(){
-        this.#balance = 0;
-        this.#points = 0;
-    }
+    //setters and getters
+    getWalletID(){return this.#walletID;}
 
     
-    withdraw(amount){
-        if(amount*1.3 > this.#balance){
-            return -1; //insufficient funds
-        }
-        this.#balance -= amount*1.3; //30% PROFITTTT WE RIIICHHHHH
-        return this.#balance;
 
-    }
-    deposit(amount){
-        this.#balance += amount;
-    }
 
 }

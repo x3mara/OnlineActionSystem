@@ -4,10 +4,11 @@ export default class User{
     #username;
     #password;   
     #email;
-    constructor(userID, username, password){
-        this.#userID = userID;
+    constructor(username, password, email){
+        this.#userID = 'u' + Math.trunc((Math.random() + Date.now()));
         this.#username = username;
         this.#password = password;
+        this.#email = email;
     }
 
     

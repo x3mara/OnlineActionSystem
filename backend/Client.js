@@ -1,10 +1,6 @@
 import User from "./User.js";
 import Wallet from "./Wallet.js";
 export default class Client extends User{
-  
-    // HISTORY HASHMAP ????????? for overall history
-    // ?????????????????????????????????????????????????????????
-
 
 
 
@@ -13,36 +9,69 @@ export default class Client extends User{
     #ownedCosmetics = []; //string array of cosmetics
     #purchaseHistory = []; //item array for items won in auctions
     #wishlist = []; //auction array
-    #wallet; //type wallet
     #points; //int
     #level; //int
+    #walletID; //string
 
-    constructor(userID, username, password){
-        super(userID, username, password);
+    constructor(username, password, email, walletID){
+        super(username, password);
         this.#suspicious = 0;
         this.#suspended = false;
-        this.#wallet = new Wallet();
         this.#points = 0;
         this.#level = 0;
+        this.#walletID = walletID;
     }
 
     //setters and getters
-    getOwnedCosmetics(){return this.#ownedCosmetics;}
-    setOwnedCosmetics(cosmetics){this.#ownedCosmetics = cosmetics;}
-    getPurchaseHistory(){return this.#purchaseHistory;}
-    setPurchaseHistory(history){this.#purchaseHistory = history;}
-    getWallet(){return this.#wallet;}
-    setWallet(wallet){this.#wallet = wallet;}
-    getPoints(){return this.#points;}
-    setPoints(points){this.#points = points;}
-    getLevel(){return this.#level;}
-    setLevel(level){this.#level = level;}
     getSuspicious(){return this.#suspicious;}
-    setSuspicious(suspicious){this.#suspicious = suspicious;}
-    isSuspended(){return this.#suspended;}
+    getSuspended(){return this.#suspended;}
+    getpoints(){return this.#points;}
+    getLevel(){return this.#level;}
+    getWalletID(){return this.#walletID;}
+
+    incrementSuspicious(){this.#suspicious++ ;}
     setSuspended(suspended){this.#suspended = suspended;}
-    getWishlist(){return this.#wishlist;}
-    setWishlist(wishlist){this.#wishlist = wishlist;}
+    setPoints(points){this.#points = points;}
+    setLevel(level){this.#level = level;}
+
+    
+
+    static async searchClient(inputUsername){
+        [rows] = database.searchClient(inputUsername);
+        return rows;
+    }
+
+    static async insertClient(inputUsername, inputPassword, inputEmail){
+        [rows] = Client.searchClient(inputUsername);
+        if(rows.length === 0){
+            wallet = new Wallet();
+            let walletID = wallet.getWalletID();
+            sessionClient = new Client(inputUsername, inputPassword, inputEmail, walletID);
+
+            let suspicious = 0;
+            let suspended = false;
+            let points = 0;
+            let level = 0;
+            inputPassword = inputPassword.hashCode(); //hashcode function needs implementation
+            database.insertClient(inputUsername, inputPassword, inputEmail, suspended, suspicious, points, level, walletID);
+            return sessionClient; 
+        }
+        else{
+            return null; // username already exists
+        }
+       
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -57,9 +86,7 @@ export default class Client extends User{
         
     }
 
-    showWallet(){
-        return (this.#wallet).balance;
-    }
+
 
     suspendUsers(){}
 
@@ -72,10 +99,7 @@ export default class Client extends User{
         
     }
 
-    register(inputUsername, inputPassword){
-        //DATABASE TO REGISTER ????
-    }
-
+    
 
     editProile(){
 
