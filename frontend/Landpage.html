@@ -32,7 +32,9 @@
             </div>
 
             <div class="nav-actions">
-                <button class="btn">Log in</button>
+                <a href="Login.html">
+                    <button class="btn">Log in</button>
+                </a>
                 <a href="SignUp.html">
                     <button class="btn signup">Sign up</button>
                 </a>
@@ -43,25 +45,27 @@
             <div class="stack">
                 <h1>Go <span class="accent">BID</span> or Go Home</h1>
 
-                <form class="pill" id="pill" onsubmit="return false;">
+                <form class="pill" action="SignUp.html" id="pill" onsubmit="return true;">
                     <div class="field">
-                        <input id="email" type="email" placeholder="Enter Your Email..." />
+                        <input id="username" type="text" placeholder="Enter Your Username..." />
                     </div>
-                    <button class="cta">Sign Up</button>
+                    <a href="SignUp.html">
+                        <button class="cta">Sign Up</button>
+                    </a>
                 </form>
             </div>
         </div>
     </div>
     <script>
         const pill = document.getElementById("pill");
-        const email = document.getElementById("email");
+        const username = document.getElementById("username");
 
-        email.addEventListener("input", () => {
-            pill.classList.toggle("expanded", email.value.trim().length > 0);
+        username.addEventListener("input", () => {
+            pill.classList.toggle("expanded", username.value.trim().length > 0);
         });
 
         document.addEventListener("mousedown", (e) => {
-            if (!pill.contains(e.target) && email.value.trim() === "") {
+            if (!pill.contains(e.target) && username.value.trim() === "") {
                 pill.classList.remove("expanded");
             }
         });

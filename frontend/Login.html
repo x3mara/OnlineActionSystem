@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Login - 1X BID</title>
+        <link rel="stylesheet" href="styles.css" />
+        <style>
+            a { color: #ba0036; }
+        </style>
+    </head>
+    <body>
+        <main class="login-page" style="background: linear-gradient(135deg, #ba0036 0%, #230006 100%); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 1rem;">
+            <div class="signup-card" style="background: rgba(40, 39, 39, 0.995); color: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 400px; max-width: 90%;">
+                <a href="Landpage.html">
+                    <img src="images/Logo.png" alt="Logo" style="display: block; margin: 0 auto 1rem; width: 100px; height: auto;" />
+                </a>
+                <div class="login-header">
+                    <h2>Welcome back</h2>
+                    <p class="muted">Sign in to your account to continue bidding.</p>
+                </div>
+
+                <form id="loginForm" novalidate>
+                    <label for="username" style="margin-bottom: 0.5rem; display: block;">Username</label>
+                    <input id="username" name="username" type="text" autocomplete="username" required placeholder="Username" style="margin-bottom: 1rem;" />
+
+                    <label for="password" style="margin-bottom: 0.5rem; display: block;">Password</label>
+                    <div class="password-field" style="margin-bottom: 1rem;">
+                        <input id="password" name="password" type="password" autocomplete="current-password" required placeholder="Enter your password" />
+                        <button type="button" class="show-pass" aria-label="Show password">Show</button>
+                    </div>
+
+                    <div class="form-actions">
+                        <button class="cta" type="submit">Sign in</button>
+                    </div>
+                </form>
+
+                <p class="muted" style="text-align: center; margin-top: 1rem;">
+                    Don't have an account? <a href="SignUp.html">Sign up</a>
+                </p>
+            </div>
+        </main>
+
+        <script>
+            // Simple client-side validation and password toggle
+            const form = document.getElementById('loginForm');
+            const passInput = document.getElementById('password');
+            const showBtn = document.querySelector('.show-pass');
+
+            showBtn.addEventListener('click', () => {
+                const t = passInput.type === 'password' ? 'text' : 'password';
+                passInput.type = t;
+                showBtn.textContent = t === 'text' ? 'Hide' : 'Show';
+            });
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (!form.checkValidity()) {
+                    // let browser show native validation UI
+                    form.reportValidity();
+                    return;
+                }
+                // Placeholder: collect values and show a success state
+                const data = { username: form.username.value.trim() };
+                alert('Login successful for ' + data.username + ' (demo)');
+            });
+        </script>
+    </body>
+</html>
