@@ -4,8 +4,8 @@ USE auction_system;
 CREATE TABLE users(
 id VARCHAR(14) PRIMARY KEY,
 email varchar(255) not null,
-roles ENUM("Admin","User"),
-username varchar(255) not null,
+roles ENUM("Admin","Client"),
+username varchar(255) not null unique,
 password varchar(255) not null
 );
 create table item(
@@ -53,7 +53,7 @@ foreign key (item_id) references item(id),
 foreign key (highest_bidder) references users(id)
 );
 create table bid(
-id integer primary key,
+id integer primary key auto_increment,
 bidamount integer,
 bidtime timestamp default now(),
 auction_id integer,
