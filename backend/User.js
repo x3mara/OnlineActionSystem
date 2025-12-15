@@ -10,6 +10,7 @@ export default class User{
         this.#password = password;
     }
 
+    
     //setters and getters
     getUserID(){return this.#userID;}
     getUsername(){return this.#username;}
@@ -19,7 +20,26 @@ export default class User{
     setEmail(email){this.#email = email;}
     getEmail(){return this.#email;}
 
-    login(inputUsername, inputPassword){
-        //DATABASE TO VERIFY ????
+
+    
+    async login(inputUsername, inputPassword){
+        const [rows] = await pool.query(
+        'SELECT * FROM clients WHERE username = ? LIMIT 1',
+        [inputUsername]);
+        if(rows.length === 0){
+            return false;
+        }
+        if(rows.password === inputPassword){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+
+    async showCredentials(){
+        
     }
 }
+

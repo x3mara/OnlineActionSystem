@@ -2,7 +2,6 @@ export default class Wallet{
 
     #balance;
     #points;
-    #currency; //string
 
     constructor(balance, points){
         this.#balance = balance;
@@ -14,13 +13,6 @@ export default class Wallet{
         this.#points = 0;
     }
 
-    //setters and getters
-    getBalance() {return this.#balance;}
-    setBalance(balance) {this.#balance = balance;}
-    getPoints() {return this.#points;}
-    setPoints(points) {this.#points = points;}
-    getCurrency() {return this.#currency;}
-    setCurrency(currency) {this.#currency = currency;}
     
     withdraw(amount){
         if(amount*1.3 > this.#balance){
