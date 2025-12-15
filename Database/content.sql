@@ -1,3 +1,4 @@
+
 CREATE DATABASE auction_system;
 USE auction_system;
 CREATE TABLE users(
