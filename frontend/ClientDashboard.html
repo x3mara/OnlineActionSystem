@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Client Dashboard - 1X BID</title>
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+    <body class="dashboard-body">
+        <header class="navbar">
+      <div class="nav-inner">
+        <div class="nav-left">
+          <img src="images/Logo.png" alt="logo" class="nav-logo" />
+          <nav class="nav-links">
+            <button class="nav-btn">Store</button>
+            <button class="nav-btn">Auctions</button>
+            <button class="nav-btn">Wishlist</button>
+          </nav>
+        </div>
+ 
+        <div class="nav-center">
+          <input id="search" class="search" type="search" placeholder="Search auctions, items or sellers..." aria-label="Search" />
+        </div>
+ 
+        <div class="nav-right">
+          <button class="btn sell">+ Sell</button>
+          <div class="balance">$<span id="balance">300</span></div>
+          <div class="profile">
+            <div class="avatar">U</div>
+          </div>
+            </div>
+        </header>
+
+        <main class="dashboard-main">
+            <section class="profile-card">
+                <div class="profile-image">
+                    <!-- Decorative profile image / placeholder -->
+                    <img src="images/SignupHero2.png" alt="profile" />
+                </div>
+                <div class="profile-info">
+                    <h2>Welcome, <span class="username">Username</span></h2>
+                    <div class="xp-card">
+                        <div class="xp-label">XP</div>
+                        <div class="xp-bar">
+                            <div class="xp-fill" style="width:64%"></div>
+                        </div>
+                        <div class="xp-value">64%</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="auctions-section">
+                <div class="recent">
+                    <div class="section-header">
+                        <h3>Recent Auctions</h3>
+                        <a class="view-all" href="#">View all →</a>
+                    </div>
+                    <div class="recent-list" id="recentList">
+                        <!-- Recent auction cards (horizontal scroll) -->
+                        <article class="recent-card">
+                            <div class="highest">Highest Bid</div>
+                            <div class="amount">$300</div>
+                            <div class="recent-actions">
+                                <div class="seller">Seller: <strong>username</strong></div>
+                                <div class="controls">
+                                    <button class="small">Bid</button>
+                                    <button class="small buyout">Buyout</button>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="recent-card">
+                            <div class="highest">Highest Bid</div>
+                            <div class="amount">$240</div>
+                            <div class="recent-actions">
+                                <div class="seller">Seller: <strong>user2</strong></div>
+                                <div class="controls">
+                                    <button class="small">Bid</button>
+                                    <button class="small buyout">Buyout</button>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="recent-card">
+                            <div class="highest">Highest Bid</div>
+                            <div class="amount">$520</div>
+                            <div class="recent-actions">
+                                <div class="seller">Seller: <strong>best_seller</strong></div>
+                                <div class="controls">
+                                    <button class="small">Bid</button>
+                                    <button class="small buyout">Buyout</button>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+
+                <div class="recommended">
+                    <div class="section-header">
+                        <h3>Recommended Auctions</h3>
+                        <a class="view-all" href="#">view all auctions →</a>
+                    </div>
+                    <div class="grid">
+                        <!-- Recommended auction cards -->
+                        <article class="rec-card">
+                            <div class="card-media">
+                                <span class="time">01:45:15</span>
+                                <button class="fav">❤</button>
+                                <img src="images/SignUpHero.png" alt="item" />
+                                <div class="seller-tag">seller</div>
+                            </div>
+                            <div class="card-body">
+                                <h4>Item Name</h4>
+                                <p class="desc">Short description of the item goes here.</p>
+                                <div class="tags"><span class="tag">Tag1</span><span class="tag">Tag2</span></div>
+                                <div class="current-bid">$300</div>
+                            </div>
+                        </article>
+
+                        <article class="rec-card">
+                            <div class="card-media">
+                                <span class="time">02:10:05</span>
+                                <button class="fav">❤</button>
+                                <img src="images/SignUpHero2.png" alt="item2" />
+                                <div class="seller-tag">seller2</div>
+                            </div>
+                            <div class="card-body">
+                                <h4>Another Item</h4>
+                                <p class="desc">Another short description.</p>
+                                <div class="tags"><span class="tag">TagA</span><span class="tag">TagB</span></div>
+                                <div class="current-bid">$120</div>
+                            </div>
+                        </article>
+
+                        <article class="rec-card">
+                            <div class="card-media">
+                                <span class="time">00:45:09</span>
+                                <button class="fav">❤</button>
+                                <img src="images/SignUpHero.png" alt="item3" />
+                                <div class="seller-tag">seller3</div>
+                            </div>
+                            <div class="card-body">
+                                <h4>Rare Item</h4>
+                                <p class="desc">Rare item description here.</p>
+                                <div class="tags"><span class="tag">Rare</span><span class="tag">Limited</span></div>
+                                <div class="current-bid">$880</div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <script>
+            // Auto-resize search input based on content (within min/max)
+            const search = document.getElementById('search');
+            const MIN = 180, MAX = 520;
+            function resizeSearch(){
+                const tmp = document.createElement('span');
+                tmp.style.visibility='hidden'; tmp.style.position='absolute'; tmp.style.whiteSpace='pre'; tmp.style.font=window.getComputedStyle(search).font;
+                tmp.textContent = search.value || search.placeholder;
+                document.body.appendChild(tmp);
+                const w = Math.min(MAX, Math.max(MIN, tmp.offsetWidth + 36));
+                search.style.width = w + 'px';
+                document.body.removeChild(tmp);
+            }
+            search.addEventListener('input', resizeSearch);
+            window.addEventListener('load', resizeSearch);
+
+            // Make recent list horizontally scrollable with mouse wheel
+            const recent = document.getElementById('recentList');
+            recent.addEventListener('wheel', (e)=>{
+                if (e.deltaY === 0) return;
+                recent.scrollLeft += e.deltaY;
+                e.preventDefault();
+            });
+        </script>
+    </body>
+</html>

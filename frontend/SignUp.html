@@ -23,7 +23,7 @@
                         <p class="muted">Join to start bidding on great items.</p>
                     </div>
 
-                    <form id="signupForm" novalidate>
+                    <form id="signupForm" novalidate method="POST">
                         <label for="username">Username</label>
                         <input id="username" name="username" type="text" autocomplete="username" required placeholder="Username" />
 
@@ -49,6 +49,7 @@
         </main>
 
         <script>
+            import {register} from backend/controllers/clientController.js;
             // Simple client-side validation and password toggle
             const form = document.getElementById('signupForm');
             const passInput = document.getElementById('password');

@@ -6,6 +6,15 @@ export default class User{
     #username;
     #password;   
     #email;
+
+    toSQL(){
+        return{
+        id:this.#userID,
+        username:this.#username,
+        password:this.#password,
+        email:this.#email};
+    }
+
     constructor(username, password, email){
         this.#userID = 'u' + Math.trunc((Math.random() + Date.now()));
         this.#username = username;
