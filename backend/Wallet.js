@@ -4,7 +4,7 @@ export default class Wallet{
     #walletID;
     
     constructor(){
-        this.#walletID= 'w' + Math.trunc((Math.random() + Date.now()));
+        this.#walletID =  Math.trunc((Math.random() + Date.now()));
         this.#balance = 0;
     }
     constructor(balance){
@@ -23,12 +23,24 @@ export default class Wallet{
         return rows;
     }
 
-    static async insertWallet(){
-        sessionWallet = new Wallet();
+    static async insertWallet(sessionWallet){
         let walletID = sessionWallet.getWalletID();
         let balance = 0;
-        database.insertWallet(walletID, balance);
-        return sessionWallet; 
+        database.insertWallet(walletID, balance); 
+    }
+
+    static async fetchWallet(walletID){
+        [rows] = await Wallet.searchWallet(walletID);
+        sessionWallet = new Wallet();
+        sessionWallet.setwalletID(rows[0].walletID);
+        sessionWallet.setBalance(rows[0].balance);
+        return sessionWallet;
+    }
+
+    static async updateWallet(sessionWallet){
+        let walletID = sessionWallet.getWalletID();
+        let balance = sessionWallet.getBalance();
+        database.updateWallet(walletID, balance);
     }
 
 }

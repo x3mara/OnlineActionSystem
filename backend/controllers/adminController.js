@@ -1,7 +1,6 @@
 import User from "../User.js";
 export default class adminController{
 
-    sessionAdmin;
 
     async login(inputUsername, inputPassword){
     
