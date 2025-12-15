@@ -1,7 +1,7 @@
 import User from '../User.js';
 import Client from '../Client.js';
 export default class clientController{
-
+    sessionClient;
 
     async register(inputUsername, inputPassword, inputEmail){
 
@@ -15,8 +15,8 @@ export default class clientController{
             return "Invalid email address";
         }
         
-        let client = await Client.insertClient(inputUsername, inputPassword, inputEmail);
-        if (client == null){
+        this.sessionClient = await Client.insertClient(inputUsername, inputPassword, inputEmail);
+        if (this.sessionClient == null){
             return "Username already exists";
         }
         
@@ -24,11 +24,11 @@ export default class clientController{
 
     async login(inputUsername, inputPassword){
 
-        let sessionClient = await client.login(inputUsername, inputPassword);
-        if (sessionClient==false){
+        this.sessionClient = await client.login(inputUsername, inputPassword);
+        if (this.sessionClient==false){
             return "Incorrect password";
         }
-        else if (sessionClient==null){
+        else if (this.sessionClient==null){
             return "Username does not exist";
         }
         else{
