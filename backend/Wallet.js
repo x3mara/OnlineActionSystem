@@ -7,7 +7,7 @@ export default class Wallet{
         this.#walletID= 'w' + Math.trunc((Math.random() + Date.now()));
         this.#balance = 0;
     }
-    constructor(balance, points){
+    constructor(balance){
         this.#balance = balance;
     }
 
@@ -28,7 +28,7 @@ export default class Wallet{
         let walletID = sessionWallet.getWalletID();
         let balance = 0;
         database.insertWallet(walletID, balance);
-        return walletID; 
+        return sessionWallet; 
     }
 
 }

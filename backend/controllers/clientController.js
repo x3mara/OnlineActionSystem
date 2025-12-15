@@ -25,14 +25,14 @@ export default class clientController{
     async login(inputUsername, inputPassword){
 
         this.sessionClient = await User.verifyLogin(inputUsername, inputPassword);
-        if (this.sessionClient==false){
-            return "Incorrect password";
-        }
-        else if (this.sessionClient==null){
-            return "Username does not exist";
-        }
-        else{
-            return "Login successful";
+        if (this.sessionClient === false) {
+            return { success: false, field: "password", message: "Incorrect password" };
+        } 
+        else if (this.sessionClient === null) {
+            return { success: false, field: "username", message: "Username does not exist" };
+        } 
+        else {
+            return { success: true, message: "Login successful" };
         }
     }
 }

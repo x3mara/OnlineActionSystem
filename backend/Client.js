@@ -44,8 +44,8 @@ export default class Client extends User{
     static async insertClient(inputUsername, inputPassword, inputEmail){
         [rows] = await Client.searchClient(inputUsername);
         if(rows.length === 0){
-            sessionWallet = new Wallet();
-            let walletID = wallet.getWalletID();
+            sessionWallet = Wallet.insertWallet();
+            let walletID = sessionWallet.getWalletID();
             sessionClient = new Client(inputUsername, inputPassword, inputEmail, walletID);
             let suspicious = 0;
             let suspended = false;
