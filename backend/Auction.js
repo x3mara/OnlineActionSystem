@@ -1,7 +1,10 @@
+import Bid from "./Bid.js";
+import Client from "./Client.js";
+import clientController from "../controllers/clientController.js";
+
 export default class Auction {
     auctionId;
     suspicious;
-    bids = [];
     AuctionedItem;
     highestBidder;
     duetime;
@@ -17,9 +20,9 @@ export default class Auction {
     }
 
 
-    async validateBid(ClientID,Amount) {
-       
-    const [Client] = await pool.query('SELECT [0] FROM clients WHERE clientID = ?', [ClientID]);
+    async validateBid(Amount) {
+    clientController.sessionClient;   
+    
     
     if(Amount < bids[0].getBidAmount() || Amount > AuctionedItem.getBuyoutPrice || Amount > ClientID.wallet.balance) {
         return;

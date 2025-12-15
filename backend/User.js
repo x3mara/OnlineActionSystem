@@ -23,20 +23,9 @@ export default class User{
 
 
     
-    async login(inputUsername, inputPassword){
-        const [rows] = await pool.query(
-        'SELECT * FROM clients WHERE username = ? LIMIT 1',
-        [inputUsername]);
-        if(rows.length === 0){
-            return false;
-        }
-        if(rows.password === inputPassword){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
+
+
+
 
 
     async showCredentials(){
