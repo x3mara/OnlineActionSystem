@@ -1,5 +1,6 @@
 import User from '../User.js';
 import Client from '../Client.js';
+import Wallet from '../Wallet.js';
 export default class clientController{
     
 

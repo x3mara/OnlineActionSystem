@@ -1,8 +1,8 @@
+import 'dotenv/config';
 import express from 'express';
 import session from 'express-session';
 import clientController from './backend/controllers/clientController.js';
 import path from 'path';
-import { fileURLToPath } from 'url';
 
 
 const app = express();
