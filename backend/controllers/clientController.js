@@ -45,7 +45,7 @@ export default class clientController{
         } 
         else {
             req.session.user = this.sessionClient;
-            req.session.wallet = await Wallet.fetchWallet(this.sessionClient.getWalletID());
+            req.session.wallet = await Wallet.fetchWallet(this.sessionClient.getUsername());
             res.redirect('/dashboard');
         }
     }
