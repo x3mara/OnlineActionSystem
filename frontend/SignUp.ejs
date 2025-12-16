@@ -23,7 +23,7 @@
                         <p class="muted">Join to start bidding on great items.</p>
                     </div>
 
-                    <form id="signupForm" novalidate method="POST">
+                    <form id="signupForm" action="/SignUpI" method="POST">
                         <label for="username">Username</label>
                         <input id="username" name="username" type="text" autocomplete="username" required placeholder="Username" />
 
@@ -48,31 +48,6 @@
             </section>
         </main>
 
-        <script>
-            import {register} from backend/controllers/clientController.js;
-            // Simple client-side validation and password toggle
-            const form = document.getElementById('signupForm');
-            const passInput = document.getElementById('password');
-            const showBtn = document.querySelector('.show-pass');
-
-            showBtn.addEventListener('click', () => {
-                const t = passInput.type === 'password' ? 'text' : 'password';
-                passInput.type = t;
-                showBtn.textContent = t === 'text' ? 'Hide' : 'Show';
-            });
-
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                if (!form.checkValidity()) {
-                    // let browser show native validation UI
-                    form.reportValidity();
-                    return;
-                }
-                // Placeholder: collect values and show a success state
-                const data = { username: form.username.value.trim(), email: form.email.value.trim() };
-                alert('Signup successful for ' + data.username + ' (demo)');
-            });
-        </script>
     </body>
 </html>
 

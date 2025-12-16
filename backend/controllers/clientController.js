@@ -28,8 +28,8 @@ export default class clientController{
         Wallet.insertWallet(sessionWallet);
         req.session.wallet = sessionWallet;
         req.session.user = this.sessionClient;
-        res.redirect('/dashboard');
-        
+        res.render('cleintDashboard');
+
     }
 
     async login(req, res){
@@ -46,7 +46,7 @@ export default class clientController{
         else {
             req.session.user = this.sessionClient;
             req.session.wallet = await Wallet.fetchWallet(this.sessionClient.getUsername());
-            res.redirect('/dashboard');
+            res.render('clientDashboard');
         }
     }
 }

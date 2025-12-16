@@ -1,42 +1,36 @@
-const express = require('express');
-const session = require('express-session');
-const usercontroller = require('./Controller/userController');
+import express from 'express';
+import session from 'express-session';
+import clientController from './backend/controllers/clientController.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
 
 const app = express();
+const ControllerCL = new clientController(); // Create an instance of the client controller
 
 app.set('view engine', 'ejs');
-app.set('views', './View');
+app.set('views', path.join('frontend'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+app.use(express.static('public'));
+
 app.use(session({
-  secret:'secretKey',
+  secret: 'secretKey',
   resave: false,
   saveUninitialized: true
 }));
 
 app.get('/', (req, res) => {
-  res.send('<p>Hello World</p>');
+  res.render('Landpage');
 });
 
-app.get('/error', (req, res) => {
-  res.sendFile("./View/404.html" , { root: __dirname });
+app.get('/SignUp.html', (req, res) => {
+  res.render('SignUp');
 });
 
-app.get('/dashboard', (req, res) => {
-  if (!req.session.user) {
-    return res.redirect('/register');
-  }
-  res.render('dashboard', { user: req.session.user });
-});
-
-app.post('/register', usercontroller.register);
-
-//error page
-app.use((req, res) => {
-  res.status(404).sendFile("./View/404.html" , { root: __dirname });
-});
+app.post('/SignUpI', ControllerCL.register.bind(ControllerCL));
 
 app.listen(3000, () => {
-  console.log('Server is listening on port 3000')
+  console.log('Server is listening on port 3000');
 });
