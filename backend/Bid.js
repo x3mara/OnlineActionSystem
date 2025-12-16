@@ -8,14 +8,16 @@ export default class Bid {
     toSQL(){
         return{
         bidamount: this.bidAmount,
-        bidtime: new Date(),
+        bidtime: this.bidTime,
         auction_id: this.auctionID,
         users_id: this.bidderId};
     }
 
-    constructor(bidderId, bidAmount) {
+    constructor(auctionID, bidderId, bidAmount, bidtime) {
         this.bidderId = bidderId;
+        this.auctionID = auctionID;
         this.bidAmount = bidAmount;
+        this.bidTime = bidtime;
     }
 
     getBidderId() {
@@ -24,5 +26,7 @@ export default class Bid {
     getBidAmount() {    
         return this.bidAmount;
     }
-
+    getBidTime() {
+        return this.bidTime;
+    }
 }
