@@ -22,7 +22,7 @@ app.use(session({
 }));
 
 app.get('/', (req, res) => {
-  res.render('LandPage');
+  res.render('ClientDashboard');
 });
 
 app.post('/signup', (req, res) => {
