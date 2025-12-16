@@ -43,7 +43,7 @@ foreign key (user_id)  references users(id)
 create table auction(
 id integer primary key,
 sus_counter integer,
-suspended bool,
+suspended boolean,
 item_id integer,
 highest_bidder varchar(14),
 due_date timestamp,

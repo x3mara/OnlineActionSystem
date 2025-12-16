@@ -34,7 +34,7 @@ export default class User{
 
 
     static async searchUser(inputUsername){
-        [rows] = database.searchUser(inputUsername);
+        [rows] = await database.searchUser(inputUsername);
         return rows;
     }
 
