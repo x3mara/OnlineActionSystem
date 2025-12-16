@@ -1,10 +1,11 @@
 import User from '../User.js';
 import Client from '../Client.js';
 export default class clientController{
-
+    
 
     async register(req, res){
-        const { inputUsername, inputPassword, inputEmail } = req.body;
+
+        const { inputUsername,inputEmail, inputPassword} = req.body;
         if (inputPassword.length<8){
             //handle responses
             return "Password must be at least 8 characters long";
@@ -17,8 +18,9 @@ export default class clientController{
             //handle responses
             return "Invalid email address";
         }
-        sessionWallet = new Wallet();
-        this.sessionClient = await Client.insertClient(inputUsername, inputPassword, inputEmail,walletID);
+        const sessionWallet = new Wallet();
+        this.sessionClient = await Client.insertClient(inputUsername, inputPassword, inputEmail, sessionWallet.getWalletID());
+        
         if (this.sessionClient == null){
             //handle responses
             sessionWallet=null;
@@ -28,7 +30,7 @@ export default class clientController{
         Wallet.insertWallet(sessionWallet);
         req.session.wallet = sessionWallet;
         req.session.user = this.sessionClient;
-        res.render('cleintDashboard');
+        res.render('ClientDashboard' , {success: false, field: "password", message: "Incorrect password"});
 
     }
 
@@ -46,7 +48,7 @@ export default class clientController{
         else {
             req.session.user = this.sessionClient;
             req.session.wallet = await Wallet.fetchWallet(this.sessionClient.getUsername());
-            res.render('clientDashboard');
+            res.render('ClientDashboard');
         }
     }
 }
