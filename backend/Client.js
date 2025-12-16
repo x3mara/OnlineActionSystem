@@ -1,6 +1,6 @@
 import User from "./User.js";
 import Wallet from "./Wallet.js";
-import {searchClientbyusername} from "../Database/database.js";
+import {searchClientbyusername,insert} from "../Database/database.js";
 import session from "express-session";
 export default class Client extends User{
 
@@ -25,7 +25,7 @@ export default class Client extends User{
     }
 
     constructor(username, password, email, walletID){
-        super(username, password);
+        super(username, password, email);
         this.#suspicious = 0;
         this.#suspended = false;
         this.#points = 0;
@@ -48,22 +48,23 @@ export default class Client extends User{
     
 
     static async searchClient(inputUsername){
-        const [rows] = await searchClientbyusername(inputUsername);
+        const rows = await searchClientbyusername(inputUsername);
         return rows;
     }
 
     static async insertClient(inputUsername, inputPassword, inputEmail, walletID){
-        const [rows] = await Client.searchClient(inputUsername);
+        const rows = await Client.searchClient(inputUsername);
         if(rows.length === 0){
             const sessionClient = new Client(inputUsername, inputPassword, inputEmail, walletID);
-            const sessionUser = new User(inputUsername, inputPassword, inputEmail);
-            let suspicious = 0;
-            let id = sessionClient.getUserID();
-            let suspended = false;
-            let points = 0;
-            let level = 0;
             const sqlObject= sessionClient.toSQL();
-            const sqlObjectUser= sessionUser.toSQL();
+            const sqlObjectUser={
+                id: sessionClient.getUserID(),
+                username: sessionClient.getUsername(),
+                password: sessionClient.getPassword(),
+                email: sessionClient.getEmail(),
+                roles: 'Client'
+
+            }
             //inputPassword = inputPassword.hashCode(); //hashcode function needs implementation
             await insert("users",sqlObjectUser);
             await insert("clients", sqlObject);
@@ -72,14 +73,8 @@ export default class Client extends User{
         else{
             return null; // username already exists
         }
-       
+      
     }
-
-
-
-
-
-
     async reportSuspiciousAuction(auctionID){
         const [rows] = await pool.query(
         'SELECT * FROM auctions WHERE auctionID = ?',

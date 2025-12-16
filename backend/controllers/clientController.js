@@ -20,9 +20,9 @@ export default class clientController{
             return "Invalid email address";
         }
         const sessionWallet = new Wallet();
-        this.sessionClient = await Client.insertClient(username, password, email, sessionWallet.getWalletID());
+        let sessionClient = await Client.insertClient(username, password, email, sessionWallet.getWalletID());
         
-        if (this.sessionClient == null){
+        if (sessionClient == null){
             //handle responses
             sessionWallet=null;
             return "Username already exists";
@@ -30,7 +30,7 @@ export default class clientController{
 
         Wallet.insertWallet(sessionWallet);
         req.session.wallet = sessionWallet;
-        req.session.user = this.sessionClient;
+        req.session.user = sessionClient;
         res.render('ClientDashboard' , {success: false, field: "password", message: "Incorrect password"});
 
     }

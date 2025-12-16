@@ -4,7 +4,7 @@ USE auction_system;
 CREATE TABLE users(
 id VARCHAR(14) PRIMARY KEY,
 email varchar(255) not null,
-roles ENUM("Admin","Client"),
+roles varchar(50) not null,
 username varchar(255) not null unique,
 password varchar(255) not null
 );
@@ -12,7 +12,7 @@ create table item(
 id integer primary key,
 item_name varchar(200),
 item_desc varchar(255),
-item_tag ENUM("Game","Furniture","Accessories","Electronics","Vehicles"),
+item_tag ENUM('Game','Furniture','Accessories','Electronics','Vehicles'),
 itemimg BLOB,
 buy_out_price integer,
 starting_price integer
