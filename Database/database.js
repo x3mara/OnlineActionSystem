@@ -51,7 +51,7 @@ export async function searchAdminbyusername(username){
   return rows;
 }
 
-export async function viewAllClients(){
+export default async function viewAllClients(){
   const sql ='select * from users where roles ="Client"';
   const [rows] = await pool.query(sql);
   return rows;

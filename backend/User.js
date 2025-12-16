@@ -1,6 +1,4 @@
-import Client from "./Client.js";
-import Admin from "./Admin.js";
-import database from "../Database/database.js";
+import {searchClientbyusername} from "../Database/database.js";
 export default class User{
     
     #userID;
@@ -38,7 +36,10 @@ export default class User{
         [rows] = await database.searchUser(inputUsername);
         return rows;
     }
-
+ static async searchClient(inputUsername){
+        [rows] = await searchClientbyusername(inputUsername);
+        return rows;
+    }
 
    static async verifyLogin(inputUsername, inputPassword){
         [rows] = await User.searchUser(inputUsername);
@@ -59,7 +60,7 @@ export default class User{
         }
         else{
             if(rows[0].password === inputPassword){
-                [rows2] = await Client.searchClient(inputUsername);
+                [rows2] = await searchClient(inputUsername);
                 sessionclient = new Client();
                 sessionclient.setUsername(rows2[0].username);
                 sessionclient.setPassword(rows2[0].password);
