@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sell item – 1X BID</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body class="dashboard-body">
+
+  <!-- this wrapper makes it feel like a popup screen -->
+  <div class="modal-backdrop open" id="sellModal" aria-hidden="false">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="sellTitle">
+      <button class="modal-x" id="sellCloseBtn" aria-label="Close">×</button>
+
+      <h2 class="modal-title" id="sellTitle">Sell item</h2>
+
+      <div class="sell-grid">
+        <!-- LEFT -->
+        <div class="sell-left">
+          <h3 class="sell-section">Details</h3>
+
+          <label class="sell-label" for="sellName">Name</label>
+          <input class="sell-input" id="sellName" type="text" placeholder="Name" />
+
+          <label class="sell-label" for="sellDesc">Description</label>
+          <textarea class="sell-textarea" id="sellDesc" rows="6" placeholder="Description"></textarea>
+
+          <h3 class="sell-section">Prices</h3>
+          <div class="sell-row">
+            <div>
+              <label class="sell-label" for="sellBuyout">Buyout price</label>
+              <input class="sell-input" id="sellBuyout" type="number" min="0" placeholder="Buyout price" />
+            </div>
+            <div>
+              <label class="sell-label" for="sellStart">Starting price</label>
+              <input class="sell-input" id="sellStart" type="number" min="0" placeholder="Starting price" />
+            </div>
+          </div>
+
+          <h3 class="sell-section">Duration</h3>
+          <label class="sell-label" for="sellEndDate">End date</label>
+          <input class="sell-input" id="sellEndDate" type="datetime-local" />
+        </div>
+
+        <!-- RIGHT -->
+        <div class="sell-right">
+          <div class="upload-box">
+            <input id="sellImages" type="file" accept="image/*" multiple hidden />
+            <button class="upload-btn" id="uploadBtn" type="button">Upload</button>
+            <p class="upload-hint">Choose 1–5 images</p>
+          </div>
+
+          <div class="tag-circles" id="tagCircles">
+            <button class="tag-circle" data-tag="Game" type="button" title="Game"></button>
+            <button class="tag-circle" data-tag="Furniture" type="button" title="Furniture"></button>
+            <button class="tag-circle" data-tag="Accessories" type="button" title="Accessories"></button>
+            <button class="tag-circle" data-tag="Electronics" type="button" title="Electronics"></button>
+            <button class="tag-circle" data-tag="Vehicles" type="button" title="Vehicles"></button>
+          </div>
+
+          <div class="tag-selected" id="tagSelected">Selected: none</div>
+
+          <div class="sell-actions">
+            <button class="cta sell-submit" type="button" id="sellSubmit">Create auction</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Close = go back to wherever the user came from
+    document.getElementById('sellCloseBtn').addEventListener('click', () => history.back());
+
+    // Upload button triggers hidden file input
+    const uploadBtn = document.getElementById('uploadBtn');
+    const sellImages = document.getElementById('sellImages');
+    uploadBtn.addEventListener('click', () => sellImages.click());
+
+    // Tags toggle
+    const tagSelected = document.getElementById('tagSelected');
+    const circles = document.querySelectorAll('.tag-circle');
+
+    function updateSelected(){
+      const active = [...circles]
+        .filter(c => c.classList.contains('active'))
+        .map(c => c.dataset.tag);
+
+      tagSelected.textContent = active.length ? ("Selected: " + active.join(", ")) : "Selected: none";
+    }
+
+    circles.forEach(c => {
+      c.addEventListener('click', () => {
+        c.classList.toggle('active');
+        updateSelected();
+      });
+    });
+
+    updateSelected();
+
+    // Demo submit
+    document.getElementById('sellSubmit').addEventListener('click', () => {
+      alert('Auction created (demo). Hook this to backend later.');
+      history.back();
+    });
+
+    // ESC = go back
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') history.back();
+    });
+  </script>
+
+</body>
+</html>

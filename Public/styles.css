@@ -771,3 +771,688 @@ input::placeholder {
     right: 18px;
   }
 }
+
+/* =========================================
+   AUCTION DETAILS – FINAL ADDITIONS / FIXES
+   (ADD AT VERY END OF styles.css)
+   ========================================= */
+
+/* ---------- Seller row ---------- */
+.seller-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:8px;
+}
+
+.seller-name{
+  background:transparent;
+  border:0;
+  padding:0;
+  color:#ffffff;              /* ✅ seller name WHITE */
+  font-weight:800;
+  cursor:pointer;
+}
+
+.seller-name:hover{
+  text-shadow:0 0 10px rgba(186,0,54,0.45);
+}
+
+/* Reusable avatar dot */
+.dot-avatar{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:linear-gradient(180deg,#2b2b2b,#111);
+  display:grid;
+  place-items:center;
+  font-weight:900;
+  font-size:13px;
+  color:#ffffff;
+  border:1px solid rgba(255,255,255,0.10);
+}
+
+/* ---------- Buyout button (FIXED HOVER) ---------- */
+.buyout-btn{
+  height:46px;
+  padding:0 18px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,0.18);
+  background:rgba(0,0,0,0.28);
+  color:rgba(255,255,255,0.95);
+  font-weight:950;
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+}
+
+/* Hide base text completely on hover */
+.buyout-btn:hover{
+  color:transparent;
+  background:var(--accent);
+  border-color:var(--accent);
+  box-shadow:
+    0 0 18px rgba(186,0,54,0.75),
+    0 0 36px rgba(186,0,54,0.45);
+}
+
+/* Price overlay ONLY */
+.buyout-btn::after{
+  content:attr(data-buyout);
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  opacity:0;
+  font-weight:950;
+  color:#ffffff;
+  background:var(--accent);   /* ✅ 100% opacity */
+  transition:opacity 160ms ease;
+}
+
+.buyout-btn:hover::after{
+  opacity:1;
+}
+
+/* ---------- Report & Wishlist toggle ---------- */
+.report-btn.active,
+.wishlist-heart.active{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:#ffffff;
+  box-shadow:
+    0 0 14px rgba(186,0,54,0.65),
+    0 0 28px rgba(186,0,54,0.35);
+}
+
+.wishlist-heart{
+  transition:
+    background 180ms ease,
+    box-shadow 180ms ease,
+    color 180ms ease;
+}
+
+/* ---------- Bidder list ---------- */
+.bidder-name{
+  color:#ffffff;             /* ✅ bidder names WHITE */
+  font-weight:900;
+}
+
+/* Title tags (light square style) */
+.title-tag{
+  margin-left:auto;
+  font-size:11px;
+  font-weight:900;
+  padding:6px 8px;
+  border-radius:6px;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.12);
+  color:rgba(255,255,255,0.88);
+}
+
+/* ---------- Bid amount input + spinner ---------- */
+.bid-input{
+  height:46px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,0.10);
+  background:rgba(255,255,255,0.04);
+  color:#ffffff;
+  padding:0 14px;
+  font-weight:950;
+  outline:none;
+  color-scheme:dark;          /* Firefox / native controls */
+}
+
+/* Chrome / Edge spinner styling */
+.bid-input::-webkit-inner-spin-button,
+.bid-input::-webkit-outer-spin-button{
+  opacity:1;
+  filter:invert(1) brightness(0.95);
+}
+
+/* ---------- Live time indicator ---------- */
+.live-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 10px rgba(186,0,54,0.75);
+  animation:livePulse 1.1s infinite ease-in-out;
+}
+
+@keyframes livePulse{
+  0%{ transform:scale(1); opacity:1; }
+  50%{ transform:scale(1.5); opacity:0.35; }
+  100%{ transform:scale(1); opacity:1; }
+}
+/* =========================================
+   AUCTION DETAILS – BASE PAGE STYLES
+   (ADD AT VERY END OF styles.css)
+   ========================================= */
+
+.auction-details-page{
+  max-width: 1200px;
+  margin: 28px auto;
+  padding: 0 24px 40px;
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 22px;
+}
+
+@media (max-width: 980px){
+  .auction-details-page{ grid-template-columns: 1fr; }
+}
+
+/* columns */
+.auction-left,
+.auction-right{
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* ---------- Section 1: title + report + image ---------- */
+.item-topline{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.item-title{
+  margin:0;
+  font-size: 36px;
+  font-weight: 900;
+  letter-spacing: -0.6px;
+}
+
+/* Report button base (you already have active class support) */
+.report-btn{
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(0,0,0,0.22);
+  color: rgba(255,255,255,0.92);
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.report-btn:hover{
+  border-color: rgba(186,0,54,0.35);
+  box-shadow: 0 0 14px rgba(186,0,54,0.25);
+}
+
+.item-media{
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.05);
+  background: rgba(0,0,0,0.25);
+}
+
+.item-media img{
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  display:block;
+}
+
+@media (max-width: 980px){
+  .item-media img{ height: 320px; }
+}
+
+/* Wishlist heart base (active handled in your CSS already) */
+.wishlist-heart{
+  position:absolute;
+  top:14px;
+  right:14px;
+  width:44px;
+  height:44px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.06);
+  background: rgba(0,0,0,0.35);
+  color: var(--accent);
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.wishlist-heart:hover{
+  background: rgba(186,0,54,0.14);
+  border-color: rgba(186,0,54,0.35);
+}
+
+/* ---------- Section 2: description ---------- */
+.desc-card{
+  border-radius: 16px;
+  padding: 18px;
+  border: 1px solid rgba(255,255,255,0.04);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+}
+
+.desc-card h3{
+  margin:0 0 8px 0;
+  font-size: 22px;
+  font-weight: 950;
+}
+
+.desc-card p{
+  margin:0;
+  color: rgba(255,255,255,0.82);
+  line-height: 1.6;
+}
+
+/* ---------- Section 3: bidding corner ---------- */
+.bid-card{
+  position: relative;
+  border-radius: 18px;
+  padding: 18px;
+  border: 1px solid rgba(255,255,255,0.04);
+  background: linear-gradient(180deg, rgba(0,0,0,0.28), rgba(0,0,0,0.18));
+}
+
+.current-label{
+  color: rgba(255,255,255,0.75);
+  font-weight: 900;
+  font-size: 13px;
+}
+
+.current-amount{
+  font-size: 44px;
+  font-weight: 950;
+  margin-top: 4px;
+  letter-spacing: -1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.your-bid{
+  margin-top: 6px;
+  color: rgba(255,255,255,0.85);
+  font-weight: 850;
+}
+
+.highest-bidder{
+  display:flex;
+  align-items:center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.hb-text .hb-label{
+  font-size: 12px;
+  color: rgba(255,255,255,0.72);
+  font-weight: 900;
+}
+
+.hb-text .hb-name{
+  font-size: 18px;
+  font-weight: 950;
+  color: #ffffff;
+}
+
+.time-left{
+  margin-top: 10px;
+  display:flex;
+  align-items:center;
+  gap: 8px;
+  color: rgba(255,255,255,0.80);
+  font-weight: 850;
+}
+
+/* Get to bid button */
+.to-bid-btn{
+  width:100%;
+  margin-top: 14px;
+  height:46px;
+  border-radius: 14px;
+  border:0;
+  background: var(--accent);
+  color:#fff;
+  font-weight: 950;
+  cursor:pointer;
+}
+
+.to-bid-btn:hover{
+  box-shadow:
+    0 0 18px rgba(186,0,54,0.75),
+    0 0 34px rgba(186,0,54,0.35);
+  transform: translateY(-1px);
+}
+
+/* Leave button (hidden until joined) */
+.leave-btn{
+  position:absolute;
+  right: 14px;
+  top: 14px;
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(0,0,0,0.22);
+  color: rgba(255,255,255,0.92);
+  font-weight: 950;
+  cursor: pointer;
+  display:none;
+}
+
+.bid-card.joined .leave-btn{ display:inline-flex; align-items:center; justify-content:center; }
+
+/* Expand/Collapse behavior */
+.bid-actions{
+  display:none;
+  margin-top: 14px;
+  gap: 10px;
+  align-items:center;
+}
+
+.bid-card.joined .to-bid-btn{ display:none; }
+.bid-card.joined .bid-actions{ display:flex; }
+
+/* Bid button */
+.bid-btn{
+  height:46px;
+  padding: 0 18px;
+  border-radius: 14px;
+  border:0;
+  background: var(--accent);
+  color:#fff;
+  font-weight: 950;
+  cursor:pointer;
+}
+
+.bid-btn:hover{
+  box-shadow:
+    0 0 18px rgba(186,0,54,0.75),
+    0 0 30px rgba(186,0,54,0.35);
+}
+
+/* ---------- Tags row ---------- */
+.auction-tags{
+  display:flex;
+  gap:10px;
+  flex-wrap: wrap;
+  margin-top: -6px;
+}
+
+/* ---------- Section 4: bidders area ---------- */
+.bidders-box{
+  border-radius: 18px;
+  padding: 16px;
+  border: 1px solid rgba(255,255,255,0.04);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+}
+
+.bidders-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom: 10px;
+}
+
+.bidders-head h3{
+  margin:0;
+  font-size: 22px;
+  font-weight: 950;
+}
+
+.bids-col-label{
+  font-size: 12px;
+  font-weight: 900;
+  color: rgba(255,255,255,0.70);
+}
+
+.bidders-list{
+  display:flex;
+  flex-direction:column;
+  gap: 12px;
+}
+
+.bidder-row{
+  display:grid;
+  grid-template-columns: 44px 1fr 90px;
+  gap: 12px;
+  align-items:center;
+  padding: 10px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.05);
+  background: rgba(0,0,0,0.22);
+}
+
+.flag-btn{
+  width:44px;
+  height:44px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.20);
+  color: rgba(255,255,255,0.85);
+  cursor:pointer;
+  font-weight: 900;
+}
+
+.flag-btn:hover{
+  border-color: rgba(186,0,54,0.35);
+  color: var(--accent);
+}
+
+.nameplate{
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  height:44px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.03);
+  padding: 0 12px;
+  cursor:pointer;
+}
+
+.nameplate:hover{
+  border-color: rgba(186,0,54,0.35);
+}
+
+.bid-amount{
+  text-align:right;
+  font-weight: 950;
+  color: var(--accent);
+  font-size: 18px;
+}
+
+/* =========================
+   SELL MODAL (POPUP)
+   ========================= */
+
+.modal-backdrop{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.62);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  padding: 18px;
+}
+
+.modal-backdrop.open{
+  display: flex;
+}
+
+.modal{
+  width: min(980px, 96vw);
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0.35));
+  box-shadow: 0 30px 80px rgba(0,0,0,0.65);
+  position: relative;
+  padding: 20px;
+}
+
+.modal-title{
+  margin: 0 0 14px 0;
+  font-size: 34px;
+  font-weight: 950;
+  letter-spacing: -0.6px;
+  text-align: center;
+}
+
+.modal-x{
+  position: absolute;
+  right: 14px;
+  top: 12px;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(0,0,0,0.22);
+  color: rgba(255,255,255,0.92);
+  font-size: 22px;
+  font-weight: 950;
+  cursor: pointer;
+}
+
+.modal-x:hover{
+  border-color: rgba(186,0,54,0.35);
+  box-shadow: 0 0 18px rgba(186,0,54,0.25);
+}
+
+.sell-grid{
+  display: grid;
+  grid-template-columns: 1.2fr 0.9fr;
+  gap: 18px;
+}
+
+@media (max-width: 900px){
+  .sell-grid{ grid-template-columns: 1fr; }
+}
+
+.sell-section{
+  margin: 10px 0 8px;
+  font-size: 18px;
+  font-weight: 950;
+  color: rgba(255,255,255,0.92);
+}
+
+.sell-label{
+  display: block;
+  margin: 10px 0 6px;
+  color: rgba(255,255,255,0.78);
+  font-weight: 850;
+  font-size: 13px;
+}
+
+.sell-input,
+.sell-textarea{
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.04);
+  color: #fff;
+  padding: 12px 14px;
+  outline: none;
+  font-weight: 800;
+}
+
+.sell-textarea{
+  resize: vertical;
+  min-height: 120px;
+}
+
+.sell-input:focus,
+.sell-textarea:focus{
+  border-color: rgba(186,0,54,0.35);
+  box-shadow: 0 0 0 3px rgba(186,0,54,0.10);
+}
+
+.sell-row{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 520px){
+  .sell-row{ grid-template-columns: 1fr; }
+}
+
+/* Upload area */
+.upload-box{
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.18);
+  padding: 18px;
+  display: grid;
+  place-items: center;
+  gap: 10px;
+  min-height: 220px;
+}
+
+.upload-btn{
+  height: 44px;
+  padding: 0 18px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.92);
+  font-weight: 950;
+  cursor: pointer;
+}
+
+.upload-btn:hover{
+  border-color: rgba(186,0,54,0.35);
+  box-shadow: 0 0 18px rgba(186,0,54,0.25);
+}
+
+.upload-hint{
+  margin: 0;
+  color: rgba(255,255,255,0.65);
+  font-weight: 750;
+  font-size: 13px;
+}
+
+/* Tag circles */
+.tag-circles{
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.tag-circle{
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.04);
+  cursor: pointer;
+}
+
+.tag-circle:hover{
+  border-color: rgba(186,0,54,0.35);
+  box-shadow: 0 0 18px rgba(186,0,54,0.20);
+}
+
+.tag-circle.active{
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow:
+    0 0 16px rgba(186,0,54,0.65),
+    0 0 30px rgba(186,0,54,0.35);
+}
+
+.tag-selected{
+  margin-top: 10px;
+  text-align: center;
+  font-weight: 850;
+  color: rgba(255,255,255,0.85);
+}
+
+.sell-actions{
+  margin-top: 16px;
+}
+.sell-submit{
+  width: 100%;
+  border-radius: 14px;
+}
+
