@@ -5,21 +5,21 @@ export default class clientController{
 
     async register(req, res){
 
-        const { inputUsername,inputEmail, inputPassword} = req.body;
-        if (inputPassword.length<8){
+        const { username,email, password} = req.body;
+        if (password.length<8){
             //handle responses
             return "Password must be at least 8 characters long";
         }
-        if (inputPassword.length>50){
+        if (password.length>50){
             //handle responses
             return "Password must be less than 50 characters long";
         }
-        if (inputEmail.length<5 || !inputEmail.includes('@')){
+        if (email.length<5 || !email.includes('@')){
             //handle responses
             return "Invalid email address";
         }
         const sessionWallet = new Wallet();
-        this.sessionClient = await Client.insertClient(inputUsername, inputPassword, inputEmail, sessionWallet.getWalletID());
+        this.sessionClient = await Client.insertClient(username, password, email, sessionWallet.getWalletID());
         
         if (this.sessionClient == null){
             //handle responses
