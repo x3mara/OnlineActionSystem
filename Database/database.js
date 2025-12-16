@@ -20,6 +20,11 @@ export async function viewAllAuctions(){
   const [rows] =await pool.query(sql);
   return rows;
 }
+export async function searchUser(username){
+  const sql = 'select * from users where username =?';
+  const [rows] = await pool.query(sql, [username]);
+  return rows;
+}
 export async function viewReportedAuction(){
   const sql = 'select * from auction where sus_counter>10';
   const [rows] = await pool.query(sql);
