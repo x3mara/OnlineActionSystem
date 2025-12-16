@@ -5,11 +5,13 @@ export default class User{
     #username;
     #password;   
     #email;
+    #role;
 
     toSQL(){
         return{
         id:this.#userID,
         username:this.#username,
+        roles:this.#role,
         password:this.#password,
         email:this.#email};
     }
@@ -19,6 +21,7 @@ export default class User{
         this.#username = username;
         this.#password = password;
         this.#email = email;
+        this.#role = 'Client';
     }
 
     
@@ -33,7 +36,7 @@ export default class User{
 
 
     static async searchUser(inputUsername){
-        [rows] = await database.searchUser(inputUsername);
+        [rows] = await searchUser(inputUsername);
         return rows;
     }
  static async searchClient(inputUsername){

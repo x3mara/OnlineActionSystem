@@ -56,14 +56,17 @@ export default class Client extends User{
         [rows] = await Client.searchClient(inputUsername);
         if(rows.length === 0){
             sessionClient = new Client(inputUsername, inputPassword, inputEmail, walletID);
+            sessionUser = new User(inputUsername, inputPassword, inputEmail);
             let suspicious = 0;
             let id = sessionClient.getUserID();
             let suspended = false;
             let points = 0;
             let level = 0;
             sqlObject= sessionClient.toSQL();
+            sqlObjectUser= sessionUser.toSQL();
             //inputPassword = inputPassword.hashCode(); //hashcode function needs implementation
-            database.insert("clients",{sqlObject});
+            await insert("clients", sqlObject);
+            await insert("users",sqlObjectUser);
             return sessionClient; 
         }
         else{
