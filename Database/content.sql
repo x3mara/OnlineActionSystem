@@ -27,7 +27,7 @@ cosmeticimg BLOB
 CREATE TABLE clients(
   user_id varchar(14) PRIMARY KEY ,
   suscounter  integer,
-  suspended bool,
+  suspended boolean,
   current_cosmetic int,
   points integer,
   levels integer,

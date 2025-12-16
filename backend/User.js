@@ -1,5 +1,6 @@
 import Client from "./Client.js";
 import Admin from "./Admin.js";
+import database from "../Database/database.js";
 export default class User{
     
     #userID;
