@@ -1,53 +1,60 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Sign Up - 1X BID</title>
-        <link rel="stylesheet" href="styles.css" />
-        <style>
-            a { color: #ba0036; }
-        </style>
-    </head>
-    <body>
-        <main class="signup-page">
-            <section class="signup-left" aria-hidden="true">
-                <!-- Replace ../images/signup-hero.png with your decorative hero image -->
-                <img src="images/SignUpHero.png" alt="Decorative hero" class="signup-hero" />
-            </section>
 
-            <section class="signup-right">
-                <div class="signup-card">
-                    <div class="signup-header">
-                        <h2>Create your free account</h2>
-                        <p class="muted">Join to start bidding on great items.</p>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sign Up - 1X BID</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+        a {
+            color: #ba0036;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="signup-page">
+        <section class="signup-left" aria-hidden="true">
+            <!-- Replace ../images/signup-hero.png with your decorative hero image -->
+            <img src="images/SignUpHero.png" alt="Decorative hero" class="signup-hero" />
+        </section>
+
+        <section class="signup-right">
+            <div class="signup-card">
+                <div class="signup-header">
+                    <h2>Create your free account</h2>
+                    <p class="muted">Join to start bidding on great items.</p>
+                </div>
+
+                <form id="signupForm" action="/SignUpI" method="POST">
+                    <label for="username">Username</label>
+                    <input id="username" name="username" type="text" autocomplete="username" required
+                        placeholder="Username" value="<%= username || '' %>" />
+
+                    <label for="email">Email</label>
+                    <input id="email" name="email" type="email" autocomplete="email" required
+                        placeholder="you@example.com" />
+
+                    <label for="password">Password</label>
+                    <div class="password-field">
+                        <input id="password" name="password" type="password" autocomplete="new-password" required
+                            placeholder="Create a password" />
+                        <button type="button" class="show-pass" aria-label="Show password">Show</button>
                     </div>
 
-                    <form id="signupForm" action="/SignUpI" method="POST">
-                        <label for="username">Username</label>
-                        <input id="username" name="username" type="text" autocomplete="username" required placeholder="Username" />
+                    <div class="form-actions">
+                        <button class="cta" type="submit">Create account</button>
+                    </div>
+                </form>
 
-                        <label for="email">Email</label>
-                        <input id="email" name="email" type="email" autocomplete="email" required placeholder="you@example.com" />
+                <p class="muted" style="text-align: center; margin-top: 1rem;">
+                    Already have an account? <a href="Login.html">Log in</a>
+                </p>
+            </div>
+        </section>
+    </main>
 
-                        <label for="password">Password</label>
-                        <div class="password-field">
-                            <input id="password" name="password" type="password" autocomplete="new-password" required placeholder="Create a password" />
-                            <button type="button" class="show-pass" aria-label="Show password">Show</button>
-                        </div>
+</body>
 
-                        <div class="form-actions">
-                            <button class="cta" type="submit">Create account</button>
-                        </div>
-                    </form>
-
-                    <p class="muted" style="text-align: center; margin-top: 1rem;">
-                        Already have an account? <a href="Login.html">Log in</a>
-                    </p>
-                </div>
-            </section>
-        </main>
-
-    </body>
 </html>
-

@@ -22,11 +22,17 @@ app.use(session({
 }));
 
 app.get('/', (req, res) => {
-  res.render('Landpage');
+  res.render('LandPage');
 });
 
-app.get('/SignUp.html', (req, res) => {
-  res.render('SignUp');
+app.post('/signup', (req, res) => {
+  res.render('SignUp', {
+    username: req.body.username
+  });
+});
+
+app.get('/signup', (req, res) => {
+  res.render('SignUp', { username: '' });
 });
 
 app.post('/SignUpI', ControllerCL.register.bind(ControllerCL));
