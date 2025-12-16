@@ -48,25 +48,25 @@ export default class Client extends User{
     
 
     static async searchClient(inputUsername){
-        [rows] = await searchClientbyusername(inputUsername);
+        const [rows] = await searchClientbyusername(inputUsername);
         return rows;
     }
 
     static async insertClient(inputUsername, inputPassword, inputEmail, walletID){
-        [rows] = await Client.searchClient(inputUsername);
+        const [rows] = await Client.searchClient(inputUsername);
         if(rows.length === 0){
-            sessionClient = new Client(inputUsername, inputPassword, inputEmail, walletID);
-            sessionUser = new User(inputUsername, inputPassword, inputEmail);
+            const sessionClient = new Client(inputUsername, inputPassword, inputEmail, walletID);
+            const sessionUser = new User(inputUsername, inputPassword, inputEmail);
             let suspicious = 0;
             let id = sessionClient.getUserID();
             let suspended = false;
             let points = 0;
             let level = 0;
-            sqlObject= sessionClient.toSQL();
-            sqlObjectUser= sessionUser.toSQL();
+            const sqlObject= sessionClient.toSQL();
+            const sqlObjectUser= sessionUser.toSQL();
             //inputPassword = inputPassword.hashCode(); //hashcode function needs implementation
-            await insert("clients", sqlObject);
             await insert("users",sqlObjectUser);
+            await insert("clients", sqlObject);
             return sessionClient; 
         }
         else{

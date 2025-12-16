@@ -1456,3 +1456,83 @@ input::placeholder {
   border-radius: 14px;
 }
 
+/* =========================
+   SELL MODAL FIXES (OVERRIDES)
+   Put this at the END of styles.css
+   ========================= */
+
+/* Your global input { height:100% } breaks the modal.
+   Force modal inputs to have normal height. */
+.sell-input{
+  height: 46px !important;
+  display: block;
+  box-sizing: border-box;
+}
+
+/* Ensure textarea does NOT inherit weird heights */
+.sell-textarea{
+  height: auto !important;
+  min-height: 140px;
+  line-height: 1.35;
+}
+
+/* Make datetime-local look consistent and not huge */
+.sell-input[type="datetime-local"]{
+  padding-right: 12px;
+  color-scheme: dark; /* keeps native calendar dark */
+}
+
+/* Fix tag icon chaos: keep icons inside circles */
+.tag-circle{
+  display: grid;
+  place-items: center;
+  padding: 0;
+  overflow: hidden;
+}
+
+.tag-circle img{
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
+  display: block;
+  pointer-events: none; /* click stays on the button */
+  filter: brightness(0.95);
+}
+
+/* Keep the right side from overlapping / shifting */
+.sell-right{
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Optional: center the tags and prevent them from jumping */
+.tag-circles{
+  justify-content: center;
+  align-items: center;
+}
+
+/* Make modal layout not overflow vertically on small screens */
+.modal{
+  max-height: 92vh;
+  overflow: auto;
+}
+
+/* Upload previews */
+.upload-previews{
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+.upload-thumb{
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.03);
+}
+
+
