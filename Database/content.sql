@@ -1,10 +1,11 @@
+
 CREATE DATABASE auction_system;
 USE auction_system;
 CREATE TABLE users(
 id VARCHAR(14) PRIMARY KEY,
 email varchar(255) not null,
-roles ENUM("Admin","User"),
-username varchar(255) not null,
+roles ENUM("Admin","Client"),
+username varchar(255) not null unique,
 password varchar(255) not null
 );
 create table item(
@@ -26,7 +27,7 @@ cosmeticimg BLOB
 CREATE TABLE clients(
   user_id varchar(14) PRIMARY KEY ,
   suscounter  integer,
-  suspended bool,
+  suspended boolean,
   current_cosmetic int,
   points integer,
   levels integer,
@@ -42,7 +43,7 @@ foreign key (user_id)  references users(id)
 create table auction(
 id integer primary key,
 sus_counter integer,
-suspended bool,
+suspended boolean,
 item_id integer,
 highest_bidder varchar(14),
 due_date timestamp,
@@ -52,7 +53,7 @@ foreign key (item_id) references item(id),
 foreign key (highest_bidder) references users(id)
 );
 create table bid(
-id integer primary key,
+id integer primary key auto_increment,
 bidamount integer,
 bidtime timestamp default now(),
 auction_id integer,

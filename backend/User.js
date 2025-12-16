@@ -1,16 +1,17 @@
-import Client from "./Client.js";
-import Admin from "./Admin.js";
+import {searchClientbyusername} from "../Database/database.js";
 export default class User{
     
     #userID;
     #username;
     #password;   
     #email;
+    #role;
 
     toSQL(){
         return{
         id:this.#userID,
         username:this.#username,
+        roles:this.#role,
         password:this.#password,
         email:this.#email};
     }
@@ -20,6 +21,7 @@ export default class User{
         this.#username = username;
         this.#password = password;
         this.#email = email;
+        this.#role = 'Client';
     }
 
     
@@ -34,10 +36,13 @@ export default class User{
 
 
     static async searchUser(inputUsername){
-        [rows] = database.searchUser(inputUsername);
+        [rows] = await searchUser(inputUsername);
         return rows;
     }
-
+ static async searchClient(inputUsername){
+        [rows] = await searchClientbyusername(inputUsername);
+        return rows;
+    }
 
    static async verifyLogin(inputUsername, inputPassword){
         [rows] = await User.searchUser(inputUsername);
@@ -58,7 +63,7 @@ export default class User{
         }
         else{
             if(rows[0].password === inputPassword){
-                [rows2] = await Client.searchClient(inputUsername);
+                [rows2] = await searchClient(inputUsername);
                 sessionclient = new Client();
                 sessionclient.setUsername(rows2[0].username);
                 sessionclient.setPassword(rows2[0].password);

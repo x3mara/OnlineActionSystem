@@ -1,3 +1,4 @@
+import {insert, searchwalletbyUserUsername, updatewalletbalance} from "../Database/database.js";
 export default class Wallet{
 
     #balance;
@@ -22,19 +23,19 @@ export default class Wallet{
     setwalletID(walletID){this.#walletID = walletID;}
 
     
-    static async searchWallet(walletID){
-        [rows] = database.searchWallet(walletID);
+    static async searchWallet(username){
+        [rows] = searchwalletbyUserUsername(username);
         return rows;
     }
 
     static async insertWallet(sessionWallet){
         let walletID = sessionWallet.getWalletID();
         let balance = 0;
-        database.insert(walletID, balance); 
+        insert("wallet",{walletID, balance}); 
     }
 
-    static async fetchWallet(walletID){
-        [rows] = await Wallet.searchWallet(walletID);
+    static async fetchWallet(username){
+        [rows] = await Wallet.searchWallet(username);
         sessionWallet = new Wallet();
         sessionWallet.setwalletID(rows[0].walletID);
         sessionWallet.setBalance(rows[0].balance);
@@ -42,9 +43,7 @@ export default class Wallet{
     }
 
     static async updateWallet(sessionWallet){
-        let walletID = sessionWallet.getWalletID();
-        let balance = sessionWallet.getBalance();
-        database.updateWallet(walletID, balance);
+        updatewalletbalance(sessionWallet.getWalletID(), sessionWallet.getBalance());
     }
 
 }

@@ -1,5 +1,7 @@
 import User from "./User.js";
 import Wallet from "./Wallet.js";
+import {searchClientbyusername} from "../Database/database.js";
+import session from "express-session";
 export default class Client extends User{
 
 
@@ -46,7 +48,7 @@ export default class Client extends User{
     
 
     static async searchClient(inputUsername){
-        [rows] = database.searchClient(inputUsername);
+        [rows] = await searchClientbyusername(inputUsername);
         return rows;
     }
 
@@ -54,12 +56,17 @@ export default class Client extends User{
         [rows] = await Client.searchClient(inputUsername);
         if(rows.length === 0){
             sessionClient = new Client(inputUsername, inputPassword, inputEmail, walletID);
+            sessionUser = new User(inputUsername, inputPassword, inputEmail);
             let suspicious = 0;
+            let id = sessionClient.getUserID();
             let suspended = false;
             let points = 0;
             let level = 0;
-            inputPassword = inputPassword.hashCode(); //hashcode function needs implementation
-            database.insertClient(inputUsername, inputPassword, inputEmail, suspended, suspicious, points, level, walletID);
+            sqlObject= sessionClient.toSQL();
+            sqlObjectUser= sessionUser.toSQL();
+            //inputPassword = inputPassword.hashCode(); //hashcode function needs implementation
+            await insert("clients", sqlObject);
+            await insert("users",sqlObjectUser);
             return sessionClient; 
         }
         else{
