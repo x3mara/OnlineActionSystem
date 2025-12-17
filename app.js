@@ -61,16 +61,30 @@ app.get('/sellitem', (req, res) => {
   res.render('SellItem', {
   });
 });
+const session = require('express-session');
+
+app.use(session({
+  secret: 'secret_key',
+  resave: false,
+  saveUninitialized: true
+}));
+
 app.post('/clientdashboard', (req, res) => {
-  res.render('ClientDashboard', {
+  req.session.user = {
     username: req.body.username,
     email: req.body.email
+  };
+  res.redirect('/clientdashboard');
+});
+
+app.get('/clientdashboard', (req, res) => {
+  if (!req.session.user) {
+    return res.redirect('/landpage');
+  }
+  res.render('ClientDashboard', {
+    username: req.session.user.username, email: req.session.user.email
   });
 });
-app.get('/clientdashboard', (req, res) => {
-  res.render('ClientDashboard', { username: '', email: ''
-  });
-}); 
 app.post('/wishlistedauctions', (req, res) => {
   res.render('WishlistedAuctions', {
   });
