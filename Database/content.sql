@@ -91,4 +91,11 @@ user_id varchar(14),
 foreign key (auction_id) references auction(id),
 foreign key(user_id) references users(id)
 );
+create table itemimg(
+id integer primary key auto_increment,
+item_id int,
+itemimg varchar(255),
+foreign key (item_id) references item(id)
+);
+
 drop DATABASE auction_system;

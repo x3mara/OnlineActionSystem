@@ -112,3 +112,8 @@ export async function viewOwnedCosmetics(user_id){
   const [rows] = await pool.query(sql, [user_id]);
   return rows;
 }
+export async function getImgs(item_id){
+  const sql = 'select* from itemimg where item_id =?';
+  const [rows] = await pool.query(sql, [item_id]);
+  return rows;
+}
