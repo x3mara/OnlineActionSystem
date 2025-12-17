@@ -8,28 +8,30 @@ export default class clientController{
     async register(req, res){
         const { username,email, password} = req.body;
         if (password.length<8){
-            res.render('SignUp' , {success: false, field: "password", message: "Password must be at least 8 characters long"});
+            return res.render('SignUp' , {success: false, field: "password", message: "Password must be at least 8 characters long"});
         }
         if (password.length>50){
-            res.render('SignUp' , {success: false, field: "password", message: "Password must be less than 50 characters long"});
+            return res.render('SignUp' , {success: false, field: "password", message: "Password must be less than 50 characters long"});
         }
         if (email.length<5 || !email.includes('@')){
-            res.render('SignUp' , {success: false, field: "email", message: "Invalid email address"});
+            return res.render('SignUp' , {success: false, field: "email", message: "Invalid email address"});
         }
         let sessionClient = await Client.insertClient(username, password, email);
         const sessionWallet = new Wallet();
 
         if (sessionClient == null){
             sessionWallet=null;
-            res.render('SignUp' , {success: false, field: "username", message: "Username already exists"});
-            return;
+            return res.render('SignUp' , {success: false, field: "username", message: "Username already exists"});
         }
-         sessionWallet.setUserID(sessionClient.getUserID());
-        let sqlObjectWallet= sessionWallet.toSQL();
+            const sqlObjectWallet={
+                wallet_id:sessionWallet.getWalletID(),
+                balance:sessionWallet.getBalance(),
+                user_id:sessionClient.getUserID()
+            }
         Wallet.insertWallet(sqlObjectWallet);
         req.session.wallet = sessionWallet;
         req.session.user = sessionClient;
-        res.render('ClientDashboard' , {success: true, field: "", message: "Successfully registered"});
+        return res.render('ClientDashboard' ,{username : username});
     }
 
     async login(req, res){
