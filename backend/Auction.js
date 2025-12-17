@@ -1,7 +1,7 @@
 import Bid from "./Bid.js";
 import Client from "./Client.js";
-import clientController from "../controllers/clientController.js";
-import walletController from "../controllers/walletController.js";
+import clientController from "./controllers/clientController.js";
+import walletController from "./controllers/walletController.js";
 import {insert} from "../Database/database.js";
 
 export default class Auction {
@@ -28,8 +28,8 @@ export default class Auction {
     }
 
 
-    constructor(auctionId,AuctionedItem, duetime, seller, startingPrice) {
-        this.auctionID = auctionId;
+    constructor(AuctionedItem, duetime, seller, startingPrice) {
+        this.auctionID = Date.now();
         this.suspicious = 0;
         this.AuctionedItem = AuctionedItem;
         this.duetime = duetime;
@@ -40,6 +40,9 @@ export default class Auction {
         this.highest_bid = startingPrice;
     }
 
+    static async insertAuction(sessionAuction){
+        await insert("auction", sessionAuction.toSQL()); 
+    }
 
     async validateBid(AuctionID, Amount) {
     let datediff = searchAuctions(AuctionID).duetime - new Date(); 

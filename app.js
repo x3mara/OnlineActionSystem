@@ -2,12 +2,14 @@ import 'dotenv/config';
 import express from 'express';
 import session from 'express-session';
 import clientController from './backend/controllers/clientController.js';
+import auctionController from './backend/controllers/auctionController.js';
 import multer from 'multer';
 import path from 'path';
 
 
 const app = express();
 const ControllerCL = new clientController(); // Create an instance of the client controller
+const ControllerAU = new auctionController();
 
 app.set('view engine', 'ejs');
 app.set('views', path.join('frontend'));
@@ -88,7 +90,8 @@ app.get('/login', (req, res) => {
 app.post('/sellitemI', upload.array('images', 5), (req, res) => {
   console.log('Form data:', req.body);
   console.log('Uploaded files:', req.files);
-
+  console.log('Session Details:', req.session);
+  ControllerAU.startAuction(req,res);
 });
 
 app.get('/sellitem', (req, res) => {
@@ -122,6 +125,13 @@ app.get('/wishlistedauctions', (req, res) => {
 });
 
 app.post('/SignUpI', ControllerCL.register.bind(ControllerCL));
+
+app.use((req, res, next) => {
+  if (req.accepts('html')) {
+    res.render('404', { url: req.url });
+    return;
+  }
+});
 
 app.listen(3000, () => {
   console.log('Server is listening on port 3000');
