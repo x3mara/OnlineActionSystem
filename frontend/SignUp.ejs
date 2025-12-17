@@ -49,12 +49,21 @@
                 </form>
 
                 <p class="muted" style="text-align: center; margin-top: 1rem;">
-                    Already have an account? <a href="Login.html">Log in</a>
+                    Already have an account? <a href="login">Log in</a>
                 </p>
             </div>
         </section>
     </main>
+    <script>
+            const passInput = document.getElementById('password');
+            const showBtn = document.querySelector('.show-pass');
 
+            showBtn.addEventListener('click', () => {
+                const t = passInput.type === 'password' ? 'text' : 'password';
+                passInput.type = t;
+                showBtn.textContent = t === 'text' ? 'Hide' : 'Show';
+            });
+    </script>
 </body>
 
 </html>
