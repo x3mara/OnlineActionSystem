@@ -2,7 +2,7 @@ import Bid from "./Bid.js";
 import Client from "./Client.js";
 import clientController from "../controllers/clientController.js";
 import walletController from "../controllers/walletController.js";
-import {insert} from "../Database/database.js";
+import {searchAuction, updateduedate, searchWalletbyWalletID, searchWalletbyid, searchItem, insert, viewBidsforAuction, searchClientbyid, updatewalletbalance, updatehighestbid} from "../Database/database.js";
 
 export default class Auction {
     auctionID;//int
@@ -13,8 +13,7 @@ export default class Auction {
     highestBidder;//string (clientID)
     startingPrice;//float
     seller;//string (clientID)
-    highest_bid;//integer
-
+    
     toSQL(){
         return{
         id: this.auctionID,
@@ -23,8 +22,7 @@ export default class Auction {
         item_id: this.AuctionedItem,
         highest_bidder: this.highestBidder,
         due_date: this.duetime,
-        seller_id: this.seller,
-        highest_bid: this.highest_bid};
+        seller_id: this.seller};
     }
 
 
@@ -37,38 +35,51 @@ export default class Auction {
         this.suspended = false;
         this.startingPrice = startingPrice;
         this.highestBidder = null;
-        this.highest_bid = startingPrice;
     }
 
 
-    async validateBid(AuctionID, Amount) {
-    let datediff = searchAuctions(AuctionID).duetime - new Date(); 
-    if (datediff <= 0) {
-        return -2; //auction ended
-    }
-    if (searchItem(searchAuctions(AuctionID).item_id).BuyoutPrice<= Amount) {
-        Buyout(req.session.user, AuctionID);
-        return 1; //buyout successful
-    }
-    if(Amount < searchBids(AuctionID)/*get the highest bid amount currently*/ || Amount > clientController.sessionClient.wallet.balance) {
-        return -1;
-    }
-    updateWallets(searchClients(searchAuctions(AuctionID).highestBidder).wallet) += searchBids(AuctionID);//refund previous highest bidder money with the highest bid amount currently
-    newbid = new Bid(AuctionID, clientController.sessionClient, Amount);
-    walletController.sessionWallet.setBalance(walletController.sessionWallet.getBalance() - Amount);
-    /*update sessionwallet -= Amount in database*/
-    if(datediff < (2 * 60 * 1000)) {
-        searchAuctions(AuctionID).duetime.setTime(searchAuctions(AuctionID).duetime.getTime() + 2 * 60 * 1000);
-        /*update duetime in database*/   
+    async makeBid(AuctionID, Amount, sessionUser, sessionWallet) {
+        
+        let fealks = await searchAuction(AuctionID);
+        let datediff = new Date(fealks.due_date) - new Date(); 
+        let highestbiddah = fealks.highest_bidder;
+
+        if (datediff <= 0) {
+            return -2; //auction ended
         }
-        bids.insertBids(AuctionID, clientController.sessionClient, Amount, new Date());
-        searchAuctions(AuctionID).highestBidder = clientController.sessionClient;    
+
+        if (await searchItem(fealks.item_id).buy_out_price <= Amount) {
+            Buyout(sessionUser, AuctionID);
+            return 1; //buyout successful
+        }
+
+        const bidrows = await viewBidsforAuction(AuctionID);
+
+        if(Amount < bidrows[bidrows.length-1].bidamount/*get the highest bid amount currently*/ || Amount > await searchWalletbyid(sessionUser.userID).balance || Amount < fealks.starting_price) {
+            return -1;
+        }
+
+        await updatewalletbalance(await searchWalletbyid(highestbiddah), (await searchWalletbyid(highestbiddah).balance + bidrows[bidrows.length-1].bidamount));//refund previous highest bidder money with the highest bid amount currently
+
+        newbid = new Bid(AuctionID, sessionUser.userID, Amount);
+
+        sessionWallet.setBalance(sessionWallet.getBalance() - Amount);
+
+        await updatewalletbalance(await searchWalletbyWalletID(sessionWallet), sessionWallet.getBalance() - Amount)  //update sessionwallet -= Amount in database
+
+        if(datediff < (2 * 60 * 1000)) {
+            await updateduedate(AuctionID, new Date(searchAuction(AuctionID).due_date + 2 * 60 * 1000));/*update duetime in database*/
+            }
+
+        await updatehighestbid(AuctionID, sessionUser.userID, Amount);
+        await insert("bid", newbid.toSQL());
+
     }
 
-    async suspendAuction(AuctionID) {
-        updateWallets(searchClients(searchAuctions(AuctionID).highestBidder).wallet) += searchBids(AuctionID);//refund previous highest bidder money with the highest bid amount currently
-        updateAuctions(AuctionID).suspended = true;
-        updateAuctions(AuctionID).duetime = new Date(); //set duetime to current time to end auction
+        async suspendAuction(AuctionID) {
+            updateWallets(searchClients(searchAuctions(AuctionID).highestBidder).wallet) += searchBids(AuctionID);//refund previous highest bidder money with the highest bid amount currently
+            updateAuctions(AuctionID).suspended = true;
+            updateAuctions(AuctionID).duetime = new Date(); //set duetime to current time to end auction
 
     }
 
@@ -124,4 +135,5 @@ export default class Auction {
     async getHighestBidder() {
         return this.highestBidder;
     }   
+
 }
