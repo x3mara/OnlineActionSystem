@@ -1,6 +1,6 @@
 import User from "./User.js";
 import Wallet from "./Wallet.js";
-import {searchClientbyusername,insert} from "../Database/database.js";
+import {searchClientbyusername,insert, viewAllAuctions} from "../Database/database.js";
 import session from "express-session";
 export default class Client extends User{
 
@@ -97,6 +97,11 @@ export default class Client extends User{
 
     viewUserInfo(clientID){
         //DATABASE TO VIEW INFO ????
+    }
+
+    static async viewAllAuctions(){
+        const rows = await viewAllAuctions();
+        return rows;
     }
 
 }
