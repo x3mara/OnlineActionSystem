@@ -1,101 +1,81 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Client Dashboard - 1X BID</title>
     <link rel="stylesheet" href="styles.css" />
-  </head>
+</head>
 
-  <body class="dashboard-body">
-    <header class="navbar">
-      <div class="nav-inner">
-        <div class="nav-left">
-          <img src="images/Logo.png" alt="logo" class="nav-logo" />
-          <nav class="nav-links">
-            <button class="nav-btn">Store</button>
-            <button class="nav-btn">Auctions</button>
-            <button class="nav-btn">Wishlist</button>
-          </nav>
-        </div>
+<body class="dashboard-body">
+    <%- include('./partials/navbar.ejs') %>
+        <main class="dashboard-main">
+            <section class="profile-card">
+                <div class="profile-image">
+                    <img src="images/SignupHero2.png" alt="profile" />
+                </div>
+                <div class="profile-info">
+                    <h2>Welcome, <span class="username">Username</span></h2>
+                    <div class="xp-card">
+                        <div class="xp-label">XP</div>
+                        <div class="xp-bar">
+                            <div class="xp-fill" style="width:64%"></div>
+                        </div>
+                        <div class="xp-value">64%</div>
+                    </div>
+                </div>
+            </section>
 
-        <div class="nav-center">
-          <input
-            id="search"
-            class="search"
-            type="search"
-            placeholder="Search auctions, items or sellers..."
-            aria-label="Search"
-          />
-        </div>
+            <section class="auctions-section">
+                <!-- Recommended -->
+                <div class="recommended">
+                    <div class="section-header">
+                        <h3>Recommended Auctions</h3>
+                        <a class="view-all" href="#">View all →</a>
+                    </div>
 
-        <div class="nav-right">
-          <button class="btn sell">+ Sell</button>
-          <div class="balance">$<span id="balance">300</span></div>
-          <div class="profile">
-            <div class="avatar">U</div>
-          </div>
-        </div>
-      </div>
-    </header>
+                    <div class="grid" id="recommendedGrid">
+                        <% recommendedAuctions.forEach(a=> { %>
+                            <article class="rec-card" data-auction-id="<%= a.auction.id %>">
+                                <div class="card-media">
+                                    <span class="time js-timer" data-end="<%= a.auction.due_date %>">--:--:--</span>
 
-    <main class="dashboard-main">
-      <section class="profile-card">
-        <div class="profile-image">
-          <img src="images/SignupHero2.png" alt="profile" />
-        </div>
-        <div class="profile-info">
-          <h2>Welcome, <span class="username">Username</span></h2>
-          <div class="xp-card">
-            <div class="xp-label">XP</div>
-            <div class="xp-bar">
-              <div class="xp-fill" style="width:64%"></div>
-            </div>
-            <div class="xp-value">64%</div>
-          </div>
-        </div>
-      </section>
-
-      <section class="auctions-section">
-        <!-- Recommended -->
-        <div class="recommended">
-          <div class="section-header">
-            <h3>Recommended Auctions</h3>
-            <a class="view-all" href="#">View all →</a>
-          </div>
-
-          <div class="grid" id="recommendedGrid">
-            <% recommendedAuctions.forEach(a => { %>
-                <article class="rec-card" data-auction-id="<%= a.auction.id %>">
-                <div class="card-media">
-                    <span class="time js-timer" data-end="<%= a.auction.due_date %>">--:--:--</span>
-
-                    <!--<button
+                                    <!--<button
                     class="fav js-fav <%= // a.isWishlisted ? 'is-active' : '' %>"
                     type="button"
                     aria-pressed="<%= //a.isWishlisted %>"
                     aria-label="<%= //a.isWishlisted ? 'Remove from wishlist' : 'Add to wishlist' %>"
                     >❤</button> -->
 
-                    <img src="<%=a.ItemImage %>" alt="<%= a.item.item_name %>" />
-                    <div class="seller-tag"><%= a.auction.sellerName %></div>
-                </div>
+                                    <img src="<%=a.ItemImage %>" alt="<%= a.item.item_name %>" />
+                                    <div class="seller-tag">
+                                        <%= a.auction.sellerName %>
+                                    </div>
+                                </div>
 
-                <div class="card-body">
-                    <h4><%= a.title %></h4>
-                    <p class="desc"><%= a.item.item_desc %></p>
+                                <div class="card-body">
+                                    <h4>
+                                        <%= a.title %>
+                                    </h4>
+                                    <p class="desc">
+                                        <%= a.item.item_desc %>
+                                    </p>
 
-                    <div class="tags">
-                    <span class="tag"><%= a.item.item_tag %></span>
+                                    <div class="tags">
+                                        <span class="tag">
+                                            <%= a.item.item_tag %>
+                                        </span>
+                                    </div>
+
+                                    <div class="current-bid">$<%= a.auction.highest_bid%>
+                                    </div>
+                                </div>
+                            </article>
+                            <% }) %>
                     </div>
-
-                    <div class="current-bid">$<%= a.auction.highest_bid%></div>
                 </div>
-                </article>
-            <% }) %>
-            </div>
-        </div>
-    <!--
+                <!--
 
         <div class="recommended" style="margin-top: 22px;">
           <div class="section-header">
@@ -148,62 +128,63 @@
             </div> 
         </div>
     -->
-      </section>
-    </main>
+            </section>
+        </main>
 
-    <script>
-      const search = document.getElementById('search');
-      const MIN = 180, MAX = 520;
+        <script>
+            const search = document.getElementById('search');
+            const MIN = 180, MAX = 520;
 
-      function resizeSearch(){
-        const tmp = document.createElement('span');
-        tmp.style.visibility = 'hidden';
-        tmp.style.position = 'absolute';
-        tmp.style.whiteSpace = 'pre';
-        tmp.style.font = window.getComputedStyle(search).font;
-        tmp.textContent = search.value || search.placeholder;
+            function resizeSearch() {
+                const tmp = document.createElement('span');
+                tmp.style.visibility = 'hidden';
+                tmp.style.position = 'absolute';
+                tmp.style.whiteSpace = 'pre';
+                tmp.style.font = window.getComputedStyle(search).font;
+                tmp.textContent = search.value || search.placeholder;
 
-        document.body.appendChild(tmp);
-        const w = Math.min(MAX, Math.max(MIN, tmp.offsetWidth + 36));
-        search.style.width = w + 'px';
-        document.body.removeChild(tmp);
-      }
+                document.body.appendChild(tmp);
+                const w = Math.min(MAX, Math.max(MIN, tmp.offsetWidth + 36));
+                search.style.width = w + 'px';
+                document.body.removeChild(tmp);
+            }
 
-      search.addEventListener('input', resizeSearch);
-      window.addEventListener('load', resizeSearch);
+            search.addEventListener('input', resizeSearch);
+            window.addEventListener('load', resizeSearch);
 
-      function pad2(n){ return String(n).padStart(2, '0'); }
+            function pad2(n) { return String(n).padStart(2, '0'); }
 
-      function formatRemaining(ms){
-        if (ms <= 0) return "ENDED";
-        const totalSec = Math.floor(ms / 1000);
-        const h = Math.floor(totalSec / 3600);
-        const m = Math.floor((totalSec % 3600) / 60);
-        const s = totalSec % 60;
-        return `${pad2(h)}:${pad2(m)}:${pad2(s)}`;
-      }
+            function formatRemaining(ms) {
+                if (ms <= 0) return "ENDED";
+                const totalSec = Math.floor(ms / 1000);
+                const h = Math.floor(totalSec / 3600);
+                const m = Math.floor((totalSec % 3600) / 60);
+                const s = totalSec % 60;
+                return `${pad2(h)}:${pad2(m)}:${pad2(s)}`;
+            }
 
-      function tickTimers(){
-        const now = Date.now();
-        document.querySelectorAll('.js-timer').forEach(el => {
-          const endStr = el.getAttribute('data-end');
-          const end = new Date(endStr).getTime();
-          el.textContent = formatRemaining(end - now);
-        });
-      }
+            function tickTimers() {
+                const now = Date.now();
+                document.querySelectorAll('.js-timer').forEach(el => {
+                    const endStr = el.getAttribute('data-end');
+                    const end = new Date(endStr).getTime();
+                    el.textContent = formatRemaining(end - now);
+                });
+            }
 
-      tickTimers();
-      setInterval(tickTimers, 1000);
+            tickTimers();
+            setInterval(tickTimers, 1000);
 
-      // Heart toggle (works for both grids)
-      document.addEventListener('click', (e) => {
-        const btn = e.target.closest('.js-fav');
-        if (!btn) return;
+            // Heart toggle (works for both grids)
+            document.addEventListener('click', (e) => {
+                const btn = e.target.closest('.js-fav');
+                if (!btn) return;
 
-        const active = btn.classList.toggle('is-active');
-        btn.setAttribute('aria-pressed', active ? 'true' : 'false');
-        btn.setAttribute('aria-label', active ? 'Remove from wishlist' : 'Add to wishlist');
-      });
-    </script>
-  </body>
+                const active = btn.classList.toggle('is-active');
+                btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+                btn.setAttribute('aria-label', active ? 'Remove from wishlist' : 'Add to wishlist');
+            });
+        </script>
+</body>
+
 </html>
