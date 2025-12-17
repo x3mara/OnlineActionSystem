@@ -2,6 +2,7 @@ import User from '../User.js';
 import Client from '../Client.js';
 import Wallet from '../Wallet.js';
 import session from 'express-session';
+import { authPlugins } from 'mysql2';
 export default class clientController{
     
 
@@ -17,7 +18,7 @@ export default class clientController{
             return res.render('SignUp' , {success: false, field: "email", message: "Invalid email address"});
         }
         let sessionClient = await Client.insertClient(username, password, email);
-        const sessionWallet = new Wallet();
+        let sessionWallet = new Wallet();
 
         if (sessionClient == null){
             sessionWallet=null;
@@ -27,23 +28,24 @@ export default class clientController{
         Wallet.insertWallet(sqlObjectWallet);
         req.session.wallet = sessionWallet;
         req.session.user = sessionClient;
-        return res.render('ClientDashboard' ,{username : username});
-
+        let auctions = await Client.viewAllAuctions();
+        return res.render('ClientDashboard' ,{username : username} );
     }
 
     async login(req, res){
         const { username, password } = req.body;
         const sessionClient = await User.verifyLogin(username, password);
         if (sessionClient === false) {
-            res.render('Login' , { success: false, field: "password", message: "Incorrect password" });
+            return res.render('Login' , { success: false, field: "password", message: "Incorrect password" });
         } 
         else if (sessionClient === null) {
-            res.render('Login' , { success: false, field: "username", message: "Username does not exist" });
+            return res.render('Login' , { success: false, field: "username", message: "Username does not exist" });
         } 
         else {
             req.session.user = sessionClient;
             req.session.wallet = await Wallet.fetchWallet(sessionClient.getUsername());
-            res.render('ClientDashboard', { success: true, field: "", message: "Successfully logged in" });
+            let auctions = await Client.viewAllAuctions();
+            return res.render('ClientDashboard', { username: username , auctions : auctions } );
         }
     }
 
@@ -54,11 +56,11 @@ export default class clientController{
         let emaildisplay = client[0].email;
         let points = client[0].points;
         let level = client[0].level;
-        res.render("nameOfScreen",{userIDdisplay, usernamedisplay, emaildisplay, points, level});
+        return res.render("nameOfScreen",{userIDdisplay, usernamedisplay, emaildisplay, points, level});
     }
 
     async viewAllAuctions(req, res){
-        const auctions = await  Client.viewAllAuctions();
-        res.render("nameOfScreen", { auctions });
+        return auctions = await  Client.viewAllAuctions();
     }
+
 }
