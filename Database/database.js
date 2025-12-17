@@ -17,7 +17,7 @@ export async function insert(tableName,data){
     return rows;
 }
 export async function viewAllAuctions(){
-  const sql = 'select auctions.*, users.username as highest_bidder_name from auction join users on auctions.highest_bidder = users.id';
+  const sql = 'select auction.*, users.username as highest_bidder_name from auction join users on auctions.highest_bidder = users.id';
   const [rows] =await pool.query(sql);
   return rows;
 }
