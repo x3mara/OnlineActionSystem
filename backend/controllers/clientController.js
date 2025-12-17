@@ -1,6 +1,7 @@
 import User from '../User.js';
 import Client from '../Client.js';
 import Wallet from '../Wallet.js';
+import Item from '../Item.js';
 import session from 'express-session';
 import { authPlugins } from 'mysql2';
 export default class clientController{
@@ -28,8 +29,21 @@ export default class clientController{
         Wallet.insertWallet(sqlObjectWallet);
         req.session.wallet = sessionWallet;
         req.session.user = sessionClient;
+
+
         let auctions = await Client.viewAllAuctions();
-        return res.render('ClientDashboard' ,{username : username} );
+        let AuItems = [];
+
+        auctions.forEach( (auction) => {
+            AuItems.push( Item.getItemthroughID(auction.itemID) );
+        });
+
+        const combinedData = auctions.map((auction, index) => ({
+            auction: auction,      
+            item: AuItems[index]      
+        }));
+        
+        return res.render('ClientDashboard' ,{username : username , recommendedAuctions : combinedData} );
     }
 
     async login(req, res){
@@ -45,7 +59,7 @@ export default class clientController{
             req.session.user = sessionClient;
             req.session.wallet = await Wallet.fetchWallet(sessionClient.getUsername());
             let auctions = await Client.viewAllAuctions();
-            return res.render('ClientDashboard', { username: username , auctions : auctions } );
+            return res.render('ClientDashboard', { username: username , recommendedAuctions : auctions , wishlistedAuctions : []} );
         }
     }
 
@@ -61,6 +75,10 @@ export default class clientController{
 
     async viewAllAuctions(req, res){
         return auctions = await  Client.viewAllAuctions();
+    }
+
+    async itemthroughAuction(ItemID){
+        return Item.getItemthroughID(ItemID);
     }
 
 }
