@@ -17,12 +17,14 @@ app.use(express.json());
 app.use(express.static('public'));
 
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // Create this folder
-  },
+  destination: 'uploads/',
   filename: (req, file, cb) => {
-    const uniqueName = Date.now() + path.extname(file.originalname);
-    cb(null, uniqueName);
+
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    const ext = path.extname(file.originalname);
+    const name = path.basename(file.originalname, ext);
+    
+    cb(null, name + '-' + uniqueSuffix + ext);
   }
 });
 
