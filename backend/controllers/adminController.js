@@ -1,19 +1,22 @@
+import session from "express-session";
 import User from "../User.js";
 export default class adminController{
 
 
-    async login(inputUsername, inputPassword){
-    
-            this.sessionAdmin = await User.verifyLogin(inputUsername, inputPassword);
-            if (this.sessionAdmin==false){
-                return "Incorrect password";
+    async login(req, res){
+        const { username, password } = req.body;
+            const sessionAdmin = await User.verifyLogin(username, password);
+            if (sessionAdmin==false){
+                res.render('Login' , { success: false, field: "password", message: "Incorrect password" });
             }
-            else if (this.sessionAdmin==null){
-                return "Username does not exist";
+            else if (sessionAdmin==null){
+                res.render('Login' , { success: false, field: "username", message: "Username does not exist" });
             }
             else{
-                return "Login successful";
+                req.session.user= sessionAdmin;
+                res.render('AdminDashboard', { success: true, field: "", message: "Successfully logged in" });
             }
+            
         }
     
 }
