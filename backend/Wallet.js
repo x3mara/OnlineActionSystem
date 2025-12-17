@@ -24,18 +24,18 @@ export default class Wallet{
 
     
     static async searchWallet(username){
-        [rows] = searchwalletbyUserUsername(username);
+        rows = await searchwalletbyUserUsername(username);
         return rows;
     }
 
     static async insertWallet(sessionWallet){
         let walletID = sessionWallet.getWalletID();
         let balance = 0;
-        insert("wallet",{walletID, balance}); 
+        await insert("wallet",{walletID, balance}); 
     }
 
     static async fetchWallet(username){
-        [rows] = await Wallet.searchWallet(username);
+        rows = await Wallet.searchWallet(username);
         sessionWallet = new Wallet();
         sessionWallet.setwalletID(rows[0].walletID);
         sessionWallet.setBalance(rows[0].balance);
@@ -43,7 +43,7 @@ export default class Wallet{
     }
 
     static async updateWallet(sessionWallet){
-        updatewalletbalance(sessionWallet.getWalletID(), sessionWallet.getBalance());
+        await updatewalletbalance(sessionWallet.getWalletID(), sessionWallet.getBalance());
     }
 
 }
