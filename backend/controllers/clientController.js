@@ -23,11 +23,7 @@ export default class clientController{
             sessionWallet=null;
             return res.render('SignUp' , {success: false, field: "username", message: "Username already exists"});
         }
-            const sqlObjectWallet={
-                wallet_id:sessionWallet.getWalletID(),
-                balance:sessionWallet.getBalance(),
-                user_id:sessionClient.getUserID()
-            }
+        const sqlObjectWallet= sessionWallet.toSQL();
         Wallet.insertWallet(sqlObjectWallet);
         req.session.wallet = sessionWallet;
         req.session.user = sessionClient;
