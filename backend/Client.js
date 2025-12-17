@@ -39,13 +39,11 @@ export default class Client extends User{
     getpoints(){return this.#points;}
     getLevel(){return this.#level;}
     getWalletID(){return this.#walletID;}
-    getCurrentCosmetic(){return this.#currentCosmetic;}
 
     incrementSuspicious(){this.#suspicious++ ;}
     setSuspended(suspended){this.#suspended = suspended;}
     setPoints(points){this.#points = points;}
     setLevel(level){this.#level = level;}
-    setCurrentCosmetic(cosmeticID){this.#currentCosmetic = cosmeticID;}
 
     
 

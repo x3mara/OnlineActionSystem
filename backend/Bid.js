@@ -5,6 +5,13 @@ export default class Bid {
     bidTime;
     auctionID;
 
+    toSQL(){
+        return{
+        bidamount: this.bidAmount,
+        bidtime: this.bidTime,
+        auction_id: this.auctionID,
+        users_id: this.bidderId};
+    }
 
     constructor(auctionID, bidderId, bidAmount, bidtime) {
         this.bidderId = bidderId;

@@ -5,6 +5,14 @@ export default class Cosmetic{
     #cosmeticDesc;
     #cosmeticPrice;
 
+    toSQL(){
+        return{
+        id:this.#cosmeticID,
+        cosmetic_name: this.#cosmeticName,
+        cosmetic_desc: this.#cosmeticDesc,
+        cosmetic_price: this.#cosmeticPrice};
+    }
+
     constructor(cosmeticID, cosmeticName, cosmeticDesc){
         this.#cosmeticID = cosmeticID;
         this.#cosmeticName = cosmeticName;

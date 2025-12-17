@@ -5,6 +5,12 @@ export default class Wallet{
     #walletID;
     #userID;
 
+    toSQL(){
+        return{
+        wallet_id:this.#walletID,
+        balance:this.#balance,
+        user_id:this.userID};
+    }
     
     constructor(){
         this.#walletID =  Math.trunc((Math.random() + Date.now()));
