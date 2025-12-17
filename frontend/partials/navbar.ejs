@@ -1,118 +1,125 @@
-    <header class="navbar">
-        <div class="nav-inner">
-            <div class="nav-left">
-                <a href="/clientdashboard">
+<header class="navbar">
+    <div class="nav-inner">
+        <div class="nav-left">
+            <a href="/clientdashboard">
                 <img src="images/Logo.png" alt="logo" class="nav-logo" />
-                </a>
-                <nav class="nav-links">
-                    <button class="nav-btn">Store</button>
-                    <button class="nav-btn">Auctions</button>
-                    <a href="/wishlistedauctions">
+            </a>
+            <nav class="nav-links">
+                <button class="nav-btn">Store</button>
+                <button class="nav-btn">Auctions</button>
+                <a href="/wishlistedauctions">
                     <button class="nav-btn">Wishlist</button>
-                    </a>
-                </nav>
-            </div>
-
-            <div class="nav-center">
-                <input id="search" class="search" type="search" placeholder="Search auctions, items or sellers..."
-                    aria-label="Search" />
-            </div>
-
-            <div class="nav-right">
-                <a href="/sellitem">
-                    <button class="btn sell">+ Sell</button>
                 </a>
+            </nav>
+        </div>
 
-                <div class="balance">$<span id="balance">300</span></div>
-                <div class="profile">
-                    <button class="avatar" aria-haspopup="true" aria-expanded="false">U</button>
-                    <div class="profile-dropdown" aria-hidden="true">
-                        <div class="pd-row pd-row--header">
-                            <div class="pd-avatar">U</div>
-                            <div class="pd-user">
-                                <div class="pd-name"><%= username %></div>
-                                <div class="pd-email"><%= email %></div>
+        <div class="nav-center">
+            <input id="search" class="search" type="search" placeholder="Search auctions, items or sellers..."
+                aria-label="Search" />
+        </div>
+
+        <div class="nav-right">
+            <a href="/sellitem">
+                <button class="btn sell">+ Sell</button>
+            </a>
+
+            <div class="balance">$<span id="balance">300</span></div>
+            <div class="profile">
+                <button class="avatar" aria-haspopup="true" aria-expanded="false">U</button>
+                <div class="profile-dropdown" aria-hidden="true">
+                    <div class="pd-row pd-row--header">
+                        <div class="pd-avatar">U</div>
+                        <% if (username && email) { %>
+                            <div class="pd-name">
+                                <%= username %>
                             </div>
-                        </div>
-                        <hr class="pd-sep" />
-                        <div class="pd-row pd-row--actions">
-                            <button class="pd-btn">Manage Profile</button>
-                            <button class="pd-btn">My Auctions</button>
-                            <button class="pd-btn">Sold items</button>
-                            <a href="/wishlistedauctions">
+                            <div class="pd-email">
+                                <%= email %>
+                            </div>
+                            <% } else { %>
+                                <div class="pd-name">Guest</div>
+                                <% } %>
+
+                    </div>
+                    <hr class="pd-sep" />
+                    <div class="pd-row pd-row--actions">
+                        <button class="pd-btn">Manage Profile</button>
+                        <button class="pd-btn">My Auctions</button>
+                        <button class="pd-btn">Sold items</button>
+                        <a href="/wishlistedauctions">
                             <button class="pd-btn">Wishlist</button>
-                            </a>
-                            <button class="pd-btn">My wallet</button>
-                        </div>
-                        <hr class="pd-sep" />
-                        <div class="pd-row pd-row--logout">
-                            <a href="/signup">
+                        </a>
+                        <button class="pd-btn">My wallet</button>
+                    </div>
+                    <hr class="pd-sep" />
+                    <div class="pd-row pd-row--logout">
+                        <a href="/signup">
                             <button class="pd-btn pd-logout">Log out</button>
-                            </a>
-                        </div>
+                        </a>
                     </div>
                 </div>
             </div>
-    </header>
-                <script>
-                    (function(){
-                        const avatar = document.querySelector('.profile .avatar');
-                        const dropdown = document.querySelector('.profile .profile-dropdown');
-                        if(!avatar || !dropdown) return;
+        </div>
+</header>
+<script>
+    (function () {
+        const avatar = document.querySelector('.profile .avatar');
+        const dropdown = document.querySelector('.profile .profile-dropdown');
+        if (!avatar || !dropdown) return;
 
-                        function positionDropdown(){
-                            const rect = avatar.getBoundingClientRect();
-                            const pad = 8;
-                            // place dropdown under avatar, aligned to avatar's right edge
-                            const top = rect.bottom + pad + window.scrollY;
-                            let left = rect.right - dropdown.offsetWidth + window.scrollX;
-                            // keep within viewport
-                            if(left < 8) left = 8;
-                            if(left + dropdown.offsetWidth > window.innerWidth - 8){
-                                left = Math.max(8, window.innerWidth - dropdown.offsetWidth - 8);
-                            }
-                            dropdown.style.top = top + 'px';
-                            dropdown.style.left = left + 'px';
-                        }
+        function positionDropdown() {
+            const rect = avatar.getBoundingClientRect();
+            const pad = 8;
+            // place dropdown under avatar, aligned to avatar's right edge
+            const top = rect.bottom + pad + window.scrollY;
+            let left = rect.right - dropdown.offsetWidth + window.scrollX;
+            // keep within viewport
+            if (left < 8) left = 8;
+            if (left + dropdown.offsetWidth > window.innerWidth - 8) {
+                left = Math.max(8, window.innerWidth - dropdown.offsetWidth - 8);
+            }
+            dropdown.style.top = top + 'px';
+            dropdown.style.left = left + 'px';
+        }
 
-                        document.addEventListener('click', function(e){
-                            // Toggle when clicking avatar
-                            if(avatar.contains(e.target)){
-                                const open = dropdown.classList.toggle('show');
-                                avatar.setAttribute('aria-expanded', open? 'true':'false');
-                                dropdown.setAttribute('aria-hidden', open? 'false':'true');
-                                if(open){
-                                    // compute position after it's visible to get correct width
-                                    dropdown.style.display = 'block';
-                                    // small timeout to ensure styles/layout applied
-                                    requestAnimationFrame(positionDropdown);
-                                } else {
-                                    dropdown.style.display = 'none';
-                                }
-                                return;
-                            }
+        document.addEventListener('click', function (e) {
+            // Toggle when clicking avatar
+            if (avatar.contains(e.target)) {
+                const open = dropdown.classList.toggle('show');
+                avatar.setAttribute('aria-expanded', open ? 'true' : 'false');
+                dropdown.setAttribute('aria-hidden', open ? 'false' : 'true');
+                if (open) {
+                    // compute position after it's visible to get correct width
+                    dropdown.style.display = 'block';
+                    // small timeout to ensure styles/layout applied
+                    requestAnimationFrame(positionDropdown);
+                } else {
+                    dropdown.style.display = 'none';
+                }
+                return;
+            }
 
-                            // Close when clicking outside
-                            if(!dropdown.contains(e.target)){
-                                dropdown.classList.remove('show');
-                                avatar.setAttribute('aria-expanded','false');
-                                dropdown.setAttribute('aria-hidden','true');
-                                dropdown.style.display = 'none';
-                            }
-                        });
+            // Close when clicking outside
+            if (!dropdown.contains(e.target)) {
+                dropdown.classList.remove('show');
+                avatar.setAttribute('aria-expanded', 'false');
+                dropdown.setAttribute('aria-hidden', 'true');
+                dropdown.style.display = 'none';
+            }
+        });
 
-                        // Close on Escape
-                        document.addEventListener('keydown', function(e){
-                            if(e.key === 'Escape'){
-                                dropdown.classList.remove('show');
-                                avatar.setAttribute('aria-expanded','false');
-                                dropdown.setAttribute('aria-hidden','true');
-                                dropdown.style.display = 'none';
-                            }
-                        });
+        // Close on Escape
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                dropdown.classList.remove('show');
+                avatar.setAttribute('aria-expanded', 'false');
+                dropdown.setAttribute('aria-hidden', 'true');
+                dropdown.style.display = 'none';
+            }
+        });
 
-                        // Reposition on resize/scroll while open
-                        window.addEventListener('resize', ()=>{ if(dropdown.classList.contains('show')) positionDropdown(); });
-                        window.addEventListener('scroll', ()=>{ if(dropdown.classList.contains('show')) positionDropdown(); });
-                    })();
-                </script>
+        // Reposition on resize/scroll while open
+        window.addEventListener('resize', () => { if (dropdown.classList.contains('show')) positionDropdown(); });
+        window.addEventListener('scroll', () => { if (dropdown.classList.contains('show')) positionDropdown(); });
+    })();
+</script>
