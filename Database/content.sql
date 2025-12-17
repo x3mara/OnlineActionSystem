@@ -48,6 +48,7 @@ item_id integer,
 highest_bidder varchar(14),
 due_date timestamp,
 seller_id varchar(14),
+highest_bid integer,
 foreign key (seller_id) references users(id),
 foreign key (item_id) references item(id),
 foreign key (highest_bidder) references users(id)
