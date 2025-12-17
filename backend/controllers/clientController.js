@@ -1,6 +1,7 @@
 import User from '../User.js';
 import Client from '../Client.js';
 import Wallet from '../Wallet.js';
+import session from 'express-session';
 export default class clientController{
     
 
@@ -23,8 +24,13 @@ export default class clientController{
             sessionWallet=null;
             res.render('SignUp' , {success: false, field: "username", message: "Username already exists"});
         }
+            const sqlObjectWallet={
+                wallet_id:sessionWallet.getWalletID(),
+                balance:sessionWallet.getBalance(),
+                user_id:sessionClient.getUserID()
 
-        Wallet.insertWallet(sessionWallet);
+            }
+        Wallet.insertWallet(sqlObjectWallet);
         req.session.wallet = sessionWallet;
         req.session.user = sessionClient;
         res.render('ClientDashboard' , {success: true, field: "", message: "Successfully registered"});

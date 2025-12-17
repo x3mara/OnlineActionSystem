@@ -9,7 +9,7 @@ export default class Wallet{
         return{
         wallet_id:this.#walletID,
         balance:this.#balance,
-        user_id:userID};
+        user_id:this.userID};
     }
     
     constructor(){
@@ -33,8 +33,8 @@ export default class Wallet{
     }
 
     static async insertWallet(sessionWallet){
-        let sqlObject= sessionWallet.toSQL();
-        await insert("wallet", sqlObject); 
+        //let sqlObject= sessionWallet.toSQL();
+        await insert("wallet", sessionWallet); 
     }
 
     static async fetchWallet(username){
