@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="styles.css" />
 </head>
 
+
 <body class="dashboard-body">
     <%- include('./partials/navbar.ejs')%>
 
@@ -19,7 +20,7 @@
             </div>
             <div class="profile-info">
                 <h2>Welcome, <span class="username">
-                        <Username></Username>
+                        <Username> | <%= username %></Username>
                     </span></h2>
                 <div class="xp-card">
                     <div class="xp-label">XP</div>
