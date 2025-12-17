@@ -29,9 +29,8 @@ export default class Wallet{
     }
 
     static async insertWallet(sessionWallet){
-        let walletID = sessionWallet.getWalletID();
-        let balance = 0;
-        await insert("wallet",{walletID, balance}); 
+        let sqlObject= sessionWallet.toSQL();
+        await insert("wallet", sqlObject); 
     }
 
     static async fetchWallet(username){
