@@ -7,9 +7,8 @@
             <nav class="nav-links">
                 <button class="nav-btn">Store</button>
                 <button class="nav-btn">Auctions</button>
-                <a href="/wishlistedauctions">
-                    <button class="nav-btn">Wishlist</button>
-                </a>
+                <a class="nav-btn" href="/wishlistedauctions">Wishlist</a>
+
             </nav>
         </div>
 
@@ -23,7 +22,9 @@
                 <button class="btn sell">+ Sell</button>
             </a>
 
-            <div class="balance">$<span id="balance">300</span></div>
+            <button class="balance" id="balanceBtn" type="button" aria-haspopup="dialog" aria-expanded="false">
+                $<span id="balance">300</span>
+            </button>
             <div class="profile">
                 <button class="avatar" aria-haspopup="true" aria-expanded="false">U</button>
                 <div class="profile-dropdown" aria-hidden="true">
@@ -122,4 +123,35 @@
         window.addEventListener('resize', () => { if (dropdown.classList.contains('show')) positionDropdown(); });
         window.addEventListener('scroll', () => { if (dropdown.classList.contains('show')) positionDropdown(); });
     })();
+</script>
+<script>
+  (function(){
+    const btn = document.getElementById('balanceBtn');
+    const modal = document.getElementById('walletModal');
+    if (!btn || !modal) return;
+
+    function openModal(){
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+      btn.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(){
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      btn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    btn.addEventListener('click', openModal);
+
+    modal.addEventListener('click', (e) => {
+      if (e.target.matches('[data-close="wallet"]')) closeModal();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+    });
+  })();
 </script>

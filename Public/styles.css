@@ -1771,3 +1771,41 @@ button.fav {
   border: 1px solid rgba(255, 255, 255, 0.10);
   background: rgba(255, 255, 255, 0.03);
 }
+
+/* WALLET MODAL (fix + avoid conflicts with sell modal) */
+#walletModal { display: none; }
+#walletModal.is-open { display: block; }
+
+#walletModal .modal-backdrop{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+  z-index: 999;
+}
+
+#walletModal .modal-panel{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(720px, calc(100vw - 32px));
+  background: rgba(10,10,10,.92);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 18px;
+  padding: 18px 18px 22px;
+  z-index: 1000;
+  box-shadow: 0 20px 60px rgba(0,0,0,.55);
+}
+
+#walletModal .modal-close{
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.1);
+  background: rgba(0,0,0,.35);
+  color: #fff;
+  cursor: pointer;
+}
