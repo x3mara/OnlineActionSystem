@@ -67,9 +67,9 @@ export async function updatewalletbalance(wallet_id,newbalance){
   const [rows] = await pool.query(sql, [newbalance,wallet_id]);
   return rows;
 }
-export async function updatehighestbidder(auctionID,users_id){
-  const sql = 'update auction set highest_bidder =?where id =?';
-  const [rows] = await pool.query(sql, [users_id,auctionID]);
+export async function updatehighestbid(auctionID,users_id,amount){
+  const sql = 'update auction set highest_bidder =?, highest_bid =? where id =?';
+  const [rows] = await pool.query(sql, [users_id,amount,auctionID]);
   return rows;
 }
 export async function updatesuscounteruser(id){
