@@ -24,7 +24,7 @@ body {
 body {
   margin: 0;
   font-family: Inter, system-ui, sans-serif;
-  background: var(--panel-1);
+  background: #0f0f10;
   /* dark fallback to match theme */
   color: #ffffff;
 }
@@ -792,6 +792,12 @@ button.fav {
   gap: 14px
 }
 
+.wishlist-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px
+}
+
 .rec-card {
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.15));
   border-radius: 12px;
@@ -843,6 +849,15 @@ button.fav {
   color: #fff;
   font-weight: 700
 }
+
+/* Minimal interactive styles - non-layout affecting */
+.rec-card { transition: transform 180ms ease, box-shadow 180ms ease; }
+.rec-card:hover { transform: translateY(-6px); box-shadow: 0 14px 30px rgba(2,6,23,0.5); }
+.rec-card:active { transform: translateY(-3px); }
+
+.card-media .fav { transition: background 160ms ease, color 160ms ease, transform 120ms ease; }
+.card-media .fav:hover { transform: scale(1.06); }
+.card-media .fav.active { background: #28a745; color: #fff; }
 
 .card-body {
   padding: 12px

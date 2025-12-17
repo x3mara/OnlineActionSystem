@@ -22,7 +22,7 @@ app.use(session({
 }));
 
 app.get('/', (req, res) => {
-  res.render('AuctionDetails');
+  res.render('WishlistedAuctions');
 });
 
 app.post('/landpage', (req, res) => {
@@ -69,6 +69,14 @@ app.get('/clientdashboard', (req, res) => {
   res.render('ClientDashboard', {
   });
 }); 
+app.post('/wishlistedauctions', (req, res) => {
+  res.render('WishlistedAuctions', {
+  });
+});
+app.get('/wishlistedauctions', (req, res) => {
+  res.render('WishlistedAuctions', {
+  });
+});
 
 app.post('/SignUpI', ControllerCL.register.bind(ControllerCL));
 

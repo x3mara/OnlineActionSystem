@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <%- include('./partials/navbar.ejs') %>
+    <main class="dashboard-main">
+        <h2>Wishlisted Auctions</h2>
+        <div class="wishlisted">
+            <div class="section-header">
+                <h3>Recommended Auctions</h3>
+                <a class="view-all" href="#">view all auctions →</a>
+            </div>
+            <div class="wishlist-grid">
+                <!-- Recommended auction cards -->
+                <article class="rec-card">
+                    <div class="card-media">
+                        <span class="time">01:45:15</span>
+                        <button class="fav">❤</button>
+                        <img src="images/SignUpHero.png" alt="item" />
+                        <div class="seller-tag">seller</div>
+                    </div>
+                    <div class="card-body">
+                        <h4>Item Name</h4>
+                        <p class="desc">Short description of the item goes here.</p>
+                        <div class="tags"><span class="tag">Tag1</span><span class="tag">Tag2</span></div>
+                        <div class="current-bid">$300</div>
+                    </div>
+                </article>
+
+                <article class="rec-card">
+                    <div class="card-media">
+                        <span class="time">02:10:05</span>
+                        <button class="fav">❤</button>
+                        <img src="images/SignUpHero2.png" alt="item2" />
+                        <div class="seller-tag">seller2</div>
+                    </div>
+                    <div class="card-body">
+                        <h4>Another Item</h4>
+                        <p class="desc">Another short description.</p>
+                        <div class="tags"><span class="tag">TagA</span><span class="tag">TagB</span></div>
+                        <div class="current-bid">$120</div>
+                    </div>
+                </article>
+            </div>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', ()=>{
+                // Toggle heart active state
+                document.querySelectorAll('.card-media .fav').forEach(btn=>{
+                    btn.setAttribute('role','button');
+                    btn.setAttribute('tabindex','0');
+                    btn.addEventListener('click', e=>{
+                        e.stopPropagation();
+                        btn.classList.toggle('active');
+                        btn.setAttribute('aria-pressed', btn.classList.contains('active'));
+                    });
+                    btn.addEventListener('keydown', e=>{ if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); btn.click(); } });
+                });
+
+                // Make cards keyboard clickable without changing layout
+                document.querySelectorAll('.rec-card').forEach(card=>{
+                    card.setAttribute('tabindex','0');
+                    card.addEventListener('click', ()=>{ /* placeholder: open details */ console.log('Card clicked'); });
+                    card.addEventListener('keydown', e=>{ if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); } });
+                });
+            });
+         </script>
+        </main>
+     </body>
+
+</html>
