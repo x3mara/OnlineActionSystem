@@ -63,10 +63,12 @@ app.get('/sellitem', (req, res) => {
 });
 app.post('/clientdashboard', (req, res) => {
   res.render('ClientDashboard', {
+    username: req.body.username,
+    email: req.body.email
   });
 });
 app.get('/clientdashboard', (req, res) => {
-  res.render('ClientDashboard', {
+  res.render('ClientDashboard', { username: '', email: ''
   });
 }); 
 app.post('/wishlistedauctions', (req, res) => {
