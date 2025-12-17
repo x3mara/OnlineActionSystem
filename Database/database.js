@@ -17,10 +17,11 @@ export async function insert(tableName,data){
     return rows;
 }
 export async function viewAllAuctions(){
-  const sql = 'select * from auction';
+  const sql = 'select auctions.*, users.username as highest_bidder_name from auction join users on auctions.highest_bidder = users.id';
   const [rows] =await pool.query(sql);
   return rows;
 }
+
 export async function searchUser(username){
   const sql = 'select * from users where username =?';
   const [rows] = await pool.query(sql, [username]);
@@ -127,11 +128,13 @@ export async function searchItem(item_id){
   const [rows] = await pool.query(sql, [item_id]);
   return rows;
 }
+
 export async function getEverythingWithItem(auctionID){
   const sql = 'select auction.* , item.* from auction join item on auction.item_id = item.id where auction.id =?';
   const [rows] = await pool.query(sql, [auctionID]);
   return rows;
 }
+
 export async function searchWalletbyid(id){
   const sql = 'select wallet.* from wallet join users on wallet.user_id = users.id where users.id =?';
   const [rows] = await pool.query(sql, [id]);
