@@ -23,7 +23,92 @@
 
                 <div class="balance">$<span id="balance">300</span></div>
                 <div class="profile">
-                    <div class="avatar">U</div>
+                    <button class="avatar" aria-haspopup="true" aria-expanded="false">U</button>
+                    <div class="profile-dropdown" aria-hidden="true">
+                        <div class="pd-row pd-row--header">
+                            <div class="pd-avatar">U</div>
+                            <div class="pd-user">
+                                <div class="pd-name">Username</div>
+                                <div class="pd-email">user@example.com</div>
+                            </div>
+                        </div>
+                        <hr class="pd-sep" />
+                        <div class="pd-row pd-row--actions">
+                            <button class="pd-btn">Manage Profile</button>
+                            <button class="pd-btn">My Auctions</button>
+                            <button class="pd-btn">Sold items</button>
+                            <button class="pd-btn">Wishlist</button>
+                            <button class="pd-btn">My wallet</button>
+                        </div>
+                        <hr class="pd-sep" />
+                        <div class="pd-row pd-row--logout">
+                            <a href="/landpage">
+                            <button class="pd-btn pd-logout">Log out</button>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
     </header>
+                <script>
+                    (function(){
+                        const avatar = document.querySelector('.profile .avatar');
+                        const dropdown = document.querySelector('.profile .profile-dropdown');
+                        if(!avatar || !dropdown) return;
+
+                        function positionDropdown(){
+                            const rect = avatar.getBoundingClientRect();
+                            const pad = 8;
+                            // place dropdown under avatar, aligned to avatar's right edge
+                            const top = rect.bottom + pad + window.scrollY;
+                            let left = rect.right - dropdown.offsetWidth + window.scrollX;
+                            // keep within viewport
+                            if(left < 8) left = 8;
+                            if(left + dropdown.offsetWidth > window.innerWidth - 8){
+                                left = Math.max(8, window.innerWidth - dropdown.offsetWidth - 8);
+                            }
+                            dropdown.style.top = top + 'px';
+                            dropdown.style.left = left + 'px';
+                        }
+
+                        document.addEventListener('click', function(e){
+                            // Toggle when clicking avatar
+                            if(avatar.contains(e.target)){
+                                const open = dropdown.classList.toggle('show');
+                                avatar.setAttribute('aria-expanded', open? 'true':'false');
+                                dropdown.setAttribute('aria-hidden', open? 'false':'true');
+                                if(open){
+                                    // compute position after it's visible to get correct width
+                                    dropdown.style.display = 'block';
+                                    // small timeout to ensure styles/layout applied
+                                    requestAnimationFrame(positionDropdown);
+                                } else {
+                                    dropdown.style.display = 'none';
+                                }
+                                return;
+                            }
+
+                            // Close when clicking outside
+                            if(!dropdown.contains(e.target)){
+                                dropdown.classList.remove('show');
+                                avatar.setAttribute('aria-expanded','false');
+                                dropdown.setAttribute('aria-hidden','true');
+                                dropdown.style.display = 'none';
+                            }
+                        });
+
+                        // Close on Escape
+                        document.addEventListener('keydown', function(e){
+                            if(e.key === 'Escape'){
+                                dropdown.classList.remove('show');
+                                avatar.setAttribute('aria-expanded','false');
+                                dropdown.setAttribute('aria-hidden','true');
+                                dropdown.style.display = 'none';
+                            }
+                        });
+
+                        // Reposition on resize/scroll while open
+                        window.addEventListener('resize', ()=>{ if(dropdown.classList.contains('show')) positionDropdown(); });
+                        window.addEventListener('scroll', ()=>{ if(dropdown.classList.contains('show')) positionDropdown(); });
+                    })();
+                </script>

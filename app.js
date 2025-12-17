@@ -25,6 +25,15 @@ app.get('/', (req, res) => {
   res.render('AuctionDetails');
 });
 
+app.post('/landpage', (req, res) => {
+  res.render('Landpage', {
+  });
+});
+app.get('/landpage', (req, res) => {
+  res.render('Landpage', {
+  });
+});
+
 app.post('/signup', (req, res) => {
   res.render('SignUp', {
     username: req.body.username
