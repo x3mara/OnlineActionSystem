@@ -21,6 +21,12 @@ app.use(session({
   saveUninitialized: true
 }));
 
+app.use((req, res, next) => {
+  res.locals.username = req.session.user?.username;
+  res.locals.email = req.session.user?.email;
+  next();
+});
+
 app.get('/', (req, res) => {
   res.render('AuctionDetails');
 });
@@ -76,9 +82,11 @@ app.get('/clientdashboard', (req, res) => {
     return res.redirect('/landpage');
   }
   res.render('ClientDashboard', {
-    username: req.session.user.username, email: req.session.user.email
+    username: req.session.user.username,
+    email: req.session.user.email
   });
 });
+
 app.post('/wishlistedauctions', (req, res) => {
   res.render('WishlistedAuctions', {
   });
