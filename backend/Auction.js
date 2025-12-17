@@ -2,6 +2,7 @@ import Bid from "./Bid.js";
 import Client from "./Client.js";
 import clientController from "../controllers/clientController.js";
 import walletController from "../controllers/walletController.js";
+import {insert} from "../Database/database.js";
 
 export default class Auction {
     auctionID;//int
@@ -43,7 +44,7 @@ export default class Auction {
         return -2; //auction ended
     }
     if (searchItem(searchAuctions(AuctionID).item_id).BuyoutPrice<= Amount) {
-        Buyout(clientController.sessionClient, AuctionID);
+        Buyout(req.session.user, AuctionID);
         return 1; //buyout successful
     }
     if(Amount < searchBids(AuctionID)/*get the highest bid amount currently*/ || Amount > clientController.sessionClient.wallet.balance) {
