@@ -22,7 +22,7 @@ app.use(session({
 }));
 
 app.get('/', (req, res) => {
-  res.render('WishlistedAuctions');
+  res.render('AuctionDetails');
 });
 
 app.post('/landpage', (req, res) => {

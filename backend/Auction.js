@@ -4,7 +4,7 @@ import clientController from "../controllers/clientController.js";
 import walletController from "../controllers/walletController.js";
 
 export default class Auction {
-    auctionID;//string
+    auctionID;//int
     suspicious;//int
     AuctionedItem;//string (itemID)
     duetime;//datetime
