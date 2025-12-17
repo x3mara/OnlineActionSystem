@@ -33,6 +33,7 @@ export default class clientController{
         req.session.wallet = sessionWallet;
         req.session.user = sessionClient;
         return res.render('ClientDashboard' ,{username : username});
+
     }
 
     async login(req, res){
@@ -59,5 +60,10 @@ export default class clientController{
         let points = client[0].points;
         let level = client[0].level;
         res.render("nameOfScreen",{userIDdisplay, usernamedisplay, emaildisplay, points, level});
+    }
+
+    async viewAllAuctions(req, res){
+        const auctions = await  Client.viewAllAuctions();
+        res.render("nameOfScreen", { auctions });
     }
 }
