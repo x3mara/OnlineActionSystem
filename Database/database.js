@@ -17,10 +17,11 @@ export async function insert(tableName,data){
     return rows;
 }
 export async function viewAllAuctions(){
-  const sql = 'select * from auction';
+  const sql = 'select auction.*, users.username as highest_bidder_name from auction join users on auction.highest_bidder = users.id';
   const [rows] =await pool.query(sql);
   return rows;
 }
+
 export async function searchUser(username){
   const sql = 'select * from users where username =?';
   const [rows] = await pool.query(sql, [username]);
@@ -123,17 +124,19 @@ export async function searchAuction(auctionID){
   return rows;
 }
 export async function searchItem(item_id){
-  const sql = `SELECT item.*, itemimg.itemimg FROM item LEFT JOIN itemimg ON item.id = itemimg.item_id WHERE item.id = ? `;
+  const sql = `SELECT item.*' FROM item WHERE item.id =?`;
   const [rows] = await pool.query(sql, [item_id]);
   return rows;
 }
+
 export async function getEverythingWithItem(auctionID){
   const sql = 'select auction.* , item.* from auction join item on auction.item_id = item.id where auction.id =?';
   const [rows] = await pool.query(sql, [auctionID]);
   return rows;
 }
-export async function searchWalletbyusername(username){
-  const sql = 'select wallet.* from wallet join users on wallet.user_id = users.id where users.username =?';
-  const [rows] = await pool.query(sql, [username]);
+
+export async function searchWalletbyid(id){
+  const sql = 'select wallet.* from wallet join users on wallet.user_id = users.id where users.id =?';
+  const [rows] = await pool.query(sql, [id]);
   return rows;
 }
