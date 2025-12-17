@@ -35,13 +35,13 @@ CREATE TABLE clients(
   foreign key(current_cosmetic) references cosmetic(id)
 );
 CREATE TABLE wallet(
-wallet_id int primary key,
+wallet_id BIGINT primary key,
 user_id varchar(14) unique,
 balance integer,
 foreign key (user_id)  references users(id)
 );
 create table auction(
-id integer primary key,
+id BIGINT primary key,
 sus_counter integer,
 suspended boolean,
 item_id integer,
@@ -56,7 +56,7 @@ create table bid(
 id integer primary key auto_increment,
 bidamount integer,
 bidtime timestamp default now(),
-auction_id integer,
+auction_id BIGINT,
 users_id varchar(14),
 foreign key (auction_id) references auction(id),
 foreign key (users_id) references users(id)
@@ -86,8 +86,9 @@ foreign key (user_id) references users(id)
 );
 create table wishlist(
 id integer primary key auto_increment,
-auction_id integer,
+auction_id BIGINT,
 user_id varchar(14),
 foreign key (auction_id) references auction(id),
 foreign key(user_id) references users(id)
 );
+drop DATABASE auction_system;
