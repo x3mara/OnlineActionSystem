@@ -124,7 +124,7 @@ export async function searchAuction(auctionID){
   return rows;
 }
 export async function searchItem(item_id){
-  const sql = `SELECT item.*, itemimg.itemimg FROM item LEFT JOIN itemimg ON item.id = itemimg.item_id WHERE item.id = ? `;
+  const sql = `SELECT item.*' FROM item WHERE item.id =?`;
   const [rows] = await pool.query(sql, [item_id]);
   return rows;
 }
