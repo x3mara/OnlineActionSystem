@@ -33,25 +33,27 @@ export default class User{
     setPassword(password){this.#password = password;}
     setEmail(email){this.#email = email;}
     getEmail(){return this.#email;}
+    setUserID(userID){this.#userID = userID;}
 
 
     static async searchUser(inputUsername){
-        [rows] = await searchUser(inputUsername);
+        rows = await searchUser(inputUsername);
         return rows;
     }
- static async searchClient(inputUsername){
+    static async searchClient(inputUsername){
         rows = await searchClientbyusername(inputUsername);
         return rows;
     }
 
    static async verifyLogin(inputUsername, inputPassword){
-        [rows] = await User.searchUser(inputUsername);
+        rows = await User.searchUser(inputUsername);
         if(rows.length === 0){
             return null;
         }
         else if (rows[0].userID[0] === 'a'){
             if(rows[0].password === inputPassword){
             sessionadmin = new Admin();
+            sessionadmin.setUserID(rows[0].userID);
             sessionadmin.setUsername(rows[0].username);
             sessionadmin.setPassword(rows[0].password);
             sessionadmin.setEmail(rows[0].email);
@@ -63,8 +65,9 @@ export default class User{
         }
         else{
             if(rows[0].password === inputPassword){
-                [rows2] = await searchClient(inputUsername);
+                rows2 = await searchClient(inputUsername);
                 sessionclient = new Client();
+                sessionclient.setUserID(rows2[0].userID);
                 sessionclient.setUsername(rows2[0].username);
                 sessionclient.setPassword(rows2[0].password);
                 sessionclient.setEmail(rows2[0].email);

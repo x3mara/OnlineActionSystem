@@ -7,22 +7,18 @@ export default class clientController{
     async register(req, res){
         const { username,email, password} = req.body;
         if (password.length<8){
-            //handle responses
             res.render('SignUp' , {success: false, field: "password", message: "Password must be at least 8 characters long"});
         }
         if (password.length>50){
-            //handle responses
             res.render('SignUp' , {success: false, field: "password", message: "Password must be less than 50 characters long"});
         }
         if (email.length<5 || !email.includes('@')){
-            //handle responses
             res.render('SignUp' , {success: false, field: "email", message: "Invalid email address"});
         }
         const sessionWallet = new Wallet();
         let sessionClient = await Client.insertClient(username, password, email, sessionWallet.getWalletID());
         
         if (sessionClient == null){
-            //handle responses
             sessionWallet=null;
             res.render('SignUp' , {success: false, field: "username", message: "Username already exists"});
         }
@@ -34,20 +30,18 @@ export default class clientController{
     }
 
     async login(req, res){
-        const { inputUsername, inputPassword } = req.body;
-        this.sessionClient = await User.verifyLogin(inputUsername, inputPassword);
-        if (this.sessionClient === false) {
-            //handle responses
-            return { success: false, field: "password", message: "Incorrect password" };
+        const { username, password } = req.body;
+        const sessionClient = await User.verifyLogin(username, password);
+        if (sessionClient === false) {
+            res.render('Login' , { success: false, field: "password", message: "Incorrect password" });
         } 
-        else if (this.sessionClient === null) {
-            //handle responses
-            return { success: false, field: "username", message: "Username does not exist" };
+        else if (sessionClient === null) {
+            res.render('Login' , { success: false, field: "username", message: "Username does not exist" });
         } 
         else {
-            req.session.user = this.sessionClient;
-            req.session.wallet = await Wallet.fetchWallet(this.sessionClient.getUsername());
-            res.render('ClientDashboard');
+            req.session.user = sessionClient;
+            req.session.wallet = await Wallet.fetchWallet(sessionClient.getUsername());
+            res.render('ClientDashboard', { success: true, field: "", message: "Successfully logged in" });
         }
     }
 }
