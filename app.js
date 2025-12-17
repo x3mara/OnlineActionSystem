@@ -61,13 +61,6 @@ app.get('/sellitem', (req, res) => {
   res.render('SellItem', {
   });
 });
-const session = require('express-session');
-
-app.use(session({
-  secret: 'secret_key',
-  resave: false,
-  saveUninitialized: true
-}));
 
 app.post('/clientdashboard', (req, res) => {
   req.session.user = {
