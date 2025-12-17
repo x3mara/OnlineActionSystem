@@ -73,6 +73,11 @@ export async function updatehighestbid(auctionID,users_id,amount){
   const [rows] = await pool.query(sql, [users_id,amount,auctionID]);
   return rows;
 }
+export async function updateduedate(auctionID,newduedate){
+  const sql = 'update auction set due_date =? where id =?';
+  const [rows] = await pool.query(sql, [newduedate,auctionID]);
+  return rows;
+}
 export async function updatesuscounteruser(id){
 const sql = 'update clients set suscounter = suscounter +1 where user_id =?';
 const [rows] = await pool.query(sql, [id]);
