@@ -42,8 +42,13 @@ export default class clientController{
             points:sessionClient.getpoints(),
             levels:sessionClient.getLevel()
         }
+        sqlObjectWallet= {
+            wallet_id:sessionWallet.getWalletID(),
+            balance:sessionWallet.getBalance(),
+            user_id:sessionClient.getUserID()
+        }
 
-        Wallet.insertWallet(sqlObjectWallet);
+        await Wallet.insertWallet(sqlObjectWallet);
         req.session.wallet = FEsessionWallet;
         req.session.user = FEsessionClient;
         res.render('ClientDashboard' , {success: true, field: "", message: "Successfully registered"});
