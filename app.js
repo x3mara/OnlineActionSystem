@@ -81,8 +81,12 @@ app.get('/clientdashboard', (req, res) => {
   if (!req.session.user) {
     return res.redirect('/landpage');
   }
-  res.render('ClientDashboard', );
+  res.render('ClientDashboard', {
+    username: req.session.user.username,
+    email: req.session.user.email
+  });
 });
+
 app.post('/wishlistedauctions', (req, res) => {
   res.render('WishlistedAuctions', {
   });
