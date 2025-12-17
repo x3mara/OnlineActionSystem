@@ -13,10 +13,10 @@ id integer primary key,
 item_name varchar(200),
 item_desc varchar(255),
 item_tag ENUM('Game','Furniture','Accessories','Electronics','Vehicles'),
-itemimg BLOB,
 buy_out_price integer,
 starting_price integer
 );
+
 create table cosmetic(
 id integer primary key,
 cosmetic_name varchar(200),
@@ -98,4 +98,4 @@ itemimg varchar(255),
 foreign key (item_id) references item(id)
 );
 
-drop DATABASE auction_system;
+drop database auction_system;

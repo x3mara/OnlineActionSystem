@@ -122,3 +122,8 @@ export async function searchAuction(auctionID){
   const [rows] = await pool.query(sql, [auctionID]);
   return rows;
 }
+export async function searchItem(item_id){
+  const sql = 'select * from item where id =?';
+  const [rows] = await pool.query(sql, [item_id]);
+  return rows;
+}
