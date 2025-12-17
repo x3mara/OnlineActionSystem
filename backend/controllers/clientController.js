@@ -16,7 +16,7 @@ export default class clientController{
         if (email.length<5 || !email.includes('@')){
             res.render('SignUp' , {success: false, field: "email", message: "Invalid email address"});
         }
-        const sessionWallet = new Wallet();
+        let sessionWallet = new Wallet();
         let sessionClient = await Client.insertClient(username, password, email, sessionWallet.getWalletID());
         sessionWallet.setUserID(sessionClient.getUserID());
         
@@ -24,15 +24,28 @@ export default class clientController{
             sessionWallet=null;
             res.render('SignUp' , {success: false, field: "username", message: "Username already exists"});
         }
-            const sqlObjectWallet={
-                wallet_id:sessionWallet.getWalletID(),
-                balance:sessionWallet.getBalance(),
-                user_id:sessionClient.getUserID()
+        const FEsessionWallet={
+            wallet_id:sessionWallet.getWalletID(),
+            balance:sessionWallet.getBalance(),
+            user_id:sessionClient.getUserID()
 
-            }
+        }
+        const FEsessionClient={
+            user_id:sessionClient.getUserID(),
+            username:sessionClient.getUsername(),
+            email:sessionClient.getEmail(),
+            password:sessionClient.getPassword(),
+            wallet_id:sessionWallet.getWalletID(),
+            suscounter:sessionClient.getSuspicious(),
+            suspended:sessionClient.getSuspended(),
+            current_cosmetic:sessionClient.getCurrentCosmetic(),
+            points:sessionClient.getpoints(),
+            levels:sessionClient.getLevel()
+        }
+
         Wallet.insertWallet(sqlObjectWallet);
-        req.session.wallet = sessionWallet;
-        req.session.user = sessionClient;
+        req.session.wallet = FEsessionWallet;
+        req.session.user = FEsessionClient;
         res.render('ClientDashboard' , {success: true, field: "", message: "Successfully registered"});
     }
 

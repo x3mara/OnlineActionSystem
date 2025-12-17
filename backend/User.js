@@ -7,14 +7,6 @@ export default class User{
     #email;
     #role;      
 
-    toSQL(){
-        return{
-        id:this.#userID,
-        username:this.#username,
-        roles:'Client',
-        password:this.#password,
-        email:this.#email};
-    }
 
     constructor(username, password, email){
         this.#userID = 'u' + Math.trunc((Math.random() + Date.now()));

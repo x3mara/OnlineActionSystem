@@ -13,16 +13,6 @@ export default class Auction {
     startingPrice;//float
     seller;//string (clientID)
 
-    toSQL(){
-        return{
-        id: this.auctionID,
-        sus_counter: this.suspicious, //sus counter
-        suspended: false, //OA Reference
-        item_id: this.AuctionedItem,
-        highest_bidder: this.highestBidder,
-        due_date: this.duetime,
-        seller_id: this.seller};
-    }
 
 
     constructor(auctionId,AuctionedItem, duetime, seller, startingPrice) {
