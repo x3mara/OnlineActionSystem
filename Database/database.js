@@ -132,8 +132,8 @@ export async function getEverythingWithItem(auctionID){
   const [rows] = await pool.query(sql, [auctionID]);
   return rows;
 }
-export async function searchWalletbyusername(username){
-  const sql = 'select wallet.* from wallet join users on wallet.user_id = users.id where users.username =?';
-  const [rows] = await pool.query(sql, [username]);
+export async function searchWalletbyid(id){
+  const sql = 'select wallet.* from wallet join users on wallet.user_id = users.id where users.id =?';
+  const [rows] = await pool.query(sql, [id]);
   return rows;
 }
