@@ -16,20 +16,16 @@ export default class clientController{
         if (email.length<5 || !email.includes('@')){
             res.render('SignUp' , {success: false, field: "email", message: "Invalid email address"});
         }
+        let sessionClient = await Client.insertClient(username, password, email);
         const sessionWallet = new Wallet();
-        let sessionClient = await Client.insertClient(username, password, email, sessionWallet.getWalletID());
-        sessionWallet.setUserID(sessionClient.getUserID());
-        
+
         if (sessionClient == null){
             sessionWallet=null;
             res.render('SignUp' , {success: false, field: "username", message: "Username already exists"});
+            return;
         }
-            const sqlObjectWallet={
-                wallet_id:sessionWallet.getWalletID(),
-                balance:sessionWallet.getBalance(),
-                user_id:sessionClient.getUserID()
-
-            }
+         sessionWallet.setUserID(sessionClient.getUserID());
+        let sqlObjectWallet= sessionWallet.toSQL();
         Wallet.insertWallet(sqlObjectWallet);
         req.session.wallet = sessionWallet;
         req.session.user = sessionClient;

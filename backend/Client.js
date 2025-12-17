@@ -10,7 +10,6 @@ export default class Client extends User{
     #suspended; //bool
     #points; //int
     #level; //int
-    #walletID; //string
     #currentCosmetic; //string
 
     toSQL(){
@@ -24,13 +23,12 @@ export default class Client extends User{
         
     }
 
-    constructor(username, password, email, walletID){
+    constructor(username, password, email){
         super(username, password, email);
         this.#suspicious = 0;
         this.#suspended = false;
         this.#points = 0;
         this.#level = 0;
-        this.#walletID = walletID;
     }
 
     //setters and getters
@@ -38,7 +36,6 @@ export default class Client extends User{
     getSuspended(){return this.#suspended;}
     getpoints(){return this.#points;}
     getLevel(){return this.#level;}
-    getWalletID(){return this.#walletID;}
 
     incrementSuspicious(){this.#suspicious++ ;}
     setSuspended(suspended){this.#suspended = suspended;}
@@ -48,10 +45,10 @@ export default class Client extends User{
     
 
 
-    static async insertClient(inputUsername, inputPassword, inputEmail, walletID){
+    static async insertClient(inputUsername, inputPassword, inputEmail){
         const rows = await User.searchClient(inputUsername);
         if(rows.length === 0){
-            const sessionClient = new Client(inputUsername, inputPassword, inputEmail, walletID);
+            const sessionClient = new Client(inputUsername, inputPassword, inputEmail);
             const sqlObject= sessionClient.toSQL();
             const sqlObjectUser={
                 id: sessionClient.getUserID(),
