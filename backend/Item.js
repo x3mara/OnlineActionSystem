@@ -1,3 +1,5 @@
+import { getImgs, searchItem } from "../Database/database.js";
+
 export default class Item {
     itemID;
     itemName;
@@ -27,6 +29,16 @@ export default class Item {
 
     showItem(itemID) {
         //implementation to show item details
+    }
+
+    static async getItemthroughID(itemID) {    
+        const obj = await searchItem(itemID);
+        return obj
+    }
+
+    static async getItemImgId(itemID) {
+        const obj = await getImgs(itemID); //change ths later
+        return obj;
     }
 
 }

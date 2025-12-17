@@ -33,17 +33,23 @@ export default class clientController{
 
         let auctions = await Client.viewAllAuctions();
         let AuItems = [];
+        let ItemImages = [];
 
         auctions.forEach( (auction) => {
             AuItems.push( Item.getItemthroughID(auction.itemID) );
         });
 
+        AuItems.forEach( (item) => {
+            ItemImages.push( Item.getItemImgId(item.itemID) );
+        });
+
         const combinedData = auctions.map((auction, index) => ({
             auction: auction,      
-            item: AuItems[index]      
+            item: AuItems[index],
+            ItemImage: ItemImages[index]     
         }));
         
-        return res.render('ClientDashboard' ,{username : username , recommendedAuctions : combinedData} );
+        return res.render('ClientDashboard' ,{username : username , recommendedAuctions : combinedData , wishlistedAuctions:combinedData} );
     }
 
     async login(req, res){

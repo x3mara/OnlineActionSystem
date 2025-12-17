@@ -13,6 +13,7 @@ export default class Auction {
     highestBidder;//string (clientID)
     startingPrice;//float
     seller;//string (clientID)
+    highest_bid;//integer
 
     toSQL(){
         return{
@@ -22,7 +23,8 @@ export default class Auction {
         item_id: this.AuctionedItem,
         highest_bidder: this.highestBidder,
         due_date: this.duetime,
-        seller_id: this.seller};
+        seller_id: this.seller,
+        highest_bid: this.highest_bid};
     }
 
 
@@ -35,6 +37,7 @@ export default class Auction {
         this.suspended = false;
         this.startingPrice = startingPrice;
         this.highestBidder = null;
+        this.highest_bid = startingPrice;
     }
 
 
@@ -121,5 +124,4 @@ export default class Auction {
     async getHighestBidder() {
         return this.highestBidder;
     }   
-
 }
