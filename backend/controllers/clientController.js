@@ -16,23 +16,19 @@ export default class clientController{
         if (email.length<5 || !email.includes('@')){
             return res.render('SignUp' , {success: false, field: "email", message: "Invalid email address"});
         }
+        let sessionClient = await Client.insertClient(username, password, email);
         const sessionWallet = new Wallet();
-        let sessionClient = await Client.insertClient(username, password, email, sessionWallet.getWalletID());
-        sessionWallet.setUserID(sessionClient.getUserID());
-        
+
         if (sessionClient == null){
             sessionWallet=null;
             return res.render('SignUp' , {success: false, field: "username", message: "Username already exists"});
         }
-            const sqlObjectWallet={
-                wallet_id:sessionWallet.getWalletID(),
-                balance:sessionWallet.getBalance(),
-                user_id:sessionClient.getUserID()
-            }
+        const sqlObjectWallet= sessionWallet.toSQL();
         Wallet.insertWallet(sqlObjectWallet);
         req.session.wallet = sessionWallet;
         req.session.user = sessionClient;
         return res.render('ClientDashboard' ,{username : username});
+
     }
 
     async login(req, res){
@@ -59,5 +55,10 @@ export default class clientController{
         let points = client[0].points;
         let level = client[0].level;
         res.render("nameOfScreen",{userIDdisplay, usernamedisplay, emaildisplay, points, level});
+    }
+
+    async viewAllAuctions(req, res){
+        const auctions = await  Client.viewAllAuctions();
+        res.render("nameOfScreen", { auctions });
     }
 }

@@ -9,7 +9,7 @@ export default class Wallet{
         return{
         wallet_id:this.#walletID,
         balance:this.#balance,
-        user_id:this.userID};
+        user_id:this.#userID};
     }
     
     constructor(){
