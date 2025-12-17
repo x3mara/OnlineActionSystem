@@ -117,3 +117,8 @@ export async function getImgs(item_id){
   const [rows] = await pool.query(sql, [item_id]);
   return rows;
 }
+export async function saerchAuction(auctionID){
+  const sql = 'select * from auction where id =?';
+  const [rows] = await pool.query(sql, [auctionID]);
+  return rows;
+}
