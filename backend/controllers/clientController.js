@@ -27,30 +27,47 @@ export default class clientController{
         }
         const sqlObjectWallet= sessionWallet.toSQL();
         Wallet.insertWallet(sqlObjectWallet);
+
         req.session.wallet = sessionWallet;
         req.session.user = sessionClient;
 
 
         let auctions = await Client.viewAllAuctions();
-        let AuItems = [];
-        let ItemImages = [];
 
-        auctions.forEach( (auction) => {
-            AuItems.push( Item.getItemthroughID(auction.itemID) );
-        });
-
-        AuItems.forEach( (item) => {
-            ItemImages.push( Item.getItemImgId(item.itemID) );
-        });
-
-        const combinedData = auctions.map((auction, index) => ({
-            auction: auction,      
-            item: AuItems[index],
-            ItemImage: ItemImages[index]     
-        }));
+        const itemPromises = auctions.map(auction => 
+            Item.getItemthroughID(auction.item_id) 
+        );
         
-        return res.render('ClientDashboard' ,{username : username , recommendedAuctions : combinedData , wishlistedAuctions:combinedData} );
-    }
+        const AuItems = await Promise.all(itemPromises);
+        
+        // Fetch images for each item
+        const imagePromises = AuItems.map(item => 
+            Item.getItemImgId(item ? item.id : null)
+        );
+        const ItemImages = await Promise.all(imagePromises);
+        
+        // Combine data with proper structure
+        const combinedData = auctions.map((auction, index) => {
+            const item = AuItems[index] || {};
+            const images = ItemImages[index] || [];
+            
+            return {
+                auction: auction,      
+                item: item,
+                ItemImage: images.length > 0 ?
+                images.map(img => img.itemimg):
+                '/OnlineActionSystem/Public/images/SignUpHero.png' // Get first image
+            };
+        });
+        
+        return res.render('ClientDashboard', {
+            username: username, 
+            recommendedAuctions: combinedData,
+            wishlistedAuctions: [] // Empty for now
+        });
+        
+    } 
+
 
     async login(req, res){
         const { username, password } = req.body;
@@ -64,9 +81,35 @@ export default class clientController{
         else {
             req.session.user = sessionClient;
             req.session.wallet = await Wallet.fetchWallet(sessionClient.getUsername());
-            let auctions = await Client.viewAllAuctions();
-            return res.render('ClientDashboard', { username: username , recommendedAuctions : auctions , wishlistedAuctions : []} );
-        }
+             let auctions = await Client.viewAllAuctions();
+            
+            const itemPromises = auctions.map(auction => 
+                Item.getItemthroughID(auction.item_id)
+            );
+            const AuItems = await Promise.all(itemPromises);
+            
+            const imagePromises = AuItems.map(item => 
+                Item.getItemImgId(item ? item.id : null)
+            );
+            const ItemImages = await Promise.all(imagePromises);
+            
+            const recommendedAuctions = auctions.map((auction, index) => {
+                const item = AuItems[index] || {};
+                const images = ItemImages[index] || [];
+                
+                return {
+                    auction: auction,
+                    item: item,
+                    ItemImage: images.length > 0 ? images[0].itemimg : '/OnlineActionSystem/Public/images/SignUpHero.png'
+                };
+            });
+            
+            return res.render('ClientDashboard', { 
+                username: username, 
+                recommendedAuctions: recommendedAuctions, 
+                wishlistedAuctions: [] 
+            });
+        }        
     }
 
     async showCredentials(req, res){
