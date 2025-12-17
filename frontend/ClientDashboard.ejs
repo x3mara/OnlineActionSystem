@@ -77,7 +77,7 @@
                     aria-label="<%= //a.isWishlisted ? 'Remove from wishlist' : 'Add to wishlist' %>"
                     >❤</button> -->
 
-                    <img src="<%=a.ItemImage %>" alt="<%= a.item.item_name %>" />
+                    <img src="/Public/images/3mara404.jpg" alt="<%= a.item.item_name %>" />
                     <div class="seller-tag"><%= a.auction.sellerName %></div>
                 </div>
 
@@ -95,8 +95,8 @@
             <% }) %>
             </div>
         </div>
-    <!--
 
+        <!-- Wishlisted -->
         <div class="recommended" style="margin-top: 22px;">
           <div class="section-header">
             <h3>Wishlisted Auctions</h3>
@@ -104,15 +104,16 @@
           </div>
 
           <div class="grid" id="wishlistedGrid">
-            <% //if (wishlistedAuctions && wishlistedAuctions.length) { %>
-                <% //wishlistedAuctions.forEach(a => { %>
-                <article class="rec-card" data-auction-id="<%= //a.auction.id  %>">
+            <% if (wishlistedAuctions && wishlistedAuctions.length) { %>
+                <% wishlistedAuctions.forEach(a => { %>
+                <article class="rec-card" data-auction-id="<%= a.id %>">
                     <div class="card-media">
                     <span
                         class="time js-timer"
-                        data-end="<%= //a.auction.due_date %>"
+                        data-end="<%= a.endAtISO %>"
                     >--:--:--</span>
                     
+                    <!--
                     <button
                         class="fav js-fav is-active"
                         type="button"
@@ -121,33 +122,33 @@
                     >
                         ❤
                     </button>
-                    
-                    <img src="<%=// a.ItemImage[0] %>" alt="<%= //a.item.item_name %>" />
 
-                    <div class="seller-tag"><%= //a.auction.sellerName %></div>
+                     -->
+                    <img src="<%= a.image %>" alt="<%= a.title %>" />
+
+                    <div class="seller-tag"><%= a.sellerName %></div>
                     </div>
 
                     <div class="card-body">
-                    <h4><%=// a.item.item_name %></h4>
+                    <h4><%= a.title %></h4>
 
-                    <p class="desc"><%=// a.item.item_desc %></p>
+                    <p class="desc"><%= a.description %></p>
 
                     <div class="tags">
-                        <span class="tag"><%= //a.item.item_tag %></span>
+                        <span class="tag"><%= a.tag %></span>
                     </div>
 
                     <div class="current-bid">
-                        $<%= //a.auction.highest_bid %>
+                        $<%= a.currentBid %>
                     </div>
                 </div>
                 </article>
-                <%// }) %>
-            <%// } else { %>
+                <% }) %>
+            <% } else { %>
                 <p style="opacity:.7; margin:0;">No wishlisted auctions yet.</p>
-            <%// } %>
-            </div> 
+            <% } %>
+            </div>
         </div>
-    -->
       </section>
     </main>
 
@@ -196,14 +197,13 @@
       setInterval(tickTimers, 1000);
 
       // Heart toggle (works for both grids)
-      document.addEventListener('click', (e) => {
-        const btn = e.target.closest('.js-fav');
-        if (!btn) return;
+      //document.addEventListener('click', (e) => {
+        //const btn = e.target.closest('.js-fav');
+        //if (!btn) return;
 
-        const active = btn.classList.toggle('is-active');
-        btn.setAttribute('aria-pressed', active ? 'true' : 'false');
-        btn.setAttribute('aria-label', active ? 'Remove from wishlist' : 'Add to wishlist');
-      });
+        //const active = btn.classList.toggle('is-active');
+        //btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+        //btn.setAttribute('aria-label', active ? 'Remove from wishlist' : 'Add to wishlist');});
     </script>
   </body>
 </html>
