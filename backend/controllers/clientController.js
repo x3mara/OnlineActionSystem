@@ -42,7 +42,7 @@ export default class clientController{
             points:sessionClient.getpoints(),
             levels:sessionClient.getLevel()
         }
-        sqlObjectWallet= {
+        const sqlObjectWallet= {
             wallet_id:sessionWallet.getWalletID(),
             balance:sessionWallet.getBalance(),
             user_id:sessionClient.getUserID()
