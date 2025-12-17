@@ -123,12 +123,17 @@ export async function searchAuction(auctionID){
   return rows;
 }
 export async function searchItem(item_id){
-  const sql = 'select * from item where id =?';
+  const sql = `SELECT item.*, itemimg.itemimg FROM item LEFT JOIN itemimg ON item.id = itemimg.item_id WHERE item.id = ? `;
   const [rows] = await pool.query(sql, [item_id]);
   return rows;
 }
 export async function getEverythingWithItem(auctionID){
   const sql = 'select auction.* , item.* from auction join item on auction.item_id = item.id where auction.id =?';
   const [rows] = await pool.query(sql, [auctionID]);
+  return rows;
+}
+export async function searchWalletbyusername(username){
+  const sql = 'select wallet.* from wallet join users on wallet.user_id = users.id where users.username =?';
+  const [rows] = await pool.query(sql, [username]);
   return rows;
 }
