@@ -2,6 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import session from 'express-session';
 import clientController from './backend/controllers/clientController.js';
+import multer from 'multer';
 import path from 'path';
 
 
@@ -14,6 +15,31 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(express.static('public'));
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/'); // Create this folder
+  },
+  filename: (req, file, cb) => {
+    const uniqueName = Date.now() + path.extname(file.originalname);
+    cb(null, uniqueName);
+  }
+});
+
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith('image/')) {
+    cb(null, true);
+  } else {
+    cb(new Error('Only image files are allowed!'), false);
+  }
+};
+
+
+const upload = multer({ 
+  storage: storage,
+  fileFilter: fileFilter,
+  limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
+});
 
 app.use(session({
   secret: 'secretKey',
@@ -28,17 +54,14 @@ app.use((req, res, next) => {
 });
 
 app.get('/', (req, res) => {
-  res.render('AuctionDetails');
+  res.render('landpage');
 });
 
 app.post('/landpage', (req, res) => {
   res.render('Landpage', {
   });
 });
-app.get('/landpage', (req, res) => {
-  res.render('Landpage', {
-  });
-});
+
 
 app.post('/signup', (req, res) => {
   res.render('SignUp', {
@@ -54,15 +77,18 @@ app.post('/login', (req, res) => {
   res.render('Login', {
   });
 });
+
 app.get('/login', (req, res) => {
   res.render('Login', {
   });
 });
 
-app.post('/sellitem', (req, res) => {
-  res.render('SellItem', {
-  });
+app.post('/sellitemI', upload.array('images', 5), (req, res) => {
+  console.log('Form data:', req.body);
+  console.log('Uploaded files:', req.files);
+
 });
+
 app.get('/sellitem', (req, res) => {
   res.render('SellItem', {
   });
@@ -70,11 +96,7 @@ app.get('/sellitem', (req, res) => {
 
 
 app.post('/clientdashboard', (req, res) => {
-  req.session.user = {
-    username: req.body.username,
-    email: req.body.email
-  };
-  res.redirect('/clientdashboard');
+ 
 });
 
 app.get('/clientdashboard', (req, res) => {
@@ -91,6 +113,7 @@ app.post('/wishlistedauctions', (req, res) => {
   res.render('WishlistedAuctions', {
   });
 });
+
 app.get('/wishlistedauctions', (req, res) => {
   res.render('WishlistedAuctions', {
   });
