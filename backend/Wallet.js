@@ -3,11 +3,13 @@ export default class Wallet{
 
     #balance;
     #walletID;
+    #userID;
 
     toSQL(){
         return{
         wallet_id:this.#walletID,
-        balance:this.#balance};
+        balance:this.#balance,
+        user_id:userID};
     }
     
     constructor(){
@@ -21,6 +23,8 @@ export default class Wallet{
     getBalance(){return this.#balance;}
     setBalance(balance){this.#balance = balance;}
     setwalletID(walletID){this.#walletID = walletID;}
+    getUserID(){return this.#userID;}
+    setUserID(userID){this.#userID = userID;}
 
     
     static async searchWallet(username){

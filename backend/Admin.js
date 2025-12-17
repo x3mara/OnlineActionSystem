@@ -1,35 +1,25 @@
 import User from "./User.js";
+import {viewAllAuctions, viewReportedAuction, viewReportedUsers,viewAllClients} from "../Database/database.js";
 export default class Admin extends User {
 
-    async viewAllAuctions(){
-        const [rows] = await pool.query('SELECT * FROM auctions');
+    static async viewAllAuctions(){
+        const rows = await viewAllAuctions();
         return rows;
     }
 
     async viewReportedAuctions(){
-        const [rows] = await pool.query(
-        'SELECT * FROM auctions WHERE suspicious > ?',
-        [5]);
+        const rows = await viewReportedAuction();
         return rows;
     }
  
     async viewReportedUsers(){
-        // getReportedUsers();
-        const [rows] = await pool.query(
-        'SELECT * FROM auctions WHERE suspicious > ?',
-        [5]);
+        const rows = await viewReportedUsers();
         return rows;
     }
 
-    async searchForSpecificUser(clientID){
-        const [rows] = await pool.query(
-        'SELECT * FROM clients WHERE clientID = ?',
-        [clientID]);
-        return rows;
-    }
 
     async viewAllClients(){
-        const [rows] = await pool.query('SELECT * FROM clients');
+        const rows = await viewAllClients();
         return rows;
     }
 }

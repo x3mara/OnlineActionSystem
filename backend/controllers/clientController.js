@@ -17,6 +17,7 @@ export default class clientController{
         }
         const sessionWallet = new Wallet();
         let sessionClient = await Client.insertClient(username, password, email, sessionWallet.getWalletID());
+        sessionWallet.setUserID(sessionClient.getUserID());
         
         if (sessionClient == null){
             sessionWallet=null;
@@ -43,5 +44,15 @@ export default class clientController{
             req.session.wallet = await Wallet.fetchWallet(sessionClient.getUsername());
             res.render('ClientDashboard', { success: true, field: "", message: "Successfully logged in" });
         }
+    }
+
+    async showCredentials(req, res){
+        let client = await User.searchClient(req.session.user.getUsername());
+        let userIDdisplay = client[0].userID;
+        let usernamedisplay = client[0].username;
+        let emaildisplay = client[0].email;
+        let points = client[0].points;
+        let level = client[0].level;
+        res.render("nameOfScreen",{userIDdisplay, usernamedisplay, emaildisplay, points, level});
     }
 }

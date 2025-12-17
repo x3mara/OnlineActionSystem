@@ -47,13 +47,9 @@ export default class Client extends User{
 
     
 
-    static async searchClient(inputUsername){
-        const rows = await searchClientbyusername(inputUsername);
-        return rows;
-    }
 
     static async insertClient(inputUsername, inputPassword, inputEmail, walletID){
-        const rows = await Client.searchClient(inputUsername);
+        const rows = await User.searchClient(inputUsername);
         if(rows.length === 0){
             const sessionClient = new Client(inputUsername, inputPassword, inputEmail, walletID);
             const sqlObject= sessionClient.toSQL();
