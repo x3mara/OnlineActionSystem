@@ -1,248 +1,207 @@
-
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Auction Details - 1X BID</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
 
-  <body class="dashboard-body">
-    <!-- NAVBAR (same structure you already use) -->
-    <header class="navbar">
-      <div class="nav-inner">
-        <div class="nav-left">
-          <img src="images/Logo.png" alt="logo" class="nav-logo" />
-          <nav class="nav-links">
-            <button class="nav-btn">Store</button>
-            <button class="nav-btn">Auctions</button>
-            <button class="nav-btn">Wishlist</button>
-          </nav>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Auction Details - 1X BID</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body class="dashboard-body">
+  <!-- NAVBAR (same structure you already use) -->
+<%- include('./partials/navbar.ejs') %>
+
+  <!-- PAGE -->
+  <main class="auction-details-page">
+    <!-- LEFT -->
+    <section class="auction-left">
+      <!-- Section 1 -->
+      <div class="item-block">
+        <div class="item-topline">
+          <div>
+            <h1 class="item-title" id="itemName">Vintage Watch</h1>
+
+            <!-- Seller row -->
+            <div class="seller-row">
+              <span class="dot-avatar" id="sellerAvatar">J</span>
+              <button class="seller-name" id="sellerName" type="button">
+                john_seller
+              </button>
+            </div>
+          </div>
+
+          <button class="report-btn" id="reportBtn" type="button">Report</button>
         </div>
 
-        <div class="nav-center">
-          <input
-            id="search"
-            class="search"
-            type="search"
-            placeholder="Search auctions, items or sellers..."
-            aria-label="Search"
-          />
+        <div class="item-media">
+          <button class="wishlist-heart" id="wishBtn" type="button" aria-label="Add to wishlist"
+            title="Add to wishlist">
+            ❤
+          </button>
+
+          <img src="images/SignUpHero.png" alt="Auction item" id="itemImg" />
+        </div>
+      </div>
+
+      <!-- Section 2 -->
+      <div class="desc-card">
+        <h3>Description</h3>
+        <p id="itemDesc">
+          A well-preserved vintage watch in excellent condition. Original parts,
+          tested mechanism, and includes original packaging.
+        </p>
+      </div>
+    </section>
+
+    <!-- RIGHT -->
+    <section class="auction-right">
+      <!-- Section 3: Bidding Corner -->
+      <div class="bid-card" id="bidCard">
+        <button class="leave-btn" id="leaveBtn" type="button">Leave</button>
+
+        <div class="current-label">Current bid</div>
+        <div class="current-amount">$<span id="currentBid">800</span></div>
+
+        <!-- shown after user bids -->
+        <div class="your-bid" id="yourBidRow" style="display:none;">
+          Your bid: <strong class="accent">$<span id="yourBidValue">0</span></strong>
         </div>
 
-        <div class="nav-right">
-          <button class="btn sell">+ Sell</button>
-          <div class="balance">$<span id="balance">300</span></div>
-          <div class="profile">
-            <div class="avatar">U</div>
+        <div class="highest-bidder">
+          <span class="dot-avatar" id="topBidderIcon">A</span>
+          <div class="hb-text">
+            <div class="hb-label">Highest bidder</div>
+            <div class="hb-name" id="topBidderName">alice</div>
+          </div>
+        </div>
+
+        <div class="time-left">
+          <span class="live-dot" aria-hidden="true"></span>
+          <span>Time left:</span>
+          <strong id="timeLeft">12 days, 4 hrs, 2 min</strong>
+        </div>
+
+        <!-- default -->
+        <button class="to-bid-btn" id="getToBidBtn" type="button">
+          Get to bid
+        </button>
+
+        <!-- expanded -->
+        <div class="bid-actions" id="bidActions">
+          <input class="bid-input" id="bidInput" type="number" step="any" inputmode="numeric" placeholder="Bid amount"
+            aria-label="Bid amount" />
+          <button class="bid-btn" id="bidBtn" type="button">Bid</button>
+          <button class="buyout-btn" id="buyoutBtn" type="button" data-buyout="$1200">
+            Buyout
+          </button>
+        </div>
+      </div>
+
+      <div class="auction-tags" id="tags">
+        <span class="tag">Vintage</span>
+        <span class="tag">Watch</span>
+        <span class="tag">Collector</span>
+      </div>
+
+      <!-- Section 4: Bidders -->
+      <div class="bidders-box">
+        <div class="bidders-head">
+          <h3>Bidders</h3>
+          <div class="bids-col-label">Bids</div>
+        </div>
+
+        <div class="bidders-list" id="biddersList">
+          <!-- bidder row -->
+          <div class="bidder-row">
+            <button class="flag-btn" type="button" aria-label="Report bidder">⚑</button>
+
+            <button class="nameplate" type="button" aria-label="Open bidder profile">
+              <span class="dot-avatar">A</span>
+              <span class="bidder-name">alice</span>
+              <span class="title-tag">Veteran</span>
+            </button>
+
+            <div class="bid-amount">$800</div>
+          </div>
+
+          <div class="bidder-row">
+            <button class="flag-btn" type="button" aria-label="Report bidder">⚑</button>
+
+            <button class="nameplate" type="button" aria-label="Open bidder profile">
+              <span class="dot-avatar">B</span>
+              <span class="bidder-name">bob</span>
+              <span class="title-tag">Rookie</span>
+            </button>
+
+            <div class="bid-amount">$760</div>
           </div>
         </div>
       </div>
-    </header>
+    </section>
+  </main>
 
-    <!-- PAGE -->
-    <main class="auction-details-page">
-      <!-- LEFT -->
-      <section class="auction-left">
-        <!-- Section 1 -->
-        <div class="item-block">
-          <div class="item-topline">
-            <div>
-              <h1 class="item-title" id="itemName">Vintage Watch</h1>
+  <script>
+    // ---- Search auto-resize (same logic you used) ----
+    const search = document.getElementById("search");
+    const MIN = 180, MAX = 520;
 
-              <!-- Seller row -->
-              <div class="seller-row">
-                <span class="dot-avatar" id="sellerAvatar">J</span>
-                <button class="seller-name" id="sellerName" type="button">
-                  john_seller
-                </button>
-              </div>
-            </div>
+    function resizeSearch() {
+      if (!search) return;
+      const tmp = document.createElement("span");
+      tmp.style.visibility = "hidden";
+      tmp.style.position = "absolute";
+      tmp.style.whiteSpace = "pre";
+      tmp.style.font = window.getComputedStyle(search).font;
+      tmp.textContent = search.value || search.placeholder;
+      document.body.appendChild(tmp);
+      const w = Math.min(MAX, Math.max(MIN, tmp.offsetWidth + 36));
+      search.style.width = w + "px";
+      document.body.removeChild(tmp);
+    }
+    search?.addEventListener("input", resizeSearch);
+    window.addEventListener("load", resizeSearch);
 
-            <button class="report-btn" id="reportBtn" type="button">Report</button>
-          </div>
+    // ---- Bid behaviour (5% stepping) ----
+    const bidCard = document.getElementById("bidCard");
+    const getToBidBtn = document.getElementById("getToBidBtn");
+    const leaveBtn = document.getElementById("leaveBtn");
+    const bidActions = document.getElementById("bidActions");
 
-          <div class="item-media">
-            <button
-              class="wishlist-heart"
-              id="wishBtn"
-              type="button"
-              aria-label="Add to wishlist"
-              title="Add to wishlist"
-            >
-              ❤
-            </button>
+    const bidInput = document.getElementById("bidInput");
+    const bidBtn = document.getElementById("bidBtn");
+    const biddersList = document.getElementById("biddersList");
 
-            <img src="images/SignUpHero.png" alt="Auction item" id="itemImg" />
-          </div>
-        </div>
+    const currentBidEl = document.getElementById("currentBid");
+    const topBidderName = document.getElementById("topBidderName");
+    const topBidderIcon = document.getElementById("topBidderIcon");
 
-        <!-- Section 2 -->
-        <div class="desc-card">
-          <h3>Description</h3>
-          <p id="itemDesc">
-            A well-preserved vintage watch in excellent condition. Original parts,
-            tested mechanism, and includes original packaging.
-          </p>
-        </div>
-      </section>
+    const yourBidRow = document.getElementById("yourBidRow");
+    const yourBidValue = document.getElementById("yourBidValue");
 
-      <!-- RIGHT -->
-      <section class="auction-right">
-        <!-- Section 3: Bidding Corner -->
-        <div class="bid-card" id="bidCard">
-          <button class="leave-btn" id="leaveBtn" type="button">Leave</button>
+    const currentUser = { name: "you", title: "Challenger" };
+    let joined = false;
 
-          <div class="current-label">Current bid</div>
-          <div class="current-amount">$<span id="currentBid">800</span></div>
+    function currentBidNumber() {
+      return Number(String(currentBidEl.textContent).replace(/[^\d.]/g, "")) || 0;
+    }
+    function stepFromCurrentBid() {
+      const base = currentBidNumber();
+      return base > 0 ? base * 0.05 : 1;
+    }
+    function snapToStep(value) {
+      const step = stepFromCurrentBid();
+      if (!step) return value;
+      return Math.round(value / step) * step;
+    }
+    function formatMoney(n) {
+      return String(Math.round(n));
+    }
 
-          <!-- shown after user bids -->
-          <div class="your-bid" id="yourBidRow" style="display:none;">
-            Your bid: <strong class="accent">$<span id="yourBidValue">0</span></strong>
-          </div>
-
-          <div class="highest-bidder">
-            <span class="dot-avatar" id="topBidderIcon">A</span>
-            <div class="hb-text">
-              <div class="hb-label">Highest bidder</div>
-              <div class="hb-name" id="topBidderName">alice</div>
-            </div>
-          </div>
-
-          <div class="time-left">
-            <span class="live-dot" aria-hidden="true"></span>
-            <span>Time left:</span>
-            <strong id="timeLeft">12 days, 4 hrs, 2 min</strong>
-          </div>
-
-          <!-- default -->
-          <button class="to-bid-btn" id="getToBidBtn" type="button">
-            Get to bid
-          </button>
-
-          <!-- expanded -->
-          <div class="bid-actions" id="bidActions">
-            <input
-              class="bid-input"
-              id="bidInput"
-              type="number"
-              step="any"
-              inputmode="numeric"
-              placeholder="Bid amount"
-              aria-label="Bid amount"
-            />
-            <button class="bid-btn" id="bidBtn" type="button">Bid</button>
-            <button class="buyout-btn" id="buyoutBtn" type="button" data-buyout="$1200">
-              Buyout
-            </button>
-          </div>
-        </div>
-
-        <div class="auction-tags" id="tags">
-          <span class="tag">Vintage</span>
-          <span class="tag">Watch</span>
-          <span class="tag">Collector</span>
-        </div>
-
-        <!-- Section 4: Bidders -->
-        <div class="bidders-box">
-          <div class="bidders-head">
-            <h3>Bidders</h3>
-            <div class="bids-col-label">Bids</div>
-          </div>
-
-          <div class="bidders-list" id="biddersList">
-            <!-- bidder row -->
-            <div class="bidder-row">
-              <button class="flag-btn" type="button" aria-label="Report bidder">⚑</button>
-
-              <button class="nameplate" type="button" aria-label="Open bidder profile">
-                <span class="dot-avatar">A</span>
-                <span class="bidder-name">alice</span>
-                <span class="title-tag">Veteran</span>
-              </button>
-
-              <div class="bid-amount">$800</div>
-            </div>
-
-            <div class="bidder-row">
-              <button class="flag-btn" type="button" aria-label="Report bidder">⚑</button>
-
-              <button class="nameplate" type="button" aria-label="Open bidder profile">
-                <span class="dot-avatar">B</span>
-                <span class="bidder-name">bob</span>
-                <span class="title-tag">Rookie</span>
-              </button>
-
-              <div class="bid-amount">$760</div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <script>
-      // ---- Search auto-resize (same logic you used) ----
-      const search = document.getElementById("search");
-      const MIN = 180, MAX = 520;
-
-      function resizeSearch() {
-        if (!search) return;
-        const tmp = document.createElement("span");
-        tmp.style.visibility = "hidden";
-        tmp.style.position = "absolute";
-        tmp.style.whiteSpace = "pre";
-        tmp.style.font = window.getComputedStyle(search).font;
-        tmp.textContent = search.value || search.placeholder;
-        document.body.appendChild(tmp);
-        const w = Math.min(MAX, Math.max(MIN, tmp.offsetWidth + 36));
-        search.style.width = w + "px";
-        document.body.removeChild(tmp);
-      }
-      search?.addEventListener("input", resizeSearch);
-      window.addEventListener("load", resizeSearch);
-
-      // ---- Bid behaviour (5% stepping) ----
-      const bidCard = document.getElementById("bidCard");
-      const getToBidBtn = document.getElementById("getToBidBtn");
-      const leaveBtn = document.getElementById("leaveBtn");
-      const bidActions = document.getElementById("bidActions");
-
-      const bidInput = document.getElementById("bidInput");
-      const bidBtn = document.getElementById("bidBtn");
-      const biddersList = document.getElementById("biddersList");
-
-      const currentBidEl = document.getElementById("currentBid");
-      const topBidderName = document.getElementById("topBidderName");
-      const topBidderIcon = document.getElementById("topBidderIcon");
-
-      const yourBidRow = document.getElementById("yourBidRow");
-      const yourBidValue = document.getElementById("yourBidValue");
-
-      const currentUser = { name: "you", title: "Challenger" };
-      let joined = false;
-
-      function currentBidNumber() {
-        return Number(String(currentBidEl.textContent).replace(/[^\d.]/g, "")) || 0;
-      }
-      function stepFromCurrentBid() {
-        const base = currentBidNumber();
-        return base > 0 ? base * 0.05 : 1;
-      }
-      function snapToStep(value) {
-        const step = stepFromCurrentBid();
-        if (!step) return value;
-        return Math.round(value / step) * step;
-      }
-      function formatMoney(n) {
-        return String(Math.round(n));
-      }
-
-      function addBidderRow({ name, title, amount }) {
-        const row = document.createElement("div");
-        row.className = "bidder-row";
-        row.innerHTML = `
+    function addBidderRow({ name, title, amount }) {
+      const row = document.createElement("div");
+      row.className = "bidder-row";
+      row.innerHTML = `
           <button class="flag-btn" type="button" aria-label="Report bidder">⚑</button>
           <button class="nameplate" type="button" aria-label="Open bidder profile">
             <span class="dot-avatar">${name[0].toUpperCase()}</span>
@@ -251,71 +210,72 @@
           </button>
           <div class="bid-amount">$${formatMoney(amount)}</div>
         `;
-        biddersList.prepend(row);
+      biddersList.prepend(row);
+    }
+
+    getToBidBtn.addEventListener("click", () => {
+      if (joined) return;
+      joined = true;
+
+      bidCard.classList.add("joined");
+
+      // Suggest minimum next bid = current + 5%
+      const base = currentBidNumber();
+      const minNext = Math.ceil(base + base * 0.05);
+      bidInput.value = String(minNext);
+
+      // Add user as a bidder (0 until bids)
+      addBidderRow({ name: currentUser.name, title: currentUser.title, amount: 0 });
+    });
+
+    leaveBtn.addEventListener("click", () => {
+      joined = false;
+      bidCard.classList.remove("joined");
+      if (yourBidRow) yourBidRow.style.display = "none";
+    });
+
+    // Enforce 5% stepping while typing
+    bidInput.addEventListener("input", () => {
+      const base = currentBidNumber();
+      const raw = Number(bidInput.value);
+      if (!base || !raw) return;
+
+      const step = base * 0.05;
+      const minNext = base + step;
+      const snapped = snapToStep(raw);
+
+      bidInput.value = String(Math.max(minNext, snapped).toFixed(0));
+    });
+
+    bidBtn.addEventListener("click", () => {
+      if (!joined) return;
+
+      const base = currentBidNumber();
+      const step = base * 0.05;
+      const val = Number(bidInput.value);
+
+      if (!val || val < base + step) {
+        bidInput.value = String(Math.ceil(base + step));
+        return;
       }
 
-      getToBidBtn.addEventListener("click", () => {
-        if (joined) return;
-        joined = true;
+      // Show "Your bid" under current bid
+      yourBidRow.style.display = "block";
+      yourBidValue.textContent = formatMoney(val);
 
-        bidCard.classList.add("joined");
+      // Update current bid + highest bidder UI
+      currentBidEl.textContent = formatMoney(val);
+      topBidderName.textContent = currentUser.name;
+      topBidderIcon.textContent = currentUser.name[0].toUpperCase();
 
-        // Suggest minimum next bid = current + 5%
-        const base = currentBidNumber();
-        const minNext = Math.ceil(base + base * 0.05);
-        bidInput.value = String(minNext);
+      // Add to bidders list
+      addBidderRow({ name: currentUser.name, title: currentUser.title, amount: val });
 
-        // Add user as a bidder (0 until bids)
-        addBidderRow({ name: currentUser.name, title: currentUser.title, amount: 0 });
-      });
+      // Next suggested bid = new current + 5%
+      const next = Math.ceil(val + val * 0.05);
+      bidInput.value = String(next);
+    });
+  </script>
+</body>
 
-      leaveBtn.addEventListener("click", () => {
-        joined = false;
-        bidCard.classList.remove("joined");
-        if (yourBidRow) yourBidRow.style.display = "none";
-      });
-
-      // Enforce 5% stepping while typing
-      bidInput.addEventListener("input", () => {
-        const base = currentBidNumber();
-        const raw = Number(bidInput.value);
-        if (!base || !raw) return;
-
-        const step = base * 0.05;
-        const minNext = base + step;
-        const snapped = snapToStep(raw);
-
-        bidInput.value = String(Math.max(minNext, snapped).toFixed(0));
-      });
-
-      bidBtn.addEventListener("click", () => {
-        if (!joined) return;
-
-        const base = currentBidNumber();
-        const step = base * 0.05;
-        const val = Number(bidInput.value);
-
-        if (!val || val < base + step) {
-          bidInput.value = String(Math.ceil(base + step));
-          return;
-        }
-
-        // Show "Your bid" under current bid
-        yourBidRow.style.display = "block";
-        yourBidValue.textContent = formatMoney(val);
-
-        // Update current bid + highest bidder UI
-        currentBidEl.textContent = formatMoney(val);
-        topBidderName.textContent = currentUser.name;
-        topBidderIcon.textContent = currentUser.name[0].toUpperCase();
-
-        // Add to bidders list
-        addBidderRow({ name: currentUser.name, title: currentUser.title, amount: val });
-
-        // Next suggested bid = new current + 5%
-        const next = Math.ceil(val + val * 0.05);
-        bidInput.value = String(next);
-      });
-    </script>
-  </body>
 </html>

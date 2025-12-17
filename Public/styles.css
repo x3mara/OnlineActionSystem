@@ -398,6 +398,44 @@ input::placeholder {
   gap: 18px;
 }
 
+/* ---- Button interaction styles moved from ClientDashboard.ejs ---- */
+/* Smooth, subtle hover / press animations for all buttons */
+button, .btn, .small, .nav-btn, button.fav {
+  transition: transform 160ms cubic-bezier(.2,.9,.3,1), box-shadow 160ms ease, background-color 160ms ease;
+  will-change: transform, box-shadow;
+  cursor: pointer;
+}
+
+/* Hover lift */
+button:hover, .btn:hover, .small:hover, .nav-btn:hover, button.fav:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(16,24,40,0.08);
+}
+
+/* Pressed feedback */
+button:active, .btn:active, .small:active, .nav-btn:active, button.fav:active {
+  transform: translateY(0) scale(0.995);
+  box-shadow: 0 4px 10px rgba(16,24,40,0.06);
+}
+
+/* Focus for keyboard users */
+button:focus, .btn:focus, .small:focus, .nav-btn:focus, button.fav:focus {
+  outline: 3px solid rgba(11,121,208,0.14);
+  outline-offset: 2px;
+}
+
+/* Small appearance tweaks */
+.small { padding:6px 10px; border-radius:6px; border:1px solid transparent; background:#fff; }
+.btn { border-radius:8px; }
+button.fav { background:transparent;border:none;font-size:18px;padding:6px}
+.nav-btn { background:transparent;border:none;padding:6px 10px;border-radius:6px }
+
+.seller{
+  margin-right: 20px;
+}
+
+/* ---- End moved styles ---- */
+
 .nav-left {
   display: flex;
   align-items: center;
@@ -814,6 +852,7 @@ input::placeholder {
 
 /* ---------- Buyout button (FIXED HOVER) ---------- */
 .buyout-btn{
+  display: flex;
   height:46px;
   padding:0 18px;
   border-radius:14px;
@@ -821,6 +860,8 @@ input::placeholder {
   background:rgba(0,0,0,0.28);
   color:rgba(255,255,255,0.95);
   font-weight:950;
+  justify-content: center;
+  align-items: center;
   cursor:pointer;
   position:relative;
   overflow:hidden;

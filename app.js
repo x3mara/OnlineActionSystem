@@ -22,7 +22,7 @@ app.use(session({
 }));
 
 app.get('/', (req, res) => {
-  res.render('ClientDashboard');
+  res.render('AuctionDetails');
 });
 
 app.post('/signup', (req, res) => {
@@ -34,6 +34,32 @@ app.post('/signup', (req, res) => {
 app.get('/signup', (req, res) => {
   res.render('SignUp', { username: '' });
 });
+
+app.post('/login', (req, res) => {
+  res.render('Login', {
+  });
+});
+app.get('/login', (req, res) => {
+  res.render('Login', {
+  });
+});
+
+app.post('/sellitem', (req, res) => {
+  res.render('SellItem', {
+  });
+});
+app.get('/sellitem', (req, res) => {
+  res.render('SellItem', {
+  });
+});
+app.post('/clientdashboard', (req, res) => {
+  res.render('ClientDashboard', {
+  });
+});
+app.get('/clientdashboard', (req, res) => {
+  res.render('ClientDashboard', {
+  });
+}); 
 
 app.post('/SignUpI', ControllerCL.register.bind(ControllerCL));
 
