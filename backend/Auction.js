@@ -27,11 +27,11 @@ export default class Auction {
 
 
     constructor(AuctionedItem, duetime, seller, startingPrice) {
-        this.auctionID = Date.now()%10000;
+        this.auctionID = Date.now();
         this.suspicious = 0;
-        this.AuctionedItem = AuctionedItem.item_id;
+        this.AuctionedItem = AuctionedItem;
         this.duetime = duetime;
-        this.seller = seller.userID;
+        this.seller = seller;
         this.suspended = false;
         this.startingPrice = startingPrice;
         this.highestBidder = null;

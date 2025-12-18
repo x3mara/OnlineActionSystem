@@ -21,10 +21,23 @@ export default class Client extends User{
         
     }
     
+    static async fromSQL(data){
+        const client = new Client(data.username,data.password,data.email);
+        client.setUserID(data.id);
+        // client.#suspicious = ;
+        // client.#suspended = false;
+        // client.#points = 0;
+        // client.#level = 0;
+        return client;
+    }
 
     static async searchClient(inputUsername){
         let rows = await searchClientbyusername(inputUsername);
-        return this.fromJSON(rows);
+        if(rows.length == 0){
+            console.log("User Not Found");
+            return null;
+        }
+        return Client.fromSQL(rows[0]);
     }
 
     constructor(username, password, email){
@@ -60,7 +73,7 @@ export default class Client extends User{
 
             }
             //inputPassword = inputPassword.hashCode(); //hashcode function needs implementation
-            await insert("users",sqlObjectUser);
+            await insert("users", sqlObjectUser);
             await insert("clients", sqlObject);
             return sessionClient; 
         }

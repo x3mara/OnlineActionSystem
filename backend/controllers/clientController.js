@@ -4,6 +4,7 @@ import Wallet from '../Wallet.js';
 import Item from '../Item.js';
 import session from 'express-session';
 import { authPlugins } from 'mysql2';
+import { getAllAuctions } from './qol.js';
 export default class clientController{
     
 
@@ -28,37 +29,12 @@ export default class clientController{
         const sqlObjectWallet= sessionWallet.toSQL();
         Wallet.insertWallet(sqlObjectWallet);
 
-        req.session.wallet = sessionWallet;
-        req.session.user = sessionClient;
+        req.session.wallet = sessionWallet.getWalletID();
+        req.session.user = sessionClient.getUsername();
         req.session.save();
-
-        let auctions = await Client.viewAllAuctions();
-
-        const itemPromises = auctions.map(auction => 
-            Item.getItemthroughID(auction.item_id) 
-        );
-        
-        const AuItems = await Promise.all(itemPromises);
-        
-        // Fetch images for each item
-        const imagePromises = AuItems.map(item => 
-            Item.getItemImgId(item ? item.id : null)
-        );
-        const ItemImages = await Promise.all(imagePromises);
         
         // Combine data with proper structure
-        const combinedData = auctions.map((auction, index) => {
-            const item = AuItems[index] || {};
-            const images = ItemImages[index] || [];
-            
-            return {
-                auction: auction,      
-                item: item,
-                ItemImage: images.length > 0 ?
-                images.map(img => img.itemimg):
-                'static/public/images/SignUpHero.png' // Get first image
-            };
-        });
+        const combinedData = await getAllAuctions();
 
         console.log(combinedData);
 
@@ -68,7 +44,7 @@ export default class clientController{
             wishlistedAuctions: [] // Empty for now
         });
         
-    } 
+    }
 
 
     async login(req, res){

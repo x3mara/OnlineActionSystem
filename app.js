@@ -133,7 +133,7 @@ app.use((req, res, next) => {
 });
 
 app.get('/', (req, res) => {
-  res.render('WishlistedAuctions');
+  res.render('Landpage', {});
 });
 
 app.post('/landpage', (req, res) => {

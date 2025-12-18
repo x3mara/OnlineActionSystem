@@ -31,6 +31,10 @@ export default class User{
         
     }
 
+    static async searchClient(inputUsername){ // i dont really like this logic
+        let rows = await searchClientbyusername(inputUsername);
+        return rows; 
+    }
     
     //setters and getters
     getUserID(){return this.#userID;}
