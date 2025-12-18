@@ -14,7 +14,10 @@ export default class auctionController{
         await Auction.insertAuction(auction);
         console.log("Item Details: " + item);
         console.log("Auction Details: " + auction);
-        
+        res.render('ClientDashboard', {
+            username: req.session.user.username,
+            email: req.session.user.email
+        });
     }
 
     

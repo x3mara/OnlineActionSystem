@@ -1,4 +1,4 @@
-import { getImgs, searchItem } from "../Database/database.js";
+import { getImgs, insert, searchItem } from "../Database/database.js";
 
 export default class Item {
     itemID;
@@ -20,11 +20,16 @@ export default class Item {
     }
 
     constructor(itemName, itemDesc, itemTags, buyOutPrice, startingPrice) {
+        this.itemID = Date.now();
         this.itemName = itemName;
         this.itemDesc = itemDesc;
         this.itemTags = itemTags;
         this.buyOutPrice = buyOutPrice;
         this.startingPrice = startingPrice;
+    }
+
+    static async insertItem(sessionItem){
+        await insert("item", sessionItem.toSQL()); 
     }
 
     showItem(itemID) {

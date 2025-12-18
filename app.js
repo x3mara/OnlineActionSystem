@@ -2,12 +2,14 @@ import 'dotenv/config';
 import express from 'express';
 import session from 'express-session';
 import clientController from './backend/controllers/clientController.js';
+import auctionController from './backend/controllers/auctionController.js';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 
 const app = express();
 const ControllerCL = new clientController();
+const ControllerAU = new auctionController();
 
 // Create static directory and subdirectories
 const staticDir = 'static';
@@ -159,6 +161,7 @@ app.get('/login', (req, res) => {
 app.post('/sellitemI', upload.array('images', 5), (req, res) => {
   console.log('Form data:', req.body);
   console.log('Uploaded files:', req.files);
+  ControllerAU.startAuction(req,res);
 });
 
 app.get('/sellitem', (req, res) => {
