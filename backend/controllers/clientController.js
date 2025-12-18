@@ -48,6 +48,7 @@ export default class clientController{
             res.session.user = sessionClient;
             res.session.wallet = await Wallet.fetchWallet(sessionClient.getUsername());
         }        
+        return res.redirect('/clientdashboard');
     }
 
     async showCredentials(req, res){

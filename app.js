@@ -152,9 +152,7 @@ app.get('/signup', (req, res) => {
   res.render('SignUp', { username: '' });
 });
 
-app.post('/login', (req, res) => {
-  res.render('Login', {});
-});
+app.post('/LoginI', ControllerCL.login.bind(ControllerCL));
 
 app.get('/login', (req, res) => {
   res.render('Login', {});
