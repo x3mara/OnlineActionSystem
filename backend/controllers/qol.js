@@ -30,7 +30,7 @@ export async function getAllAuctions(){
             item: item,
             ItemImage: images.length > 0 ?
             images.map(img => img.itemimg):
-            'static/public/images/SignUpHero.png' // Get first image
+            'static/public/images/SignUpHero.png' // Get hero image
         };
     });
 }
