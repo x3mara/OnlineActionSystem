@@ -1809,3 +1809,25 @@ button.fav {
   color: #fff;
   cursor: pointer;
 }
+
+.rec-form {
+  margin: 0;
+}
+
+/* button that looks EXACTLY like the original .rec-card */
+.rec-card-btn {
+  width: 100%;
+  border: 0;
+  padding: 0;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  background: transparent; 
+}
+
+/* optional: remove the ugly default focus ring if it appears */
+.rec-card-btn:focus {
+  outline: none;
+}
+
