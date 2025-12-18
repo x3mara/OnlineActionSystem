@@ -34,12 +34,12 @@ export default class adminController{
     
     async viewAllAuctions(req, res){
         const auctions = await Admin.viewAllAuctions();
-        res.render("nameOfScreen", { auctions });
+        return res.render("nameOfScreen", { auctions });
     }
 
     async viewReportedAuctions(req, res){
-        rows = await Admin.viewReportedAuctions();
-        res.render("nameOfScreen", { rows });
+        reportedAuctions = await Admin.viewReportedAuctions();
+        res.render("nameOfScreen", { reportedAuctions });
     }
 
     async viewReportedUsers(req, res){

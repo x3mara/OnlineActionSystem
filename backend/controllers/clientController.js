@@ -20,7 +20,7 @@ export default class clientController{
             return res.render('SignUp' , {success: false, field: "email", message: "Invalid email address"});
         }
         let sessionClient = await Client.insertClient(username, password, email);
-        let sessionWallet = new Wallet();
+        let sessionWallet = new Wallet(sessionClient.getUserID());
 
         if (sessionClient == null){
             sessionWallet=null;

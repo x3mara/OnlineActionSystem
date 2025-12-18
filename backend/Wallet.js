@@ -12,9 +12,10 @@ export default class Wallet{
         user_id:this.#userID};
     }
     
-    constructor(){
+    constructor(userID){
         this.#walletID =  Math.trunc((Math.random() + Date.now()));
         this.#balance = 0;
+        this.#userID = userID;
     }
 
 
