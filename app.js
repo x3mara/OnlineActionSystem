@@ -3,6 +3,8 @@ import express from 'express';
 import session from 'express-session';
 import clientController from './backend/controllers/clientController.js';
 import auctionController from './backend/controllers/auctionController.js';
+import Client from './backend/Client.js';
+import Item from './backend/Item.js';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
@@ -169,13 +171,40 @@ app.get('/sellitem', (req, res) => {
 });
 
 app.post('/clientdashboard', (req, res) => {});
-app.get('/clientdashboard', (req, res) => {
-  if (!req.session.user) {
-    return res.redirect('/');
-  }
-  res.render('ClientDashboard', {
-    username: req.session.user.username,
-    email: req.session.user.email
+
+app.get('/clientdashboard', async (req, res) => {
+  let auctions = await Client.viewAllAuctions();
+      
+  const itemPromises = auctions.map(auction => 
+      Item.getItemthroughID(auction.item_id) 
+  );
+  
+  const AuItems = await Promise.all(itemPromises);
+  
+  // Fetch images for each item
+  const imagePromises = AuItems.map(item => 
+      Item.getItemImgId(item ? item.id : null)
+  );
+  const ItemImages = await Promise.all(imagePromises);
+  
+  // Combine data with proper structure
+  const combinedData = auctions.map((auction, index) => {
+      const item = AuItems[index] || {};
+      const images = ItemImages[index] || [];
+      
+      return {
+          auction: auction,      
+          item: item,
+          ItemImage: images.length > 0 ?
+          images.map(img => img.itemimg):
+          'static/public/images/SignUpHero.png' // Get first image
+      };
+  });
+
+  return res.render('ClientDashboard', { 
+      username: req.session.user, 
+      recommendedAuctions: combinedData, 
+      wishlistedAuctions: [] 
   });
 });
 
