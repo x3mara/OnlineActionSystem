@@ -1,4 +1,5 @@
 <header class="navbar">
+    <%-include('./walletModal.ejs') %>
     <div class="nav-inner">
         <div class="nav-left">
             <a href="/clientdashboard">
@@ -23,8 +24,10 @@
             </a>
 
             <button class="balance" id="balanceBtn" type="button" aria-haspopup="dialog" aria-expanded="false">
+                <img src="static/public/Icons/coin.png" alt="" class="balance-icon">
                 $<span id="balance">300</span>
             </button>
+
             <div class="profile">
                 <button class="avatar" aria-haspopup="true" aria-expanded="false">U</button>
                 <div class="profile-dropdown" aria-hidden="true">
