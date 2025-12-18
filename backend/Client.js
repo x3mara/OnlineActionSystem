@@ -4,8 +4,6 @@ import {searchClientbyusername,insert, viewAllAuctions} from "../Database/databa
 import session from "express-session";
 export default class Client extends User{
 
-
-
     #suspicious; //int
     #suspended; //bool
     #points; //int
@@ -21,6 +19,12 @@ export default class Client extends User{
         points: this.#points,
         levels: this.#level};
         
+    }
+    
+
+    static async searchClient(inputUsername){
+        let rows = await searchClientbyusername(inputUsername);
+        return this.fromJSON(rows);
     }
 
     constructor(username, password, email){
@@ -41,9 +45,6 @@ export default class Client extends User{
     setSuspended(suspended){this.#suspended = suspended;}
     setPoints(points){this.#points = points;}
     setLevel(level){this.#level = level;}
-
-    
-
 
     static async insertClient(inputUsername, inputPassword, inputEmail){
         const rows = await User.searchClient(inputUsername);

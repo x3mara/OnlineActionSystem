@@ -10,9 +10,8 @@ export default class auctionController{
         const item = new Item(name, desc, tag, buyout_price, starting_price);
         await Item.insertItem(item);
         console.log("Session User: " + req.session.user);
-        const seller = await User.searchClient("a");
+        const seller = await User.searchClient("helppleaseplease");
         console.log(seller);
-        console.log(seller[0]);
         if(req.session.user instanceof User)
             seller = await User.searchClient(req.session.user.getUsername());
         req.session.user = seller;

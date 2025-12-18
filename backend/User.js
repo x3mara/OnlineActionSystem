@@ -47,11 +47,7 @@ export default class User{
         let rows = await searchUser(inputUsername);
         return rows;
     }
-    static async searchClient(inputUsername){
-        let rows = await searchClientbyusername(inputUsername);
-        return rows;
-    }
-
+    
    static async verifyLogin(inputUsername, inputPassword){
         let rows = await User.searchUser(inputUsername);
         if(rows.length === 0){
