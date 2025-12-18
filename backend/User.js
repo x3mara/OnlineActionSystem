@@ -1,4 +1,4 @@
-import {searchClientbyusername} from "../Database/database.js";
+import {searchUser,searchClientbyusername} from "../Database/database.js";
 export default class User{
     
     #userID;
@@ -47,60 +47,36 @@ export default class User{
     setUserID(userID){this.#userID = userID;}
 
 
-    static async searchUser(inputUsername){
+    static async searchUserEntity(inputUsername){
         let rows = await searchUser(inputUsername);
         return rows;
     }
     
    static async verifyLogin(inputUsername, inputPassword){
-        let rows = await User.searchUser(inputUsername);
+        let rows = await User.searchUserEntity(inputUsername);
+        let user = rows[0];
         if(rows.length === 0){
             return null;
         }
-        else if (rows[0].userID[0] === 'a'){
-            if(rows[0].password === inputPassword){
-            sessionadmin = new Admin();
-            sessionadmin.setUserID(rows[0].userID);
-            sessionadmin.setUsername(rows[0].username);
-            sessionadmin.setPassword(rows[0].password);
-            sessionadmin.setEmail(rows[0].email);
-            return sessionadmin;
+        else if (user.id[0] === 'a'){
+            if(user.password === inputPassword){
+            return rows[0].username;
             }
             else{
                 return false;
             }
         }
         else{
-            if(rows[0].password === inputPassword){
-                rows2 = await searchClient(inputUsername);
-                sessionclient = new Client();
-                sessionclient.setUserID(rows2[0].userID);
-                sessionclient.setUsername(rows2[0].username);
-                sessionclient.setPassword(rows2[0].password);
-                sessionclient.setEmail(rows2[0].email);
-                sessionclient.setSuspicious(rows2[0].suspicious);
-                sessionclient.setSuspended(rows2[0].suspended);
-                sessionclient.setPoints(rows2[0].points);
-                sessionclient.setLevel(rows2[0].level);
-                sessionclient.setWalletID(rows2[0].walletID);
-                return sessionclient;
+            if(user.password === inputPassword){
+                let rows2 = await User.searchClient(inputUsername);
+                return rows2[0].username;
             }
-
             else{
                 return false;
             }
-
-
         }
        
     }
-
-
-
-
-
-
-
 
     async showCredentials(){
         

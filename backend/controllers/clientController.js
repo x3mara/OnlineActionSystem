@@ -6,10 +6,10 @@ import session from 'express-session';
 import { authPlugins } from 'mysql2';
 import { getAllAuctions } from './qol.js';
 export default class clientController{
-    
+
 
     async register(req, res){
-        const { username,email, password} = req.body;
+        const {username,email, password} = req.body;
         if (password.length<8){
             return res.render('SignUp' , {success: false, field: "password", message: "Password must be at least 8 characters long"});
         }
@@ -20,7 +20,7 @@ export default class clientController{
             return res.render('SignUp' , {success: false, field: "email", message: "Invalid email address"});
         }
         let sessionClient = await Client.insertClient(username, password, email);
-        let sessionWallet = new Wallet();
+        let sessionWallet = new Wallet(sessionClient.getUserID());
 
         if (sessionClient == null){
             sessionWallet=null;
@@ -29,65 +29,22 @@ export default class clientController{
         const sqlObjectWallet= sessionWallet.toSQL();
         Wallet.insertWallet(sqlObjectWallet);
 
-        req.session.wallet = sessionWallet.getWalletID();
-        req.session.user = sessionClient.getUsername();
-        req.session.save();
-        
-        // Combine data with proper structure
-        const combinedData = await getAllAuctions();
-
-        console.log(combinedData);
-
-        return res.render('ClientDashboard', {
-            username: username, 
-            recommendedAuctions: combinedData,
-            wishlistedAuctions: [] // Empty for now
-        });
-        
-    }
+        req.session.wallet = sessionWallet;
+        req.session.user = sessionClient;
+        return res.redirect('/clientdashboard');
+    } 
 
 
     async login(req, res){
         const { username, password } = req.body;
-        const sessionClient = await User.verifyLogin(username, password);
-        if (sessionClient === false) {
+        req.session.user = await User.verifyLogin(username, password);
+        if (req.session.user == false) {
             return res.render('Login' , { success: false, field: "password", message: "Incorrect password" });
         } 
-        else if (sessionClient === null) {
-            return res.render('Login' , { success: false, field: "username", message: "Username does not exist" });
-        } 
         else {
-            res.session.user = sessionClient;
-            res.session.wallet = await Wallet.fetchWallet(sessionClient.getUsername());
-             let auctions = await Client.viewAllAuctions();
-            
-            const itemPromises = auctions.map(auction => 
-                Item.getItemthroughID(auction.item_id)
-            );
-            const AuItems = await Promise.all(itemPromises);
-            
-            const imagePromises = AuItems.map(item => 
-                Item.getItemImgId(item ? item.id : null)
-            );
-            const ItemImages = await Promise.all(imagePromises);
-            
-            const recommendedAuctions = auctions.map((auction, index) => {
-                const item = AuItems[index] || {};
-                const images = ItemImages[index] || [];
-                
-                return {
-                    auction: auction,
-                    item: item,
-                    ItemImage: images.length > 0 ? images[0].itemimg : 'static/public/images/SignUpHero.png'
-                };
-            });
-            
-            return res.render('ClientDashboard', { 
-                username: username, 
-                recommendedAuctions: recommendedAuctions, 
-                wishlistedAuctions: [] 
-            });
+            req.session.wallet = await Wallet.fetchWallet(req.session.user);
         }        
+        return res.redirect('/clientdashboard');
     }
 
     async showCredentials(req, res){
@@ -107,5 +64,6 @@ export default class clientController{
     async itemthroughAuction(ItemID){
         return Item.getItemthroughID(ItemID);
     }
+
 
 }

@@ -12,9 +12,10 @@ export default class Wallet{
         user_id:this.#userID};
     }
     
-    constructor(){
+    constructor(userID){
         this.#walletID =  Math.trunc((Math.random() + Date.now()));
         this.#balance = 0;
+        this.#userID = userID;
     }
 
 
@@ -28,7 +29,7 @@ export default class Wallet{
 
     
     static async searchWallet(username){
-        rows = await searchwalletbyUserUsername(username);
+        let rows = await searchwalletbyUserUsername(username);
         return rows;
     }
 
@@ -38,11 +39,8 @@ export default class Wallet{
     }
 
     static async fetchWallet(username){
-        rows = await Wallet.searchWallet(username);
-        sessionWallet = new Wallet();
-        sessionWallet.setwalletID(rows[0].walletID);
-        sessionWallet.setBalance(rows[0].balance);
-        return sessionWallet;
+        let rows = await Wallet.searchWallet(username);
+        return rows;
     }
 
     static async updateWallet(sessionWallet){

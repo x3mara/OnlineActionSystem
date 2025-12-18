@@ -20,8 +20,8 @@
                     <p class="muted">Sign in to your account to continue bidding.</p>
                 </div>
 
-                <form id="loginForm" novalidate>
-                    <label for="username" style="margin-bottom: 0.5rem; display: block;">Username</label>
+                <form id="loginForm" action="/LoginI" method="POST">
+                    <label for="username"  style="margin-bottom: 0.5rem; display: block;">Username</label>
                     <input id="username" name="username" type="text" autocomplete="username" required placeholder="Username" style="margin-bottom: 1rem;" />
 
                     <label for="password" style="margin-bottom: 0.5rem; display: block;">Password</label>
@@ -41,29 +41,6 @@
             </div>
         </main>
 
-        <script>
-            // Simple client-side validation and password toggle
-            const form = document.getElementById('loginForm');
-            const passInput = document.getElementById('password');
-            const showBtn = document.querySelector('.show-pass');
-
-            showBtn.addEventListener('click', () => {
-                const t = passInput.type === 'password' ? 'text' : 'password';
-                passInput.type = t;
-                showBtn.textContent = t === 'text' ? 'Hide' : 'Show';
-            });
-
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                if (!form.checkValidity()) {
-                    // let browser show native validation UI
-                    form.reportValidity();
-                    return;
-                }
-                // Placeholder: collect values and show a success state
-                const data = { username: form.username.value.trim() };
-                alert('Login successful for ' + data.username + ' (demo)');
-            });
-        </script>
+        
     </body>
 </html>
