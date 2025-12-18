@@ -216,6 +216,8 @@ app.get('/wishlistedauctions', (req, res) => {
 
 app.post('/SignUpI', ControllerCL.register.bind(ControllerCL));
 app.post('/LoginI', ControllerCL.login.bind(ControllerCL));
+app.post('/auction/details',);
+
 
 app.listen(3000, () => {
   console.log('Server is listening on port 3000');
