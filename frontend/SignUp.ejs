@@ -55,14 +55,14 @@
         </section>
     </main>
     <script>
-            const passInput = document.getElementById('password');
-            const showBtn = document.querySelector('.show-pass');
+        const passInput = document.getElementById('password');
+        const showBtn = document.querySelector('.show-pass');
 
-            showBtn.addEventListener('click', () => {
-                const t = passInput.type === 'password' ? 'text' : 'password';
-                passInput.type = t;
-                showBtn.textContent = t === 'text' ? 'Hide' : 'Show';
-            });
+        showBtn.addEventListener('click', () => {
+            const t = passInput.type === 'password' ? 'text' : 'password';
+            passInput.type = t;
+            showBtn.textContent = t === 'text' ? 'Hide' : 'Show';
+        });
     </script>
 </body>
 
