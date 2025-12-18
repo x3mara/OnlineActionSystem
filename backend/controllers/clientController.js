@@ -56,10 +56,12 @@ export default class clientController{
                 item: item,
                 ItemImage: images.length > 0 ?
                 images.map(img => img.itemimg):
-                '/OnlineActionSystem/Public/images/SignUpHero.png' // Get first image
+                'static/public/images/SignUpHero.png' // Get first image
             };
         });
-        
+
+        console.log(combinedData);
+
         return res.render('ClientDashboard', {
             username: username, 
             recommendedAuctions: combinedData,
@@ -79,8 +81,8 @@ export default class clientController{
             return res.render('Login' , { success: false, field: "username", message: "Username does not exist" });
         } 
         else {
-            req.session.user = sessionClient;
-            req.session.wallet = await Wallet.fetchWallet(sessionClient.getUsername());
+            res.session.user = sessionClient;
+            res.session.wallet = await Wallet.fetchWallet(sessionClient.getUsername());
              let auctions = await Client.viewAllAuctions();
             
             const itemPromises = auctions.map(auction => 
@@ -100,7 +102,7 @@ export default class clientController{
                 return {
                     auction: auction,
                     item: item,
-                    ItemImage: images.length > 0 ? images[0].itemimg : '/OnlineActionSystem/Public/images/SignUpHero.png'
+                    ItemImage: images.length > 0 ? images[0].itemimg : 'static/public/images/SignUpHero.png'
                 };
             });
             
