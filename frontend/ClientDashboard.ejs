@@ -45,7 +45,7 @@
                                         <span class="time js-timer" data-end="<%= a.auction.due_date %>">--:--:--</span>
 
                                         <img src="<%= a.ItemImage %>" alt="<%= a.item.item_name %>" />
-                                        <div class="seller-tag"><%= a.auction.sellerName %></div>
+                                        <div class="seller-tag"><%= a.auction.seller_name %></div>
                                     </div>
 
                                     <div class="card-body">
@@ -56,7 +56,7 @@
                                         <span class="tag"><%= a.item.item_tag %></span>
                                         </div>
 
-                                        <div class="current-bid">$<%= a.auction.highest_bid %></div>
+                                        <div class="current-bid">$<%= a.auction.highest_bid ? a.auction.highest_bid : a.item.starting_price  %></div>
                                     </div>
                                     </article>
                                 </button>
