@@ -1,5 +1,4 @@
-import { randInt } from "./controllers/qol.js";
-import { insert, getImgs, searchItem } from "../Database/database.js";
+import { getImgs, searchItem } from "../Database/database.js";
 
 export default class Item {
     itemID;
@@ -21,16 +20,11 @@ export default class Item {
     }
 
     constructor(itemName, itemDesc, itemTags, buyOutPrice, startingPrice) {
-        this.itemID = Date.now();
         this.itemName = itemName;
         this.itemDesc = itemDesc;
         this.itemTags = itemTags;
         this.buyOutPrice = buyOutPrice;
         this.startingPrice = startingPrice;
-    }
-
-    static async insertItem(sessionItem){
-        await insert("item", sessionItem.toSQL()); 
     }
 
     showItem(itemID) {
@@ -39,7 +33,11 @@ export default class Item {
 
     static async getItemthroughID(itemID) {    
         const obj = await searchItem(itemID);
-        return obj
+        // If obj is an array, get first element
+        if (Array.isArray(obj)) {
+            return obj[0] || {};
+        }
+        return obj || {};
     }
 
     static async getItemImgId(itemID) {
