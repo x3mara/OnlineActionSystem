@@ -1,6 +1,7 @@
 import Item from "../Item.js";
-import User from "../User.js";
+import Client from "../Client.js";
 import Auction from "../Auction.js";
+import { getAllAuctions } from "./qol.js";
 export default class auctionController{
 
     async startAuction(req, res){
@@ -8,17 +9,36 @@ export default class auctionController{
             = req.body;
         const item = new Item(name, desc, tag, buyout_price, starting_price);
         await Item.insertItem(item);
-        console.log("Session User: " + req.session.user);
-        let seller = await User.searchClient(req.session.user.getUsername());
-        const auction = new Auction(item,end_date,seller,starting_price);
+
+        req.files.forEach(e => {
+            item.insertItemImg(e.path);
+        });
+
+        // console.log(req.session.user);
+        if (req.session.user == undefined){
+            // this is just to facilitate testing
+            req.session.user = 'default_seller';
+        }
+
+        const seller = await Client.searchClient(req.session.user);
+        const seller_id = seller.getUserID();
+        console.log(seller);
+
+        const auction = new Auction(item.itemID,end_date,seller_id,starting_price);
         await Auction.insertAuction(auction);
-        console.log("Item Details: " + item);
-        console.log("Auction Details: " + auction);
+
+        console.log("Seller: " + seller.getUsername());
+        console.log(seller.getUserID());
+        // console.log("Item Details: " + JSON.stringify(item,null,2));
+        // console.log("Auction Details: " + JSON.stringify(auction,null,2));
+
+        const recommendedAuctions = await getAllAuctions();
+        console.log(recommendedAuctions);
+
         res.render('ClientDashboard', {
-            username: req.session.user.username,
-            email: req.session.user.email
+            username: seller.getUsername(),
+            recommendedAuctions: recommendedAuctions,
+            wishlistedAuctions: []
         });
     }
-
-    
 }

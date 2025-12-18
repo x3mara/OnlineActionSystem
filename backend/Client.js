@@ -4,8 +4,6 @@ import {searchClientbyusername,insert, viewAllAuctions} from "../Database/databa
 import session from "express-session";
 export default class Client extends User{
 
-
-
     #suspicious; //int
     #suspended; //bool
     #points; //int
@@ -21,6 +19,25 @@ export default class Client extends User{
         points: this.#points,
         levels: this.#level};
         
+    }
+    
+    static async fromSQL(data){
+        const client = new Client(data.username,data.password,data.email);
+        client.setUserID(data.id);
+        // client.#suspicious = ;
+        // client.#suspended = false;
+        // client.#points = 0;
+        // client.#level = 0;
+        return client;
+    }
+
+    static async searchClient(inputUsername){
+        let rows = await searchClientbyusername(inputUsername);
+        if(rows.length == 0){
+            console.log("User Not Found");
+            return null;
+        }
+        return Client.fromSQL(rows[0]);
     }
 
     constructor(username, password, email){
@@ -42,9 +59,6 @@ export default class Client extends User{
     setPoints(points){this.#points = points;}
     setLevel(level){this.#level = level;}
 
-    
-
-
     static async insertClient(inputUsername, inputPassword, inputEmail){
         const rows = await User.searchClient(inputUsername);
         if(rows.length === 0){
@@ -59,7 +73,7 @@ export default class Client extends User{
 
             }
             //inputPassword = inputPassword.hashCode(); //hashcode function needs implementation
-            await insert("users",sqlObjectUser);
+            await insert("users", sqlObjectUser);
             await insert("clients", sqlObject);
             return sessionClient; 
         }

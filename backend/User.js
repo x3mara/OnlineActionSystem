@@ -15,6 +15,13 @@ export default class User{
         password:this.#password,
         email:this.#email};
     }
+    // fromSQL(rows){
+    //     #id:this.rows[0],
+    //     #username:this.rows[1],
+    //     #roles:rows[2],
+    //     #password:this.rows[3],
+    //     #email:this.rows[4];
+    // }
 
     constructor(username, password, email){
         this.#userID = 'u' + Math.trunc((Math.random() + Date.now()));
@@ -24,6 +31,10 @@ export default class User{
         
     }
 
+    static async searchClient(inputUsername){ // i dont really like this logic
+        let rows = await searchClientbyusername(inputUsername);
+        return rows; 
+    }
     
     //setters and getters
     getUserID(){return this.#userID;}
@@ -40,11 +51,7 @@ export default class User{
         let rows = await searchUser(inputUsername);
         return rows;
     }
-    static async searchClient(inputUsername){
-        let rows = await searchClientbyusername(inputUsername);
-        return rows;
-    }
-
+    
    static async verifyLogin(inputUsername, inputPassword){
         let rows = await User.searchUser(inputUsername);
         if(rows.length === 0){
