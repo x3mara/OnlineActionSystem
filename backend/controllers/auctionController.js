@@ -5,9 +5,10 @@ import { getAllAuctions } from "./qol.js";
 export default class auctionController{
 
     async startAuction(req, res){
-        const {name, desc, buyout_price, starting_price, end_date, tag} 
+        const {name, description, buyout_price, starting_price, end_date, tag} 
             = req.body;
-        const item = new Item(name, desc, tag, buyout_price, starting_price);
+        console.log("Description " + description);
+        const item = new Item(name, description, tag, buyout_price, starting_price);
         await Item.insertItem(item);
 
         req.files.forEach(e => {
