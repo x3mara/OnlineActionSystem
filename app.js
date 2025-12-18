@@ -133,7 +133,7 @@ app.use((req, res, next) => {
 });
 
 app.get('/', (req, res) => {
-  res.render('Landpage');
+  res.render('WishlistedAuctions');
 });
 
 app.post('/landpage', (req, res) => {
@@ -171,7 +171,7 @@ app.get('/sellitem', (req, res) => {
 app.post('/clientdashboard', (req, res) => {});
 app.get('/clientdashboard', (req, res) => {
   if (!req.session.user) {
-    return res.redirect('/landpage');
+    return res.render('Landpage');
   }
   res.render('ClientDashboard', {
     username: req.session.user.username,

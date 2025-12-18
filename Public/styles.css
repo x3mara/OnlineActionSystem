@@ -727,7 +727,7 @@ button.fav {
 .section-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: right;
   margin-bottom: 8px
 }
 

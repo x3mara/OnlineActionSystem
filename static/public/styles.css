@@ -647,7 +647,8 @@ button.fav {
   background: rgba(255, 255, 255, 0.05);
   padding: 8px 12px;
   border-radius: 10px;
-  font-weight: 700
+  font-weight: 700;
+  color: #fff;
 }
 
 .profile .avatar {
@@ -727,7 +728,7 @@ button.fav {
 .section-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: right;
   margin-bottom: 8px
 }
 
