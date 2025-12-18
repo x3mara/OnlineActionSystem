@@ -15,6 +15,13 @@ export default class User{
         password:this.#password,
         email:this.#email};
     }
+    // fromSQL(rows){
+    //     #id:this.rows[0],
+    //     #username:this.rows[1],
+    //     #roles:rows[2],
+    //     #password:this.rows[3],
+    //     #email:this.rows[4];
+    // }
 
     constructor(username, password, email){
         this.#userID = 'u' + Math.trunc((Math.random() + Date.now()));

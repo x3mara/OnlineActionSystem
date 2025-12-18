@@ -30,7 +30,7 @@ export default class clientController{
 
         req.session.wallet = sessionWallet;
         req.session.user = sessionClient;
-
+        req.session.save();
 
         let auctions = await Client.viewAllAuctions();
 
