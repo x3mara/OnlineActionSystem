@@ -1810,3 +1810,360 @@ button.fav {
   color: #fff;
   cursor: pointer;
 }
+
+/* ==============================
+   FORCE DARK CARD THEME (FINAL)
+   Paste at END of styles.css
+   ============================== */
+
+/* Fix grid layout + header */
+.section-header{
+  justify-content: space-between !important;
+}
+
+.recommended .grid form,
+.recommended .grid .rec-form{
+  width:100%;
+  display:block;
+  margin:0;
+}
+
+.recommended .grid .rec-card-btn{
+  width:100%;
+  display:block;
+  background: transparent !important;
+  border:0 !important;
+  padding:0 !important;
+}
+
+/* Prevent global button hover transform on wrapper button */
+.rec-card-btn:hover,
+.rec-card-btn:active{
+  transform:none !important;
+  box-shadow:none !important;
+}
+
+/* --- Card itself (remove white border + make dark) --- */
+.rec-card{
+  width:100%;
+  border: 1px solid rgba(255,255,255,0.06) !important; /* no white frame */
+  background: rgba(0,0,0,0.28) !important;
+  border-radius: 18px !important;
+  overflow: hidden;
+  box-shadow: 0 14px 35px rgba(0,0,0,0.55) !important;
+}
+
+/* Dark media and bottom area */
+.card-media{
+  background: #070708 !important;
+}
+
+/* ✅ This is what was making it look “light” */
+.card-body{
+  background: rgba(0,0,0,0.35) !important;
+  padding: 14px !important;
+}
+
+/* Text colors */
+.card-body h4{
+  color: #fff !important;        /* title white */
+  font-weight: 900 !important;
+}
+
+.card-body .desc{
+  color: rgba(255,255,255,0.70) !important;
+}
+
+/* Tag chip dark */
+.tag{
+  background: rgba(255,255,255,0.06) !important;
+  color: rgba(255,255,255,0.90) !important;
+  border: 1px solid rgba(255,255,255,0.10) !important;
+}
+
+/* Price */
+.current-bid{
+  color: var(--accent) !important;
+}
+
+/* Timer text white */
+.card-media .time{
+  color:#fff !important;
+  background: rgba(0,0,0,0.55) !important;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* Seller tag */
+.card-media .seller-tag{
+  background: rgba(0,0,0,0.65) !important;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* Hover style like your dark example */
+.rec-card:hover{
+  transform: translateY(-6px);
+  border-color: rgba(186,0,54,0.25) !important;
+  box-shadow: 0 18px 45px rgba(0,0,0,0.65) !important;
+}
+
+/* =========================================================
+   RECOMMENDED / WISHLIST CARDS — FINAL DARK LOOK (OVERRIDE)
+   Paste at the VERY END of styles.css
+   ========================================================= */
+
+/* 1) Make the grid stable (no weird wrapping) */
+.recommended .grid,
+.wishlist-grid{
+  display: grid !important;
+  gap: 18px !important;
+  align-items: start !important;
+}
+
+/* Desktop columns (match your screenshot look) */
+@media (min-width: 1200px){
+  .recommended .grid,
+  .wishlist-grid{
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+}
+@media (min-width: 900px) and (max-width: 1199px){
+  .recommended .grid,
+  .wishlist-grid{
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+@media (min-width: 600px) and (max-width: 899px){
+  .recommended .grid,
+  .wishlist-grid{
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+@media (max-width: 599px){
+  .recommended .grid,
+  .wishlist-grid{
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* 2) Remove any layout weirdness from form/button wrappers */
+.recommended .grid form,
+.recommended .grid .rec-form,
+.wishlist-grid form{
+  width: 100% !important;
+  margin: 0 !important;
+}
+
+.recommended .grid .rec-card-btn,
+.wishlist-grid .rec-card-btn{
+  width: 100% !important;
+  display: block !important;
+  border: 0 !important;
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+/* Stop global "button:hover" scaling from affecting card wrappers */
+.rec-card-btn:hover,
+.rec-card-btn:active{
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* 3) THE CARD: kill the “white border frame” + make it dark */
+.rec-card{
+  border: 0 !important;                        /* ✅ no white border */
+  background: rgba(0,0,0,0.38) !important;     /* ✅ dark shell */
+  border-radius: 20px !important;
+  overflow: hidden !important;
+  box-shadow: 0 18px 55px rgba(0,0,0,0.60) !important;
+  transform: none !important;                   /* keep stable */
+}
+
+/* Subtle outline only (NOT white) */
+.rec-card{
+  outline: 1px solid rgba(255,255,255,0.05) !important;
+  outline-offset: -1px !important;
+}
+
+/* Hover: same dark vibe (no bright frame) */
+.rec-card:hover{
+  outline-color: rgba(186,0,54,0.22) !important;
+  box-shadow: 0 22px 70px rgba(0,0,0,0.70) !important;
+}
+
+/* 4) Media (image area) */
+.card-media{
+  background: #050506 !important;
+  height: 180px !important;     /* gives the “big top” look */
+}
+.card-media img{
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+
+/* 5) Timer: WHITE text */
+.card-media .time{
+  color: #fff !important; /* ✅ counter text white */
+  background: rgba(0,0,0,0.62) !important;
+  border: 1px solid rgba(255,255,255,0.10) !important;
+  border-radius: 10px !important;
+  font-weight: 800 !important;
+}
+
+/* 6) Body: fully dark (remove that grey panel look) */
+.card-body{
+  background: rgba(0,0,0,0.60) !important;  /* ✅ dark bottom area */
+  padding: 16px !important;
+}
+
+/* Title: WHITE (you said it was black) */
+.card-body h4{
+  color: #fff !important;
+  font-weight: 950 !important;
+}
+
+/* Description / small text */
+.card-body .desc{
+  color: rgba(255,255,255,0.72) !important;
+}
+
+/* 7) Category chip / tag: dark chip (NOT white) */
+.tag{
+  background: rgba(255,255,255,0.08) !important;
+  color: rgba(255,255,255,0.92) !important;
+  border: 1px solid rgba(255,255,255,0.10) !important;
+  border-radius: 12px !important;
+}
+
+/* 8) Price */
+.current-bid{
+  color: var(--accent) !important;
+  font-weight: 950 !important;
+}
+
+/* 9) Buttons inside cards: make sure NOTHING defaults to white */
+.rec-card button,
+.rec-card .small,
+.rec-card .btn{
+  background: rgba(255,255,255,0.06) !important;
+  color: #fff !important;
+  border: 1px solid rgba(255,255,255,0.10) !important;
+}
+
+/* If you have a "Bid" primary button inside cards */
+.rec-card .small:not(.buyout){
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
+  color: #fff !important;
+}
+
+/* =========================================
+   RECOMMENDED AUCTIONS – FIX BUTTON WRAP
+   (paste at END of styles.css)
+   ========================================= */
+
+/* Make each form behave like a clean grid item */
+.recommended .grid .auction-form {
+  margin: 0;
+  width: 100%;
+}
+
+/* Reset the wrapper button so it doesn't look like a "white card" */
+.recommended .grid .card-link {
+  all: unset;                 /* nukes global button styles */
+  display: block;
+  width: 100%;
+  cursor: pointer;
+}
+
+/* Restore keyboard focus (because all: unset removes it) */
+.recommended .grid .card-link:focus-visible .rec-card {
+  outline: 3px solid rgba(186, 0, 54, 0.35);
+  outline-offset: 3px;
+}
+
+/* Ensure the card itself takes full width */
+.recommended .grid .rec-card {
+  width: 100%;
+}
+
+/* IMPORTANT: hover/press should be on the CARD, not the wrapper button */
+.recommended .grid .card-link:hover,
+.recommended .grid .card-link:active {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Force the dark look exactly like your old version */
+.recommended .rec-card {
+  background: linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.15)) !important;
+  border: 1px solid rgba(255,255,255,0.03) !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+}
+
+.recommended .card-body h4 { color: #fff !important; }         /* title white */
+.recommended .card-media .time { color: #fff !important; }    /* timer white */
+
+/* keep buttons inside cards NOT white (if you add any later) */
+.recommended .small { background: var(--accent) !important; color:#fff !important; }
+.recommended .small.buyout { background:#333 !important; color:#fff !important; }
+
+/* ==============================
+   Recommended cards – equal height FIX
+   Paste at END of styles.css
+   ============================== */
+
+/* 1) Make every grid cell stretch to the tallest item in its row */
+.recommended .grid{
+  align-items: stretch;
+}
+
+/* 2) Ensure the wrapper (form + button) stretches to fill the grid cell */
+.recommended .grid .auction-form{
+  height: 100%;
+  margin: 0;
+}
+
+.recommended .grid .card-link{
+  height: 100%;
+  width: 100%;
+  display: block;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+/* Disable the global hover transform for this wrapper button */
+.recommended .grid .card-link:hover,
+.recommended .grid .card-link:active{
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* 3) Make the card itself fill the available height and distribute layout */
+.recommended .grid .rec-card{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 4) Fix the media height so all cards have identical top area */
+.recommended .grid .card-media{
+  height: 180px;              /* adjust to your taste (140/160/180) */
+  flex: 0 0 auto;
+}
+
+/* 5) Make the body take remaining height consistently */
+.recommended .grid .card-body{
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 6) Push price to the bottom so short descriptions don't shrink the card */
+.recommended .grid .current-bid{
+  margin-top: auto;
+}
