@@ -39,8 +39,6 @@
                         <% recommendedAuctions.forEach(a=> { %>
                             <form action="/auction/details" method="POST" class="auction-form">
                                 <input type="hidden" name="auctionId" value="<%= a.auction.id %>">
-
-                                
                                 <button type="submit" class="card-link" aria-label="Open auction details">
                                     <article class="rec-card" data-auction-id="<%= a.auction.id %>">
                                     <div class="card-media">

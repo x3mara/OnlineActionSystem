@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Manage Profile - 1X BID</title>
+  <link rel="stylesheet" href="/static/public/styles.css" />
+</head>
+
+<body class="dashboard-body">
+  <%- include('./partials/navbar.ejs') %>
+  <main class="dashboard-main">
+    <section class="manage-profile">
+      <h2>Manage profile</h2>
+
+      <% if (typeof message !== 'undefined' && message) { %>
+        <div class="notice"><%= message %></div>
+      <% } %>
+
+      <form action="/manageprofile" method="POST" enctype="multipart/form-data" class="profile-form">
+        <div class="profile-grid">
+          <div class="profile-left">
+            <label for="username">Username</label>
+            <input id="username" name="username" type="text" value="<%= username %>" required />
+
+            <label for="profilePic">Profile picture</label>
+            <div class="avatar-preview">
+              <img id="avatarImg" src="<%= avatar %>" alt="avatar" />
+            </div>
+            <input id="profilePic" name="profilePic" type="file" accept="image/*" />
+
+            <div class="form-actions">
+              <button type="submit" class="btn">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    (function(){
+      const fileInput = document.getElementById('profilePic');
+      const img = document.getElementById('avatarImg');
+      if (!fileInput || !img) return;
+      fileInput.addEventListener('change', () => {
+        const f = fileInput.files && fileInput.files[0];
+        if (!f) return;
+        if (!f.type.startsWith('image/')) return;
+        img.src = URL.createObjectURL(f);
+      });
+    })();
+  </script>
+</body>
+</html>
