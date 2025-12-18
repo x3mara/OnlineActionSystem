@@ -31,6 +31,9 @@ export default class Item {
     static async insertItem(sessionItem){
         await insert("item", sessionItem.toSQL()); 
     }
+    async insertItemImg(imgpath){
+        await insert("itemimg", {item_id: this.itemID, itemimg: imgpath}); 
+    }
 
     showItem(itemID) {
         //implementation to show item details

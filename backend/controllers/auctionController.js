@@ -10,6 +10,10 @@ export default class auctionController{
         const item = new Item(name, desc, tag, buyout_price, starting_price);
         await Item.insertItem(item);
 
+        req.files.forEach(e => {
+            item.insertItemImg(e.path);
+        });
+
         // console.log(req.session.user);
         if (req.session.user == undefined){
             // this is just to facilitate testing
@@ -28,9 +32,12 @@ export default class auctionController{
         // console.log("Item Details: " + JSON.stringify(item,null,2));
         // console.log("Auction Details: " + JSON.stringify(auction,null,2));
 
+        const recommendedAuctions = await getAllAuctions();
+        console.log(recommendedAuctions);
+
         res.render('ClientDashboard', {
             username: seller.getUsername(),
-            recommendedAuctions: await getAllAuctions(),
+            recommendedAuctions: recommendedAuctions,
             wishlistedAuctions: []
         });
     }

@@ -171,7 +171,7 @@ app.get('/sellitem', (req, res) => {
 app.post('/clientdashboard', (req, res) => {});
 app.get('/clientdashboard', (req, res) => {
   if (!req.session.user) {
-    return res.render('Landpage');
+    return res.redirect('/');
   }
   res.render('ClientDashboard', {
     username: req.session.user.username,
