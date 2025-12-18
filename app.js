@@ -152,7 +152,7 @@ app.get('/signup', (req, res) => {
   res.render('SignUp', { username: '' });
 });
 
-app.post('/LoginI', ControllerCL.login.bind(ControllerCL));
+
 
 app.get('/login', (req, res) => {
   res.render('Login', {});
@@ -215,6 +215,7 @@ app.get('/wishlistedauctions', (req, res) => {
 });
 
 app.post('/SignUpI', ControllerCL.register.bind(ControllerCL));
+app.post('/LoginI', ControllerCL.login.bind(ControllerCL));
 
 app.listen(3000, () => {
   console.log('Server is listening on port 3000');

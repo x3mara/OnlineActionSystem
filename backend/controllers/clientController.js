@@ -37,16 +37,12 @@ export default class clientController{
 
     async login(req, res){
         const { username, password } = req.body;
-        const sessionClient = await User.verifyLogin(username, password);
-        if (sessionClient === false) {
+        req.session.user = await User.verifyLogin(username, password);
+        if (req.session.user == false) {
             return res.render('Login' , { success: false, field: "password", message: "Incorrect password" });
         } 
-        else if (sessionClient === null) {
-            return res.render('Login' , { success: false, field: "username", message: "Username does not exist" });
-        } 
         else {
-            res.session.user = sessionClient;
-            res.session.wallet = await Wallet.fetchWallet(sessionClient.getUsername());
+            req.session.wallet = await Wallet.fetchWallet(req.session.user);
         }        
         return res.redirect('/clientdashboard');
     }
