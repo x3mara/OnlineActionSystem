@@ -22,6 +22,7 @@
             <input id="profilePic" name="profilePic" type="file" accept="image/*" hidden />
 
             <button class="upload-btn" id="avatarUploadBtn" type="button">Change picture</button>
+            <p class="upload-hint" id="avatarUploadHint">PNG/JPG — max 5MB</p>
 
             <div class="upload-previews" id="avatarUploadPreviews" aria-label="Selected image"></div>
           </div>
@@ -59,27 +60,30 @@
         const f = fileInput.files && fileInput.files[0];
         previews.innerHTML = '';
         if (!f) {
-          hint.textContent = 'PNG/JPG — max 5MB';
-          return;
-        }
-        if (!f.type.startsWith('image/')) {
-          hint.textContent = 'Please select an image file';
+          if (hint) hint.textContent = 'PNG/JPG — max 5MB';
           return;
         }
 
-        hint.textContent = f.name;
+        // file type check
+        if (!f.type.startsWith('image/')) {
+          if (hint) hint.textContent = 'Please select an image file';
+          fileInput.value = '';
+          return;
+        }
+
+        // file size check (5 MB)
+        const MAX = 5 * 1024 * 1024;
+        if (f.size > MAX) {
+          if (hint) hint.textContent = 'File too large (max 5MB)';
+          fileInput.value = '';
+          return;
+        }
+
+        if (hint) hint.textContent = f.name;
         const url = URL.createObjectURL(f);
 
         // update main avatar
         img.src = url;
-
-        // show thumbnail in previews (reusing upload preview styles)
-        const thumb = document.createElement('img');
-        thumb.src = url;
-        thumb.alt = f.name;
-        thumb.className = 'upload-thumb';
-        thumb.onload = () => URL.revokeObjectURL(url);
-        previews.appendChild(thumb);
       });
     })();
   </script>
