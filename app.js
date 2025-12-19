@@ -181,10 +181,11 @@ app.get('/login', (req, res) => {
   res.render('Login', {});
 });
 
-app.post('/sellitemI', upload.array('images', 5), (req, res) => {
+app.post('/sellitemI', upload.array('images', 5), async (req, res) => {
   console.log('Form data:', req.body);
   console.log('Uploaded files:', req.files);
   ControllerAU.startAuction(req,res);
+  res.redirect('/clientdashboard');
 });
 
 app.get('/sellitem', (req, res) => {
@@ -211,6 +212,7 @@ app.get('/AuctionDetails', async (req, res) => {
         console.log(data);
 
         res.render('AuctionDetails', {
+            balance: await ControllerWA.getBalance(req.session.user),
             auction: data.auction[0] || {}, // Safe access,
             sellerName: data.sellerName,
             bidders: data.bidders || [],
