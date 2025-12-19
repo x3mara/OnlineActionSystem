@@ -9,10 +9,14 @@ export function randInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-export async function getAllAuctions(res){
-    let auctions = await Client.viewAllAuctions();
-          
-      const itemPromises = auctions.map(auction => 
+export async function getAllAuctions(){
+    const auctions = await Client.viewAllAuctions();
+    const combinedData = combineAuctions(auctions);
+    return combinedData;
+}
+
+export async function combineAuctions(auctions) {
+    const itemPromises = auctions.map(auction => 
           Item.getItemthroughID(auction.item_id) 
       );
       
@@ -36,14 +40,8 @@ export async function getAllAuctions(res){
               images.map(img => img.itemimg):
               'static/public/images/SignUpHero.png' // Get first image
           }; 
-    });
-
-    return res.render('ClientDashboard', { 
-      username: req.session.user, 
-      recommendedAuctions: combinedData, 
-      wishlistedAuctions: [] 
-    });
+        });
+        return combinedData;
 }
-
 
 

@@ -13,10 +13,6 @@
     <section class="manage-profile">
       <h2>Manage profile</h2>
 
-      <% if (typeof message !== 'undefined' && message) { %>
-        <div class="notice"><%= message %></div>
-      <% } %>
-
       <form action="/manageprofile" method="POST" enctype="multipart/form-data" class="profile-form">
         <div class="profile-grid">
           <div class="profile-left">

@@ -155,8 +155,10 @@ app.get('/signup', (req, res) => {
 });
 
 app.post('/myauctions', (req, res) => {
-  // const myauctions = await ControllerAU.getClientAuctions(req.session.user);
-  res.render('MyAuctions', {})
+    const myauctions = ControllerAU.getClientAuctions(req.session.user);
+    myauctions.then(data => {
+        res.render('MyAuctions', {myAuctions: data});
+    }); 
 })
 
 app.get('/login', (req, res) => {

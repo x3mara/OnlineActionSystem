@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/public/styles.css">
+</head>
+<body>
+    <%- include('./partials/navbar.ejs') %>
+    <main>
+        <h1>My Auctions</h1>
+         <section class="auctions-section">
+                <!-- Recommended -->
+                <div class="recommended">
+                    <div class="section-header">
+                        <h3>My Auctions</h3>
+                        <a class="view-all" href="#">View all →</a>
+                    </div>
+
+                    <div class="grid" id="recommendedGrid">
+                        <% myAuctions.forEach(a=> { %>
+                            <form action="/auction/details" method="POST" class="auction-form">
+                                <input type="hidden" name="auctionId" value="<%= a.auction.id %>">
+                                <button type="submit" class="card-link" aria-label="Open auction details">
+                                    <article class="rec-card" data-auction-id="<%= a.auction.id %>">
+                                    <div class="card-media">
+                                        <span class="time js-timer" data-end="<%= a.auction.due_date %>">--:--:--</span>
+
+                                        <img src="<%= a.ItemImage %>" alt="<%= a.item.item_name %>" />
+                                        <div class="seller-tag"><%= a.auction.sellerName %></div>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <h4><%= a.title %></h4>
+                                        <p class="desc"><%= a.item.item_desc %></p>
+
+                                        <div class="tags">
+                                        <span class="tag"><%= a.item.item_tag %></span>
+                                        </div>
+
+                                        <div class="current-bid">$<%= a.auction.highest_bid %></div>
+                                    </div>
+                                    </article>
+                                </button>
+                                </form>
+
+                            <% }) %>
+                    </div>
+                </div>
+    </main>
+</body>
+</html>
