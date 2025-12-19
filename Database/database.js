@@ -183,6 +183,7 @@ export async function insertBankDetails(TOSQL){
   return rows;
 }
 export async function depositfromBank(wallet_id,amount){
+  console.log("WalletID@DB: " + wallet_id);
   const sql = 'select * from bank_details where wallet_id =?';
   const [rows] = await pool.query(sql, [wallet_id]);
   if(rows.length ==0){
@@ -196,6 +197,7 @@ export async function depositfromBank(wallet_id,amount){
   
 }
 export async function withdrawtoBank(wallet_id,amount){
+  await pool.query('update wallet set balance = balance - ? where wallet_id =?', [amount, wallet_id]);
   const [rows] = await pool.query('update bank_details set amount = amount + ? where wallet_id =?', [amount, wallet_id]);
   return rows;
 }

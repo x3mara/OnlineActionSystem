@@ -27,7 +27,6 @@ export default class Wallet{
     getUserID(){return this.#userID;}
     setUserID(userID){this.#userID = userID;}
 
-    
     static async searchWallet(username){
         let rows = await searchwalletbyUserUsername(username);
         return rows;

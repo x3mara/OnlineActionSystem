@@ -32,7 +32,7 @@ export default class clientController{
         const sqlObjectWallet= sessionWallet.toSQL();
         Wallet.insertWallet(sqlObjectWallet);
 
-        req.session.wallet = sessionWallet;
+        req.session.wallet = sessionWallet.getWalletID();
         req.session.user = sessionClient;
         return res.redirect('/clientdashboard');
     } 
@@ -45,8 +45,9 @@ export default class clientController{
             return res.render('Login' , { success: false, field: "password", message: "Incorrect password" });
         } 
         else {
-            req.session.wallet = await Wallet.fetchWallet(req.session.user);
-        }        
+            req.session.wallet = (await Wallet.fetchWallet(req.session.user)).wallet_id;
+        }
+        
         return res.redirect('/clientdashboard');
     }
 
@@ -79,7 +80,7 @@ export default class clientController{
     }
 
     async showWallet(req, res){
-        let wallet = await Wallet.fetchWallet(req.session.user.getUsername());
+        let wallet = await Wallet.fetchWallet(req.session.user);
         return res.render("nameOfScreen",{wallet});
     }
 
@@ -95,12 +96,12 @@ export default class clientController{
 
     async depositFromBank(req, res){
         const { amount } = req.body;
-        bankDetails.depositfromBank(req.session.wallet.getWalletID(), amount);
+        bankDetails.depositfromBank(req.session.wallet, amount);
     }
 
     async withdrawtoBank(req, res){
         const { amount } = req.body;
-        await withdrawtoBank(req.session.wallet.getWalletID(), amount);
+        await withdrawtoBank(req.session.wallet, amount);
     }
 
 }

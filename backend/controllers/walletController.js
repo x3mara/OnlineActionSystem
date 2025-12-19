@@ -5,6 +5,10 @@ export default class walletController{
 
     }
 
+    async getBalance(username){
+        return (await Wallet.searchWallet(username)).balance;
+    }
+
     async withdraw(req, res){
         const { amount } = req.body;
         if(amount*1.3 > req.session.wallet.getBalance()){

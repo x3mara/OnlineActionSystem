@@ -44,8 +44,13 @@ export default class auctionController{
         });
     }
 
+    async getRecommendedAuctions(username){
+        const auctions = await Client.viewAllAuctions();
+        const combinedData = await combineAuctions(auctions.slice(0,8));
+        return combinedData;
+    }
+
     async getClientAuctions(username){
-        const client = await Client.searchClient(username);
         const auctions = await client.getMyAuctions();
         const combinedData = await combineAuctions(auctions);
         return combinedData;

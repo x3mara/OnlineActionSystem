@@ -66,23 +66,23 @@
         <h2 class="wallet-title" id="depositTitle">Deposit</h2>
       </div>
 
-      <div class="wallet-sheet">
+      <form action="/deposit" method="POST" class="wallet-sheet">
         <div class="wallet-sheet__top">
           <div>
             <div class="wallet-muted">Current Balance</div>
-            <div class="wallet-balance">$ <span id="walletBalanceDeposit">300</span></div>
+            <div class="wallet-balance">$ <span id="walletBalanceDeposit"><%= balance %></span></div>
           </div>
 
           
         </div>
-
+        
         <label class="wallet-field">
           <span class="wallet-field__label">Deposit amount</span>
-          <input class="wallet-input" type="number" min="1" placeholder="e.g. 100" />
+          <input class="wallet-input" name="amount" type="number" min="1" placeholder="e.g. 100" />
         </label>
-
-        <button class="wallet-primary" type="button">Confirm Deposit</button>
-      </div>
+        
+        <button class="wallet-primary" type="submit">Confirm Deposit</button>
+      </form>
     </section>
 
     <!-- VIEW 3: WITHDRAW -->
@@ -92,11 +92,11 @@
         <h2 class="wallet-title" id="withdrawTitle">Withdraw</h2>
       </div>
 
-      <div class="wallet-sheet">
+      <form action="/withdraw" method="POST" class="wallet-sheet">
         <div class="wallet-sheet__top">
           <div>
             <div class="wallet-muted">Current Balance</div>
-            <div class="wallet-balance">$ <span id="walletBalanceWithdraw">300</span></div>
+            <div class="wallet-balance">$ <span id="walletBalanceWithdraw"><%= balance %></span></div>
           </div>
 
           
@@ -104,11 +104,11 @@
 
         <label class="wallet-field">
           <span class="wallet-field__label">Withdraw amount</span>
-          <input class="wallet-input" type="number" min="1" placeholder="e.g. 50" />
+          <input class="wallet-input" name="amount" type="number" min="1" placeholder="e.g. 50" />
         </label>
 
-        <button class="wallet-primary" type="button">Confirm Withdraw</button>
-      </div>
+        <button class="wallet-primary" type="submit">Confirm Withdraw</button>
+      </form>
     </section>
 
   </div>
