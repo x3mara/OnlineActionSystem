@@ -1,6 +1,6 @@
 import User from "./User.js";
 import Wallet from "./Wallet.js";
-import {searchClientbyusername,insert, viewAllAuctions, getMyAuctions} from "../Database/database.js";
+import {searchClientbyusername,insert, viewAllAuctions, getMyAuctions, updatesuscounteruser} from "../Database/database.js";
 import session from "express-session";
 export default class Client extends User{
 
@@ -82,37 +82,9 @@ export default class Client extends User{
         }
       
     }
-    async reportSuspiciousAuction(auctionID){
 
-    }
-
-    reportSuspicousUser(){
-        
-    }
-
-
-
-    suspendUsers(){}
-
-    showCredentials(){
-        let s = "UserID: " + this.getUserID() + "\nUsername: " + this.getUsername() + "\nPassword: " + this.getPassword();
-        return s;
-    }
-
-    showPurchaseHistory(){ 
-        
-    }
 
     
-
-    editProile(){
-
-    }
-
-    viewUserInfo(clientID){
-        //DATABASE TO VIEW INFO ????
-    }
-
     static async viewAllAuctions(){
         const rows = await viewAllAuctions();
         return rows;
@@ -122,4 +94,11 @@ export default class Client extends User{
         return rows;
     }
 
+    async incrementSuspicious(id){
+        await updatesuscounteruser(id);
+    }
+
+    async suspendedUser(id){
+        updateUserSuspendedStatus(id, true);
+    }
 }

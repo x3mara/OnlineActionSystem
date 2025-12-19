@@ -83,6 +83,11 @@ const sql = 'update clients set suscounter = suscounter +1 where user_id =?';
 const [rows] = await pool.query(sql, [id]);
 return rows;
 }
+export async function updatesuscounterauction(id){
+const sql = 'update auction set sus_counter = sus_counter +1 where id =?';
+const [rows] = await pool.query(sql, [id]);
+return rows;
+}
 export async function equipCosmetic(user_id,current_cosmetic){
   const sql = 'update clients set current_cosmetic =? where user_id=?';
   const [rows] = await pool.query(sql, [current_cosmetic,user_id]);

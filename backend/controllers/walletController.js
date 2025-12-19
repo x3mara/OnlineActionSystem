@@ -21,9 +21,10 @@ export default class walletController{
     }
     async deposit(req, res){
         const { amount } = req.body;
-        req.session.wallet.setBalance(req.session.wallet.getBalance() + amount);
-        await Wallet.updateWallet(req.session.wallet);
+
     }
+
+
 
 }
 

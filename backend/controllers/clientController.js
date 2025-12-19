@@ -5,6 +5,9 @@ import Item from '../Item.js';
 import session from 'express-session';
 import { authPlugins } from 'mysql2';
 import { getAllAuctions } from './qol.js';
+import Auction from '../Auction.js';
+import bankDetails from '../bankDetails.js';
+import { withdrawtoBank } from '../../Database/database.js';
 export default class clientController{
 
 
@@ -65,5 +68,39 @@ export default class clientController{
         return Item.getItemthroughID(ItemID);
     }
 
+    async reportSuspiciousAuction(req, res){
+        const { auctionID } = req.body;
+        await Auction.incrementSuspicious(auctionID);
+    }
+
+    async reportSuspiciousUser(req, res){
+        const { userID } = req.body;
+        await Client.incrementSuspicious(userID);
+    }
+
+    async showWallet(req, res){
+        let wallet = await Wallet.fetchWallet(req.session.user.getUsername());
+        return res.render("nameOfScreen",{wallet});
+    }
+
+    async suspendUsers(req, res){
+        await Client.suspendedUser(req.session.user.getUserID());
+    }
+
+    async insertBankDetails(req, res){
+        const { bankName, cvv, expiry, cardNumber } = req.body;
+        bank_Details = new bankDetails(bankName, req.session.wallet.getWalletID(),  cvv, expiry, cardNumber);
+        bankDetails.insertBankDetails(bank_Details);
+    }
+
+    async depositFromBank(req, res){
+        const { amount } = req.body;
+        bankDetails.depositfromBank(req.session.wallet.getWalletID(), amount);
+    }
+
+    async withdrawtoBank(req, res){
+        const { amount } = req.body;
+        await withdrawtoBank(req.session.wallet.getWalletID(), amount);
+    }
 
 }

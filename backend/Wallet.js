@@ -1,4 +1,4 @@
-import {insert, searchwalletbyUserUsername, updatewalletbalance} from "../Database/database.js";
+import {insert, searchwalletbyUserUsername, updatewalletbalance, insertBankDetails} from "../Database/database.js";
 export default class Wallet{
 
     #balance;
@@ -47,4 +47,6 @@ export default class Wallet{
         await updatewalletbalance(sessionWallet.getWalletID(), sessionWallet.getBalance());
     }
 
+
+    
 }

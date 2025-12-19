@@ -2,7 +2,7 @@ import Bid from "./Bid.js";
 import Client from "./Client.js";
 import clientController from "./controllers/clientController.js";
 import walletController from "./controllers/walletController.js";
-import {searchAuction, updateduedate, searchWalletbyWalletID, searchWalletbyid, getsellername,searchItem, insert, viewBidsforAuction, searchClientbyid, updatewalletbalance, updatehighestbid , getEverythingWithItem , getImgs,getAllbidsforAuction} from "../Database/database.js";
+import {searchAuction, updateduedate, searchWalletbyWalletID, searchWalletbyid, getsellername,searchItem, insert, viewBidsforAuction, searchClientbyid, updatewalletbalance, updatehighestbid , getEverythingWithItem , getImgs,getAllbidsforAuction, updatesuscounterauction} from "../Database/database.js";
 
 export default class Auction {
     auctionID;//int
@@ -80,7 +80,7 @@ export default class Auction {
 
     }
 
-        async suspendAuction(AuctionID) {
+    async suspendAuction(AuctionID) {
             updateWallets(searchClients(searchAuctions(AuctionID).highestBidder).wallet) += searchBids(AuctionID);//refund previous highest bidder money with the highest bid amount currently
             updateAuctions(AuctionID).suspended = true;
             updateAuctions(AuctionID).duetime = new Date(); //set duetime to current time to end auction
@@ -116,6 +116,10 @@ export default class Auction {
 
     async showCurrentBids(){
         searchBids(AuctionID); //return list of bids for the specified auction
+    }
+
+    async incrementSuspicious(id){
+        await updatesuscounterauction(id);
     }
 
     async getAuctionId() {   
