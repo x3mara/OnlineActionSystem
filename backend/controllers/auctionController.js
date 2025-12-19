@@ -55,19 +55,11 @@ export default class auctionController{
         console.log(seller.getUserID());
         // console.log("Item Details: " + JSON.stringify(item,null,2));
         // console.log("Auction Details: " + JSON.stringify(auction,null,2));
-
-        const recommendedAuctions = await getAllAuctions();
-        console.log(recommendedAuctions);
-
-        res.render('ClientDashboard', {
-            username: seller.getUsername(),
-            recommendedAuctions: recommendedAuctions,
-            wishlistedAuctions: []
-        });
     }
 
     async getRecommendedAuctions(username){
         const auctions = await Client.viewAllAuctions();
+        console.log(auctions);
         const combinedData = await combineAuctions(auctions.slice(0,8));
         return combinedData;
     }

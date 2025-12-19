@@ -103,7 +103,7 @@ create table bank_details(
 id integer primary key auto_increment,
 namekek VARCHAR(255),
 wallet_id BIGINT,
-CVV integer,
+CVV VARCHAR(3),
 expirydate VARCHAR(8),
 card_number VARCHAR(16),
 amount integer,
