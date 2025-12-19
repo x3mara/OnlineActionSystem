@@ -135,11 +135,13 @@ export async function getEverythingWithItem(auctionID){
   const [rows] = await pool.query(sql, [auctionID]);
   return rows;
 }
+
 export async function getImgs(item_id){
   const sql = 'select* from itemimg where item_id =?';
   const [rows] = await pool.query(sql, [item_id]);
   return rows;
 }
+
 export async function getsellername(auction_id){
   const sql = 'select users.* from auction join users on auction.seller_id = users.id where auction.id =?';
   const [rows] = await pool.query(sql, [auction_id]);

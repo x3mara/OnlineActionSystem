@@ -219,6 +219,11 @@ app.post('/auction/details', (req, res) => {
     });
 });
 
+app.get('/manageprofile', (req, res) => {
+  res.render('ManageProfile', {username: req.session.user, avatar: 'static/public/images/DefaultAvatar.png'});
+});
+
+
 app.post('/manageprofile', (req, res) => {
   console.log(req.body);
 });
