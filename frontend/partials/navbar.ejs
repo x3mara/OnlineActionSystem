@@ -1,5 +1,6 @@
 <header class="navbar">
     <%-include('./walletModal.ejs') %>
+    <%-include('./sellModal.ejs') %>
     <div class="nav-inner">
         <div class="nav-left">
             <a href="/clientdashboard">
@@ -19,9 +20,7 @@
         </div>
 
         <div class="nav-right">
-            <a href="/sellitem">
-                <button class="btn sell">+ Sell</button>
-            </a>
+            <button id="sellBtn" class="btn sell" type="button">+ Sell</button>
 
             <button class="balance" id="balanceBtn" type="button" aria-haspopup="dialog" aria-expanded="false">
                 <img src="static/public/Icons/coin.png" alt="" class="balance-icon">
@@ -151,6 +150,38 @@
 
     modal.addEventListener('click', (e) => {
       if (e.target.matches('[data-close="wallet"]')) closeModal();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+    });
+  })();
+</script>
+
+<script>
+  (function(){
+    const btn = document.getElementById('sellBtn');
+    const modal = document.getElementById('sellModal');
+    if (!btn || !modal) return;
+
+    function openModal(){
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+      btn.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(){
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      btn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    btn.addEventListener('click', openModal);
+
+    modal.addEventListener('click', (e) => {
+      if (e.target.matches('[data-close="sell"]')) closeModal();
     });
 
     document.addEventListener('keydown', (e) => {
