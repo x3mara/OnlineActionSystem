@@ -2,7 +2,7 @@ import Bid from "./Bid.js";
 import Client from "./Client.js";
 import clientController from "./controllers/clientController.js";
 import walletController from "./controllers/walletController.js";
-import {searchAuction, updateduedate, searchWalletbyWalletID, searchWalletbyid, getSellerName,searchItem, insert, viewBidsforAuction, searchClientbyid, updatewalletbalance, updatehighestbid , getEverythingWithItem , getImgs,getAllbidsforAuction} from "../Database/database.js";
+import {searchAuction, updateduedate, searchWalletbyWalletID, searchWalletbyid, getsellername,searchItem, insert, viewBidsforAuction, searchClientbyid, updatewalletbalance, updatehighestbid , getEverythingWithItem , getImgs,getAllbidsforAuction} from "../Database/database.js";
 
 export default class Auction {
     auctionID;//int
@@ -145,7 +145,7 @@ export default class Auction {
     }
 
     static async  getSellerName(AuctionID){
-        return this.getSellerName(AuctionID);
+        return this.getsellername(AuctionID);
     }
 
     static async getAllbidders(AuctionID){
