@@ -51,6 +51,7 @@ export default class auctionController{
     }
 
     async getClientAuctions(username){
+        const client = await Client.searchClient(username);
         const auctions = await client.getMyAuctions();
         const combinedData = await combineAuctions(auctions);
         return combinedData;
