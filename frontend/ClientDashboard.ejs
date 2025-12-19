@@ -13,10 +13,10 @@
         <main class="dashboard-main">
             <section class="profile-card">
                 <div class="profile-image">
-                    <img src="/static/public/images/SignupHero2.png" alt="profile" />
+                    <img src=<%= avatar ? avatar : '/static/public/images/Guest%20Avatar.png' %> alt="profile" />
                 </div>
                 <div class="profile-info">
-                    <h2>Welcome, <span class="username">Username</span></h2>
+                    <h2>Welcome, <span class="username"><%= username %></span></h2>
                     <div class="xp-card">
                         <div class="xp-label">XP</div>
                         <div class="xp-bar">

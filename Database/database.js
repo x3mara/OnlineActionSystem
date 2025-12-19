@@ -83,6 +83,11 @@ const sql = 'update clients set suscounter = suscounter +1 where user_id =?';
 const [rows] = await pool.query(sql, [id]);
 return rows;
 }
+export async function updatesuscounterauction(id){
+const sql = 'update auction set sus_counter = sus_counter +1 where id =?';
+const [rows] = await pool.query(sql, [id]);
+return rows;
+}
 export async function equipCosmetic(user_id,current_cosmetic){
   const sql = 'update clients set current_cosmetic =? where user_id=?';
   const [rows] = await pool.query(sql, [current_cosmetic,user_id]);
@@ -178,6 +183,7 @@ export async function insertBankDetails(TOSQL){
   return rows;
 }
 export async function depositfromBank(wallet_id,amount){
+  console.log("WalletID@DB: " + wallet_id);
   const sql = 'select * from bank_details where wallet_id =?';
   const [rows] = await pool.query(sql, [wallet_id]);
   if(rows.length ==0){
@@ -191,11 +197,17 @@ export async function depositfromBank(wallet_id,amount){
   
 }
 export async function withdrawtoBank(wallet_id,amount){
+  await pool.query('update wallet set balance = balance - ? where wallet_id =?', [amount, wallet_id]);
   const [rows] = await pool.query('update bank_details set amount = amount + ? where wallet_id =?', [amount, wallet_id]);
   return rows;
 }
 export async function getbidfromusernameandauction(username, auctionID){
   const sql = 'select bid.* from bid join users on bid.users_id = users.id where users.username =? and bid.auction_id =?';
   const [rows] = await pool.query(sql, [username, auctionID]);
+  return rows;
+}
+export async function updateImg(username, imgpath){
+  const sql = 'update users set userimg =? where username =?';
+  const [rows] = await pool.query(sql, [imgpath, username]);
   return rows;
 }

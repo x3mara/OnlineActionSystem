@@ -5,6 +5,28 @@ import { getAllAuctions, combineAuctions } from "./qol.js";
 import { getMyAuctions , getbidfromusernameandauction } from "../../Database/database.js";
 export default class auctionController{
 
+    async bid(req, res){
+
+        const {AuctionID, BidAmount, sessionUsername, sessionWalletID} = req.body;
+
+        const newbid = await makeBid(AuctionID, BidAmount, sessionUsername, sessionWalletID);
+
+        return res.render('DetailedAuctionPage', { newbid });
+
+    }
+
+    async buyout(req, res){
+
+        const {AuctionID, sessionUsername, sessionWalletID} = req.body;
+        
+        const result = await Buyout(sessionUsername, AuctionID, sessionWalletID);
+
+        return res.render('DetailedAuctionPage', { result });
+        
+    }
+
+
+
     async startAuction(req, res){
         const {name, description, buyout_price, starting_price, end_date, tag} 
             = req.body;
@@ -42,6 +64,12 @@ export default class auctionController{
             recommendedAuctions: recommendedAuctions,
             wishlistedAuctions: []
         });
+    }
+
+    async getRecommendedAuctions(username){
+        const auctions = await Client.viewAllAuctions();
+        const combinedData = await combineAuctions(auctions.slice(0,8));
+        return combinedData;
     }
 
     async getClientAuctions(username){

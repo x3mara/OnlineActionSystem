@@ -6,6 +6,7 @@ id VARCHAR(14) PRIMARY KEY,
 email varchar(255) not null,
 roles varchar(50) not null,
 username varchar(255) not null unique,
+userimg VARCHAR(255),
 password varchar(255) not null
 );
 create table item(
@@ -108,5 +109,10 @@ card_number VARCHAR(16),
 amount integer,
 foreign key(wallet_id) references wallet(wallet_id) on delete set null
 );
+drop table clients;   
+drop table auction;
+drop table itemimg;
+drop table wallet;
+drop TABLE users;
 drop database auction_system;
 drop table bank_details;

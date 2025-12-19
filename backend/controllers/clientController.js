@@ -5,6 +5,9 @@ import Item from '../Item.js';
 import session from 'express-session';
 import { authPlugins } from 'mysql2';
 import { getAllAuctions } from './qol.js';
+import Auction from '../Auction.js';
+import bankDetails from '../bankDetails.js';
+import { withdrawtoBank } from '../../Database/database.js';
 export default class clientController{
 
 
@@ -29,11 +32,10 @@ export default class clientController{
         const sqlObjectWallet= sessionWallet.toSQL();
         Wallet.insertWallet(sqlObjectWallet);
 
-        req.session.wallet = sessionWallet;
+        req.session.wallet = sessionWallet.getWalletID();
         req.session.user = sessionClient;
         return res.redirect('/clientdashboard');
-    } 
-
+    }
 
     async login(req, res){
         const { username, password } = req.body;
@@ -42,8 +44,9 @@ export default class clientController{
             return res.render('Login' , { success: false, field: "password", message: "Incorrect password" });
         } 
         else {
-            req.session.wallet = await Wallet.fetchWallet(req.session.user);
-        }        
+            req.session.wallet = (await Wallet.fetchWallet(req.session.user))?.wallet_id;
+        }
+        
         return res.redirect('/clientdashboard');
     }
 
@@ -57,6 +60,15 @@ export default class clientController{
         return res.render("nameOfScreen",{userIDdisplay, usernamedisplay, emaildisplay, points, level});
     }
 
+    async updateAvatar(username, avatar){
+        const client = await Client.searchClient(username);
+        await client.updateAvatar(avatar);
+    }
+    async getAvatar(username){
+        const client = await Client.searchClient(username);
+        return await client.getAvatar();
+    }
+
     async viewAllAuctions(req, res){
         return auctions = await  Client.viewAllAuctions();
     }
@@ -65,5 +77,39 @@ export default class clientController{
         return Item.getItemthroughID(ItemID);
     }
 
+    async reportSuspiciousAuction(req, res){
+        const { auctionID } = req.body;
+        await Auction.incrementSuspicious(auctionID);
+    }
+
+    async reportSuspiciousUser(req, res){
+        const { userID } = req.body;
+        await Client.incrementSuspicious(userID);
+    }
+
+    async showWallet(req, res){
+        let wallet = await Wallet.fetchWallet(req.session.user);
+        return res.render("nameOfScreen",{wallet});
+    }
+
+    async suspendUsers(req, res){
+        await Client.suspendedUser(req.session.user.getUserID());
+    }
+
+    async insertBankDetails(req, res){
+        const { bankName, cvv, expiry, cardNumber } = req.body;
+        let bank_Details = new bankDetails(bankName, req.session.wallet.getWalletID(),  cvv, expiry, cardNumber);
+        bankDetails.insertBankDetails(bank_Details);
+    }
+
+    async depositFromBank(req, res){
+        const { amount } = req.body;
+        bankDetails.depositfromBank(req.session.wallet, amount);
+    }
+
+    async withdrawtoBank(req, res){
+        const { amount } = req.body;
+        await withdrawtoBank(req.session.wallet, amount);
+    }
 
 }

@@ -1,6 +1,6 @@
 import User from "./User.js";
 import Wallet from "./Wallet.js";
-import {searchClientbyusername,insert, viewAllAuctions, getMyAuctions} from "../Database/database.js";
+import {searchClientbyusername,insert, viewAllAuctions, getMyAuctions, updatesuscounteruser, updateUserSuspendedStatus} from "../Database/database.js";
 import session from "express-session";
 export default class Client extends User{
 
@@ -22,8 +22,10 @@ export default class Client extends User{
     }
     
     static async fromSQL(data){
+        console.log(data);
         const client = new Client(data.username,data.password,data.email);
         client.setUserID(data.id);
+        client.setAvatar(data.userimg);
         // client.#suspicious = ;
         // client.#suspended = false;
         // client.#points = 0;
@@ -82,37 +84,9 @@ export default class Client extends User{
         }
       
     }
-    async reportSuspiciousAuction(auctionID){
 
-    }
-
-    reportSuspicousUser(){
-        
-    }
-
-
-
-    suspendUsers(){}
-
-    showCredentials(){
-        let s = "UserID: " + this.getUserID() + "\nUsername: " + this.getUsername() + "\nPassword: " + this.getPassword();
-        return s;
-    }
-
-    showPurchaseHistory(){ 
-        
-    }
 
     
-
-    editProile(){
-
-    }
-
-    viewUserInfo(clientID){
-        //DATABASE TO VIEW INFO ????
-    }
-
     static async viewAllAuctions(){
         const rows = await viewAllAuctions();
         return rows;
@@ -122,4 +96,11 @@ export default class Client extends User{
         return rows;
     }
 
+    static async incrementSuspicious(id){
+        await updatesuscounteruser(id);
+    }
+
+    static async suspendedUser(id){
+        await updateUserSuspendedStatus(id, true);
+    }
 }
