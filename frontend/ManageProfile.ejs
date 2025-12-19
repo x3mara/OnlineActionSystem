@@ -84,14 +84,6 @@
 
         // update main avatar
         img.src = url;
-
-        // show thumbnail in previews
-        const thumb = document.createElement('img');
-        thumb.src = url;
-        thumb.alt = f.name;
-        thumb.className = 'upload-thumb';
-        thumb.onload = () => URL.revokeObjectURL(url);
-        previews.appendChild(thumb);
       });
     })();
   </script>

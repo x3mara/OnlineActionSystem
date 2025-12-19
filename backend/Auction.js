@@ -12,7 +12,7 @@ export default class Auction {
     suspended;//bool
     highestBidder;//string (clientID)
     startingPrice;//float
-    seller;//string (clientID)
+    sellerID;//string (clientID)
     
     toSQL(){
         return{
@@ -22,7 +22,7 @@ export default class Auction {
         item_id: this.AuctionedItem,
         highest_bidder: this.highestBidder,
         due_date: this.duetime,
-        seller_id: this.seller};
+        seller_id: this.sellerID};
     }
 
 
