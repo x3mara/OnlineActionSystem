@@ -175,39 +175,7 @@ app.get('/sellitem', (req, res) => {
 });
 
 app.get('/clientdashboard', async (req, res) => {
-  let auctions = await Client.viewAllAuctions();
-            
-        const itemPromises = auctions.map(auction => 
-            Item.getItemthroughID(auction.item_id) 
-        );
-        
-        const AuItems = await Promise.all(itemPromises);
-        
-        // Fetch images for each item
-        const imagePromises = AuItems.map(item => 
-            Item.getItemImgId(item ? item.id : null)
-        );
-        const ItemImages = await Promise.all(imagePromises);
-        
-        // Combine data with proper structure
-        const combinedData = auctions.map((auction, index) => {
-            const item = AuItems[index] || {};
-            const images = ItemImages[index] || [];
-            
-            return {
-                auction: auction,      
-                item: item,
-                ItemImage: images.length > 0 ?
-                images.map(img => img.itemimg):
-                'static/public/images/SignUpHero.png' // Get first image
-            }; 
-      });
-  
-      return res.render('ClientDashboard', { 
-        username: req.session.user, 
-        recommendedAuctions: combinedData, 
-        wishlistedAuctions: [] 
-      });
+  getAllAuctions(res);
 });
 
 app.get('/AuctionDetails', (req, res) => {
@@ -220,6 +188,10 @@ app.get('/AuctionDetails', (req, res) => {
 
 });
 
+app.get('/logout', (req,res) => {
+  req.session.destroy();
+  res.redirect('/');
+})
 
 app.post('/wishlistedauctions', (req, res) => {
   res.render('WishlistedAuctions', {});
