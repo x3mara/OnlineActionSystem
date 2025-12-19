@@ -117,8 +117,8 @@ export default class Client extends User{
         const rows = await viewAllAuctions();
         return rows;
     }
-    static async viewMyAuctions(){
-        const rows = await getMyAuctions(getUserID());
+    async getMyAuctions(){
+        const rows = await getMyAuctions(this.getUserID());
         return rows;
     }
 

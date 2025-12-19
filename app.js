@@ -154,8 +154,10 @@ app.get('/signup', (req, res) => {
 });
 
 app.post('/myauctions', (req, res) => {
-  const myauctions = ControllerAU.getClientAuctions(req.session.user);
-  res.render('MyAuctions', {myauctions: myauctions});
+    const myauctions = ControllerAU.getClientAuctions(req.session.user);
+    myauctions.then(data => {
+        res.render('MyAuctions', {myAuctions: data});
+    }); 
 })
 
 app.get('/login', (req, res) => {
@@ -173,39 +175,11 @@ app.get('/sellitem', (req, res) => {
 });
 
 app.get('/clientdashboard', async (req, res) => {
-  let auctions = await Client.viewAllAuctions();
-            
-        const itemPromises = auctions.map(auction => 
-            Item.getItemthroughID(auction.item_id) 
-        );
-        
-        const AuItems = await Promise.all(itemPromises);
-        
-        // Fetch images for each item
-        const imagePromises = AuItems.map(item => 
-            Item.getItemImgId(item ? item.id : null)
-        );
-        const ItemImages = await Promise.all(imagePromises);
-        
-        // Combine data with proper structure
-        const combinedData = auctions.map((auction, index) => {
-            const item = AuItems[index] || {};
-            const images = ItemImages[index] || [];
-            
-            return {
-                auction: auction,      
-                item: item,
-                ItemImage: images.length > 0 ?
-                images.map(img => img.itemimg):
-                'static/public/images/SignUpHero.png' // Get first image
-            }; 
-      });
-  
-      return res.render('ClientDashboard', { 
-        username: req.session.user, 
-        recommendedAuctions: combinedData, 
-        wishlistedAuctions: [] 
-      });
+  res.render('ClientDashboard', {
+    username: req.session.user,
+    recommendedAuctions: await getAllAuctions(),
+    wishlistedAuctions: []
+  });
 });
 
 app.get('/AuctionDetails', (req, res) => {
@@ -218,6 +192,10 @@ app.get('/AuctionDetails', (req, res) => {
 
 });
 
+app.get('/logout', (req,res) => {
+  req.session.destroy();
+  res.redirect('/');
+})
 
 app.post('/wishlistedauctions', (req, res) => {
   res.render('WishlistedAuctions', {});
@@ -239,6 +217,15 @@ app.post('/auction/details', (req, res) => {
         }
         res.redirect('/AuctionDetails');
     });
+});
+
+app.get('/manageprofile', (req, res) => {
+  res.render('ManageProfile', {username: req.session.user, avatar: 'static/public/images/DefaultAvatar.png'});
+});
+
+
+app.post('/manageprofile', (req, res) => {
+  console.log(req.body);
 });
 
 
