@@ -9,7 +9,7 @@ username varchar(255) not null unique,
 password varchar(255) not null
 );
 create table item(
-id integer primary key,
+id BIGINT primary key,
 item_name varchar(200),
 item_desc varchar(255),
 item_tag ENUM('Game','Furniture','Accessories','Electronics','Vehicles'),
@@ -44,7 +44,7 @@ create table auction(
 id BIGINT primary key,
 sus_counter integer,
 suspended boolean,
-item_id integer,
+item_id BIGINT,
 highest_bidder varchar(14),
 due_date timestamp,
 seller_id varchar(14),
@@ -65,7 +65,7 @@ foreign key (users_id) references users(id)
 create table purchase_history(
 id integer auto_increment primary key,
 user_id varchar(14) ,
-item_id int,
+item_id BIGINT,
 final_price integer,
 clock timestamp default now(),
 foreign key(user_id) references users(id),
@@ -80,7 +80,7 @@ foreign key(user_id) references users(id)
 );
 create table solditems(
 id integer primary key auto_increment,
-item_id integer,
+item_id BIGINT,
 user_id varchar(14),
 foreign key (item_id) references item(id),
 foreign key (user_id) references users(id)
@@ -94,7 +94,7 @@ foreign key(user_id) references users(id)
 );
 create table itemimg(
 id integer primary key auto_increment,
-item_id int,
+item_id BIGINT,
 itemimg varchar(255),
 foreign key (item_id) references item(id)
 );
