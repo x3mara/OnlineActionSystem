@@ -216,9 +216,9 @@ export async function updateUsername(oldusername, newusername){
   const [rows] = await pool.query(sql, [newusername, oldusername]);
   return rows;
 }
-export async function updateBankDetails(wallet_id, card_number, expirydate, CVV, amount){
-  const sql = 'update bank_details set card_number =?, expirydate =?, CVV =?, amount =? where wallet_id =?';
-  const [rows] = await pool.query(sql, [card_number, expirydate, CVV, amount, wallet_id]);
+export async function updateBankDetails(wallet_id, card_number, expirydate, CVV, amount,name){
+  const sql = 'update bank_details set card_number =?, expirydate =?, CVV =?, amount =?,namekek =? where wallet_id =?';
+  const [rows] = await pool.query(sql, [card_number, expirydate, CVV, amount, name, wallet_id]);
   if(rows.affectedRows === 0){
     return null;
   }

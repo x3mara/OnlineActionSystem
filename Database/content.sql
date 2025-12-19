@@ -102,13 +102,14 @@ foreign key (item_id) references item(id)
 create table bank_details(
 id integer primary key auto_increment,
 namekek VARCHAR(255),
-wallet_id BIGINT,
+wallet_id BIGINT UNIQUE,
 CVV VARCHAR(3),
 expirydate VARCHAR(8),
 card_number VARCHAR(16),
 amount integer,
 foreign key(wallet_id) references wallet(wallet_id) on delete set null
 );
+
 drop table clients;   
 drop table auction;
 drop table itemimg;
