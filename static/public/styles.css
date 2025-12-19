@@ -376,6 +376,140 @@ input::placeholder {
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto
 }
 
+/* =========================
+   MANAGE PROFILE
+   ========================= */
+.manage-title {
+  text-align: center;
+  font-size: 28px;
+  margin: 28px 0 12px;
+  color: #fff;
+}
+
+.manage-profile {
+  padding: 28px 20px 72px;
+  display: flex;
+  justify-content: center;
+}
+
+.manage-card {
+  width: 100%;
+  max-width: 920px;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 28px;
+  background: linear-gradient(180deg, rgba(12,4,6,0.55), rgba(6,3,4,0.55));
+  border: 1px solid rgba(255,255,255,0.04);
+  padding: 26px;
+  border-radius: 14px;
+  box-shadow: 0 14px 40px rgba(0,0,0,0.55);
+}
+
+.manage-avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.manage-avatar img {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid rgba(186,0,54,0.18);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+  background: rgba(255,255,255,0.02);
+}
+
+.avatar-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.change-btn {
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(186,0,54,0.14);
+  color: #ffebf0;
+  border: 1px solid rgba(186,0,54,0.22);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.muted {
+  color: rgba(255,255,255,0.5);
+  font-size: 13px;
+}
+
+.file-input { display:none; }
+
+.manage-form {
+  display: block;
+}
+
+.field-row {
+  display:flex;
+  flex-direction: column;
+  gap:8px;
+  margin-bottom:12px;
+}
+
+.field-row label {
+  color: rgba(255,255,255,0.85);
+  font-weight: 700;
+}
+
+.field-row input[type="text"] {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.02);
+  color: #fff;
+  outline: none;
+}
+
+.field-row input[type="text"]:focus {
+  box-shadow: 0 10px 30px rgba(186,0,54,0.07);
+  border-color: rgba(186,0,54,0.45);
+}
+
+.form-actions {
+  display:flex;
+  gap:12px;
+  justify-content:flex-end;
+  margin-top:18px;
+}
+
+.btn-ghost {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.9);
+}
+
+.notice {
+  max-width: 920px;
+  margin: 0 auto 16px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(186,0,54,0.08);
+  color: #ffd7e0;
+  border: 1px solid rgba(186,0,54,0.18);
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 780px) {
+  .manage-card { grid-template-columns: 1fr; }
+  .manage-avatar { flex-direction: row; gap:14px; justify-content:center; }
+  .manage-avatar img { width:110px; height:110px; }
+  .manage-title { font-size:22px; }
+}
+
+
 .navbar {
   display: flex;
   align-items: center;
@@ -2543,7 +2677,11 @@ button.fav {
 }
 
 .wallet-modal__panel {
-  position: relative;
+  /* absolutely center the panel inside the fixed modal container */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: min(820px, calc(100vw - 48px));
   border-radius: 22px;
   padding: 34px 34px 28px;
@@ -2551,6 +2689,8 @@ button.fav {
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 20px 60px rgba(0,0,0,0.55);
   z-index: 1;
+  max-height: calc(100vh - 96px);
+  overflow: auto;
 }
 
 .wallet-modal__title {

@@ -8,7 +8,7 @@ import Item from './backend/Item.js';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
-
+import { getAllAuctions } from './backend/controllers/qol.js';
 
 const app = express();
 const ControllerCL = new clientController();
@@ -154,8 +154,10 @@ app.get('/signup', (req, res) => {
 });
 
 app.post('/myauctions', (req, res) => {
-  // const myauctions = await ControllerAU.getClientAuctions(req.session.user);
-  res.render('MyAuctions', {})
+    const myauctions = ControllerAU.getClientAuctions(req.session.user);
+    myauctions.then(data => {
+        res.render('MyAuctions', {myAuctions: data});
+    }); 
 })
 
 app.get('/login', (req, res) => {
@@ -173,7 +175,11 @@ app.get('/sellitem', (req, res) => {
 });
 
 app.get('/clientdashboard', async (req, res) => {
-  getAllAuctions();
+  res.render('ClientDashboard', {
+    username: req.session.user,
+    recommendedAuctions: await getAllAuctions(),
+    wishlistedAuctions: []
+  });
 });
 
 app.get('/AuctionDetails', (req, res) => {
@@ -186,6 +192,10 @@ app.get('/AuctionDetails', (req, res) => {
 
 });
 
+app.get('/logout', (req,res) => {
+  req.session.destroy();
+  res.redirect('/');
+})
 
 app.post('/wishlistedauctions', (req, res) => {
   res.render('WishlistedAuctions', {});
@@ -207,6 +217,10 @@ app.post('/auction/details', (req, res) => {
         }
         res.redirect('/AuctionDetails');
     });
+});
+
+app.post('/manageprofile', (req, res) => {
+  console.log(req.body);
 });
 
 

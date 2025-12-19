@@ -140,4 +140,5 @@ export default class Auction {
         return this.highestBidder;
     }   
 
+    
 }
