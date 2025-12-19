@@ -32,7 +32,7 @@ export default class Auction {
         this.suspicious = 0;
         this.AuctionedItem = AuctionedItem;
         this.duetime = duetime;
-        this.seller = seller;
+        this.sellerID = seller;
         this.suspended = false;
         this.startingPrice = startingPrice;
         this.highestBidder = null;
