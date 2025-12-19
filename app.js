@@ -9,7 +9,6 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 import { getAllAuctions } from './backend/controllers/qol.js';
-import { get } from 'lodash';
 
 const app = express();
 const ControllerCL = new clientController();
@@ -176,7 +175,11 @@ app.get('/sellitem', (req, res) => {
 });
 
 app.get('/clientdashboard', async (req, res) => {
-  getAllAuctions(res);
+  res.render('ClientDashboard', {
+    username: req.session.user,
+    recommendedAuctions: await getAllAuctions(),
+    wishlistedAuctions: []
+  });
 });
 
 app.get('/AuctionDetails', (req, res) => {
@@ -188,7 +191,6 @@ app.get('/AuctionDetails', (req, res) => {
   res.render('AuctionDetails', {auction: auction});
 
 });
-
 
 app.post('/wishlistedauctions', (req, res) => {
   res.render('WishlistedAuctions', {});
@@ -210,6 +212,10 @@ app.post('/auction/details', (req, res) => {
         }
         res.redirect('/AuctionDetails');
     });
+});
+
+app.post('/manageprofile', (req, res) => {
+  console.log(req.body);
 });
 
 
