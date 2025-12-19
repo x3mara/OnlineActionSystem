@@ -20,13 +20,13 @@
       <div class="item-block">
         <div class="item-topline">
           <div>
-            <h1 class="item-title" id="itemName">Vintage Watch</h1>
+            <h1 class="item-title" id="itemName"> <% auction.item_name %> </h1>
 
             <!-- Seller row -->
             <div class="seller-row">
               <span class="dot-avatar" id="sellerAvatar">J</span>
               <button class="seller-name" id="sellerName" type="button">
-                john_seller
+                <% auction.seller_name %>
               </button>
             </div>
           </div>
@@ -40,7 +40,7 @@
             ❤
           </button>
 
-          <img src="images/SignUpHero.png" alt="Auction item" id="itemImg" />
+          <img src= <% auction.imagepath %> alt="Auction item" id="itemImg" />
         </div>
       </div>
 
@@ -48,8 +48,7 @@
       <div class="desc-card">
         <h3>Description</h3>
         <p id="itemDesc">
-          A well-preserved vintage watch in excellent condition. Original parts,
-          tested mechanism, and includes original packaging.
+          <% auction.item_desc %>
         </p>
       </div>
     </section>
@@ -61,7 +60,7 @@
         <button class="leave-btn" id="leaveBtn" type="button">Leave</button>
 
         <div class="current-label">Current bid</div>
-        <div class="current-amount">$<span id="currentBid">800</span></div>
+        <div class="current-amount">$<span id="currentBid"><%auction.current_bid%></span></div>
 
         <!-- shown after user bids -->
         <div class="your-bid" id="yourBidRow" style="display:none;">
@@ -72,7 +71,7 @@
           <span class="dot-avatar" id="topBidderIcon">A</span>
           <div class="hb-text">
             <div class="hb-label">Highest bidder</div>
-            <div class="hb-name" id="topBidderName">alice</div>
+            <div class="hb-name" id="topBidderName"><% auction.highest_bidder %>></div>
           </div>
         </div>
 
@@ -99,9 +98,7 @@
       </div>
 
       <div class="auction-tags" id="tags">
-        <span class="tag">Vintage</span>
-        <span class="tag">Watch</span>
-        <span class="tag">Collector</span>
+        <span class="tag"><%auction.item_tag%></span>
       </div>
 
       <!-- Section 4: Bidders -->
@@ -113,29 +110,19 @@
 
         <div class="bidders-list" id="biddersList">
           <!-- bidder row -->
+        
           <div class="bidder-row">
             <button class="flag-btn" type="button" aria-label="Report bidder">⚑</button>
 
             <button class="nameplate" type="button" aria-label="Open bidder profile">
               <span class="dot-avatar">A</span>
               <span class="bidder-name">alice</span>
-              <span class="title-tag">Veteran</span>
+             <!-- <span class="title-tag">Veteran</span>-->
             </button>
 
             <div class="bid-amount">$800</div>
           </div>
 
-          <div class="bidder-row">
-            <button class="flag-btn" type="button" aria-label="Report bidder">⚑</button>
-
-            <button class="nameplate" type="button" aria-label="Open bidder profile">
-              <span class="dot-avatar">B</span>
-              <span class="bidder-name">bob</span>
-              <span class="title-tag">Rookie</span>
-            </button>
-
-            <div class="bid-amount">$760</div>
-          </div>
         </div>
       </div>
     </section>
