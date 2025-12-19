@@ -140,15 +140,15 @@ export default class Auction {
         return this.highestBidder;
     }   
 
-    async getAuctiondetails(AuctionID){
+    static async  getAuctiondetails(AuctionID){
         return getEverythingWithItem(AuctionID);
     }
 
-    async getSellerName(AuctionID){
+    static async  getSellerName(AuctionID){
         return getEverythingWithItem(getImgs);
     }
 
-    async getAllbidders(AuctionID){
+    static async getAllbidders(AuctionID){
         return getAllbidsforAuction(AuctionID);
     }
 
