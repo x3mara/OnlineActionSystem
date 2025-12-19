@@ -13,7 +13,7 @@
     <section class="manage-profile">
       <h2 class="manage-title">Manage profile</h2>
 
-      <form action="/manageprofile" method="POST" enctype="multipart/form-data" class="manage-form"></form>
+
       <div class="manage-card">
         <div class="manage-avatar">
           <img id="avatarImg" src="<%= avatar %>" alt="avatar" />
@@ -24,7 +24,7 @@
           </div>
         </div>
 
-        
+        <form action="/manageprofile" method="POST" enctype="multipart/form-data" class="manage-form">
           <div class="field-row">
             <label for="username">Username</label>
             <input id="username" name="username" type="text" value="<%= username %>" required />
