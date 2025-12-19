@@ -203,10 +203,10 @@ app.post('/card/add', async (req,res) => {
 
 app.get('/clientdashboard', async (req, res) => {
   console.log(req.session.user);
-  console.log(await ControllerCL.getCardDetails(req.session.user));
+  console.log((await ControllerCL.getCardDetails(req.session.user))[0]);
   res.render('ClientDashboard', {
     username: req.session.user,
-    card: await ControllerCL.getCardDetails(req.session.user),
+    card: (await ControllerCL.getCardDetails(req.session.user))[0],
     avatar: await ControllerCL.getAvatar(req.session.user),
     balance: await ControllerWA.getBalance(req.session.user),
     recommendedAuctions: await ControllerAU.getRecommendedAuctions(req.session.user),
