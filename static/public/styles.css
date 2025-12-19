@@ -2694,6 +2694,65 @@ button.fav {
   overflow: auto;
 }
 
+/* Ensure sell modal uses same visual styles so it stays themed even if wallet rules change */
+.sell-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.sell-modal.is-open {
+  display: flex;
+}
+
+.sell-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+}
+
+.sell-modal__panel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(920px, calc(100vw - 48px));
+  border-radius: 18px;
+  padding: 26px;
+  background: rgba(10, 10, 10, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 28px 80px rgba(0,0,0,0.6);
+  z-index: 2;
+  max-height: calc(100vh - 96px);
+  overflow: auto;
+}
+
+.sell-modal__title {
+  margin: 0 0 12px;
+  text-align: center;
+  color: #fff;
+  font-size: 28px;
+}
+
+.sell-modal__close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.25);
+  color: #fff;
+  cursor: pointer;
+}
+
+
 .wallet-modal__title {
   margin: 0 0 18px;
   text-align: center;

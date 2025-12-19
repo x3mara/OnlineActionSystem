@@ -171,7 +171,7 @@ app.post('/sellitemI', upload.array('images', 5), (req, res) => {
 });
 
 app.get('/sellitem', (req, res) => {
-  res.render('partials/sellModal', {});
+  res.render('SellItem');
 });
 
 app.get('/clientdashboard', async (req, res) => {
@@ -182,14 +182,18 @@ app.get('/clientdashboard', async (req, res) => {
   });
 });
 
-app.get('/AuctionDetails', (req, res) => {
+app.get('/AuctionDetails', async (req, res) => {
 
-  const auction = req.session.auctionData;
-
-  //omar database function here
-
-  res.render('AuctionDetails', {auction: auction});
-
+        const auctionId = req.params.auctionId;
+        
+        const data = await ControllerAU.viewAuctionDetails(auctionId);
+        
+        res.render('AuctionDetails', {
+            auction: data.auction,
+            sellerName: data.sellerName,
+            bidders: data.bidders,
+            user: req.session.user
+        });
 });
 
 app.get('/logout', (req,res) => {
