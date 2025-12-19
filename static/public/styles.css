@@ -1753,8 +1753,6 @@ button.fav {
   padding: 18px;
   display: grid;
   place-items: center;
-  gap: 10px;
-  min-height: 220px;
 }
 
 .upload-btn {
