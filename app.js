@@ -153,8 +153,6 @@ app.get('/signup', (req, res) => {
   res.render('SignUp', { username: '' });
 });
 
-
-
 app.get('/login', (req, res) => {
   res.render('Login', {});
 });
@@ -169,13 +167,14 @@ app.get('/sellitem', (req, res) => {
   res.render('SellItem', {});
 });
 
-app.post('/clientdashboard', (req, res) => {
+app.get('/clientdashboard', async (req, res) => {
   getAllAuctions();
 });
 
-app.get('/clientdashboard', async (req, res) => {
-  
+app.get('/AuctionDetails', (req, res) => {
+
 });
+
 
 app.post('/wishlistedauctions', (req, res) => {
   res.render('WishlistedAuctions', {});
@@ -188,9 +187,17 @@ app.get('/wishlistedauctions', (req, res) => {
 app.post('/SignUpI', ControllerCL.register.bind(ControllerCL));
 app.post('/LoginI', ControllerCL.login.bind(ControllerCL));
 app.post('/auction/details', (req, res) => {
+    req.session.auctionData = auction; // Store full auction data
+    
+    req.session.save((err) => {
+        if (err) {
+            console.error('Session save error:', err);
+            return res.status(500).send('Error');
+        }
+        res.redirect('/AuctionDetails');
+    });
 });
-app.get('/AuctionDetails', (req, res) => {
-});
+
 
 app.listen(3000, () => {
   console.log('Server is listening on port 3000');
