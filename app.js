@@ -188,7 +188,7 @@ app.get('/AuctionDetails', async (req, res) => {
                 console.log(req.session.auctionData);
         const data = await ControllerAU.viewAuctionDetails(auctionId , req.session.user);
         
-        
+        console.log(data);
 
         res.render('AuctionDetails', {
             auction: data.auction[0] || {}, // Safe access,
