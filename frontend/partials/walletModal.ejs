@@ -55,7 +55,8 @@
       <div class="wallet-actions">
         <button class="wallet-action" type="button" data-open-view="deposit">Deposit</button>
         <button class="wallet-action" type="button" data-open-view="withdraw">Withdraw</button>
-        <button class="wallet-action wallet-action--plus" type="button">Add Card</button>
+        <button class="wallet-action wallet-action--plus" type="button" data-open-view="addcard">Add Card</button>
+
       </div>
     </section>
 
@@ -111,6 +112,79 @@
       </form>
     </section>
 
+    <!-- VIEW 4: ADD CARD -->
+<section class="wallet-view" data-view="addcard" aria-labelledby="addCardTitle">
+  <div class="wallet-formhead">
+    <button class="wallet-backbtn" type="button" data-open-view="main">← Back</button>
+    <h2 class="wallet-title" id="addCardTitle">Add Card</h2>
+  </div>
+
+  <div class="wallet-sheet">
+    <!-- LIVE PREVIEW CARD -->
+    <div class="wallet-center" style="margin-top:10px;">
+      <div class="wallet-cc wallet-cc--preview" id="addCardPreview">
+        <div class="wallet-cc__inner" id="addCardInner">
+          <!-- FRONT -->
+          <div class="wallet-cc__front">
+            <div class="wallet-cc__bg"></div>
+            <div class="wallet-cc__glow"></div>
+
+            <div class="wallet-cc__brand">VISA</div>
+
+            <div class="wallet-cc__contactless" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="46" height="56">
+                <path fill="none" stroke="#f9f9f9" stroke-width="6" stroke-linecap="round"
+                  d="m35,3a50,50 0 0,1 0,50M24,8.5a39,39 0 0,1 0,39M13.5,13.55a28.2,28.5 0 0,1 0,28.5M3,19a18,17 0 0,1 0,18" />
+              </svg>
+            </div>
+
+            <div class="wallet-cc__chip"></div>
+
+            <div class="wallet-cc__holder" id="prevHolder">XXXXXXXXXXXX</div>
+            <div class="wallet-cc__number" id="prevNumber">XXXX XXXX XXXX XXXX</div>
+            <div class="wallet-cc__valid" id="prevValid">MM/YY</div>
+          </div>
+
+          <!-- BACK -->
+          <div class="wallet-cc__back">
+            <div class="wallet-cc__signature" id="prevSignature">XXXXXXXXXXXX</div>
+            <div class="wallet-cc__seccode" id="prevCvv">XXX</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wallet-hint">Type to update the card</div>
+    </div>
+
+    <!-- FORM -->
+    <form action="/card/add" method="POST" class="wallet-sheet" style="background:transparent; padding:0; border:0;">
+      <label class="wallet-field">
+        <span class="wallet-field__label">Name</span>
+        <input class="wallet-input" id="cardNameInput" name="name" type="text" placeholder="e.g. John Doe" autocomplete="cc-name" />
+      </label>
+
+      <label class="wallet-field">
+        <span class="wallet-field__label">Card Number</span>
+        <input class="wallet-input" id="cardNumberInput" name="number" type="text" inputmode="numeric" placeholder="e.g. 1234 5678 9012 3456" autocomplete="cc-number" />
+      </label>
+
+      <div style="display:flex; gap:12px;">
+        <label class="wallet-field" style="flex:1;">
+          <span class="wallet-field__label">MM/YY</span>
+          <input class="wallet-input" id="cardExpInput" name="exp" type="text" inputmode="numeric" placeholder="e.g. 12/28" autocomplete="cc-exp" />
+        </label>
+
+        <label class="wallet-field" style="flex:1;">
+          <span class="wallet-field__label">CVV</span>
+          <input class="wallet-input" id="cardCvvInput" name="cvv" type="text" inputmode="numeric" placeholder="e.g. 123" autocomplete="cc-csc" />
+        </label>
+      </div>
+
+      <button class="wallet-primary" type="submit">Save Card</button>
+    </form>
+  </div>
+</section>
+
   </div>
 </div>
 
@@ -158,6 +232,70 @@
     modal.setAttribute("aria-hidden", "false");
     showView("main");
   };
+    // ---------------- ADD CARD LIVE PREVIEW ----------------
+  const prevHolder = modal.querySelector("#prevHolder");
+  const prevNumber = modal.querySelector("#prevNumber");
+  const prevValid = modal.querySelector("#prevValid");
+  const prevSignature = modal.querySelector("#prevSignature");
+  const prevCvv = modal.querySelector("#prevCvv");
+
+  const nameInput = modal.querySelector("#cardNameInput");
+  const numberInput = modal.querySelector("#cardNumberInput");
+  const expInput = modal.querySelector("#cardExpInput");
+  const cvvInput = modal.querySelector("#cardCvvInput");
+
+  const previewCard = modal.querySelector("#addCardPreview"); // .wallet-cc
+
+  function onlyDigits(s) {
+    return (s || "").replace(/\D/g, "");
+  }
+
+  function formatCardNumber(value) {
+    const d = onlyDigits(value).slice(0, 16);
+    const groups = d.match(/.{1,4}/g) || [];
+    const joined = groups.join(" ");
+    // show X placeholders when missing
+    return (joined + " XXXX XXXX XXXX XXXX").slice(0, 19);
+  }
+
+  function formatExp(value) {
+    // Expiration as string MM/YY
+    const d = onlyDigits(value).slice(0, 4);
+    const mm = d.slice(0, 2);
+    const yy = d.slice(2, 4);
+    return `${(mm || "MM")}/${(yy || "YY")}`;
+  }
+
+  function formatCvv(value) {
+    const d = onlyDigits(value).slice(0, 3);
+    return (d + "XXX").slice(0, 3);
+  }
+
+  function applyPreview() {
+    if (!prevHolder) return;
+
+    const name = (nameInput?.value || "").trim();
+    prevHolder.textContent = name ? name : "XXXXXXXXXXXX";
+    prevSignature.textContent = name ? name : "XXXXXXXXXXXX";
+
+    prevNumber.textContent = formatCardNumber(numberInput?.value || "");
+    prevValid.textContent = formatExp(expInput?.value || "");
+    prevCvv.textContent = formatCvv(cvvInput?.value || "");
+  }
+
+  [nameInput, numberInput, expInput, cvvInput].forEach(inp => {
+    inp?.addEventListener("input", applyPreview);
+  });
+
+  // Flip to back when CVV is focused
+  cvvInput?.addEventListener("focus", () => previewCard?.classList.add("is-flipped"));
+  cvvInput?.addEventListener("blur", () => previewCard?.classList.remove("is-flipped"));
+
+  // Ensure preview starts with placeholders
+  applyPreview();
+
 })();
+
+
 
 </script>
