@@ -8,7 +8,7 @@ import Item from './backend/Item.js';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
-import { searchAuction } from './Database/database.js';
+
 
 const app = express();
 const ControllerCL = new clientController();
@@ -169,7 +169,9 @@ app.get('/sellitem', (req, res) => {
   res.render('SellItem', {});
 });
 
-app.post('/clientdashboard', (req, res) => {});
+app.post('/clientdashboard', (req, res) => {
+  getAllAuctions();
+});
 
 app.get('/clientdashboard', async (req, res) => {
   
@@ -185,7 +187,8 @@ app.get('/wishlistedauctions', (req, res) => {
 
 app.post('/SignUpI', ControllerCL.register.bind(ControllerCL));
 app.post('/LoginI', ControllerCL.login.bind(ControllerCL));
-app.post('/auction/details', searchAuction);
+app.post('/auction/details', (req, res) => {
+});
 app.get('/AuctionDetails', (req, res) => {
 });
 
