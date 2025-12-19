@@ -98,8 +98,8 @@
         <div class="bid-actions" id="bidActions">
           <input class="bid-input" id="bidInput" type="number" step="any" inputmode="numeric" placeholder="Bid amount" aria-label="Bid amount" />
           <button class="bid-btn" id="bidBtn" type="button">Bid</button>
-          <button class="buyout-btn" id="buyoutBtn" type="button" data-buyout="<%- auction.buy_out_price %>">
-            Buyout for $ <%= auction.buy_out_price %>
+          <button class="buyout-btn" id="buyoutBtn" type="button" data-buyout="<%-"$"+auction.buy_out_price %>">
+            Buyout
           </button>
         </div>
       </div>
