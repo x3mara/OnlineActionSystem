@@ -62,32 +62,6 @@ export default class User{
         let rows = await searchUser(inputUsername);
         return rows;
     }
-    
-    static async verifyLogin(inputUsername, inputPassword){
-        let rows = await User.searchUserEntity(inputUsername);
-        let user = rows[0];
-        if(rows.length === 0){
-            return null;
-        }
-        else if (user.id[0] === 'a'){
-            if(user.password === inputPassword){
-            return rows[0].username;
-            }
-            else{
-                return false;
-            }
-        }
-        else{
-            if(user.password === inputPassword){
-                let rows2 = await User.searchClient(inputUsername);
-                return rows2[0].username;
-            }
-            else{
-                return false;
-            }
-        }
-       
-    }
 
     async showCredentials(){
         

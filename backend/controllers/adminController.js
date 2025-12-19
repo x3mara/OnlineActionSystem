@@ -3,7 +3,7 @@ import User from "../User.js";
 export default class adminController{
 
 
-    async login(req, res){
+    async loginasadmin(req, res){
         const { username, password } = req.body;
             const sessionAdmin = await User.verifyLogin(username, password);
             if (sessionAdmin==false){

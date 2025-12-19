@@ -59,8 +59,7 @@ export default class Auction {
         }
 
         if (await searchItem(fealks.item_id).buy_out_price <= Amount) {
-            Buyout(sessionUser, AuctionID);
-            return 1; //buyout successful
+            return buyOut(AuctionID, sessionUsername, sessionWalletID);
         }
 
         const bidrows = await viewBidsforAuction(AuctionID);
@@ -70,8 +69,8 @@ export default class Auction {
                 return -1;
             }
             console.log("Highest Biddah: " + highestbiddah);
-            const highest_bidder_wallet = Wallet.searchWallet(highestbiddah);
-            Wallet.updateWalletBalance(highest_bidder_wallet, highest_bidder_wallet.balance + bidrows[bidrows.length-1].bidamount);//refund previous highest bidder money with the highest bid amount currently
+            const highest_bidder_wallet = await Wallet.searchWallet(highestbiddah);
+            Wallet.updateWalletBalance(highest_bidder_wallet, highest_bidder_wallet.getBalance() + bidrows[bidrows.length-1].bidamount);//refund previous highest bidder money with the highest bid amount currently
         }
         const newbid = new Bid(AuctionID, sessionUser.getUserID(), Amount);
         console.log(newbid);
@@ -99,7 +98,11 @@ export default class Auction {
 
     }
 
-    static async buyOut(AuctionID, sessionUsername, sessionWallet) {
+    static async buyOut(AuctionID, sessionUsername, sessionWalletID) {
+        if(sessionWalletID === undefined){
+            sessionWalletID = (await Wallet.searchWallet(sessionUsername)).getWalletID();
+        }
+        const sessionWallet = await Wallet.searchWalletID(sessionWalletID);
         let sessionUser = await Client.searchClient(sessionUsername);
         let fealks = await searchAuction(AuctionID);
         let datediff = new Date(fealks.due_date) - new Date(); 
@@ -107,20 +110,28 @@ export default class Auction {
         const bidrows = await viewBidsforAuction(AuctionID);
  
         if (datediff <= 0) {
-        return -2; //auction ended
+            return -2; //auction ended
         }
 
         if(await searchwalletbyUserUsername(sessionUser) < await searchItem(fealks.item_id).buy_out_price) {//get wallet balance and compare it with buyout price
-        return -1;
+            return -1;
         }
 
-        await updatewalletbalance(await searchWalletbyid(highestbiddah), (await searchWalletbyid(highestbiddah).balance + bidrows[bidrows.length-1].bidamount));//refund previous highest bidder money with the highest bid amount currently
-        sessionWallet.setBalance(sessionWallet.getBalance() - await searchItem(fealks.item_id).buy_out_price);
-        await updatewalletbalance(await searchWalletbyWalletID(sessionWallet), sessionWallet.getBalance());  //update sessionwallet -= Amount in database
+        if(bidrows.length){
+            if(Amount < bidrows[bidrows.length-1].bidamount/*get the highest bid amount currently*/ || Amount > await searchWalletbyid(sessionUser.userID).balance || Amount < fealks.starting_price) {
+                return -1;
+            }
+            console.log("Highest Biddah: " + highestbiddah);
+            const highest_bidder_wallet = Wallet.searchWallet(highestbiddah);
+            Wallet.updateWalletBalance(highest_bidder_wallet, highest_bidder_wallet.balance + bidrows[bidrows.length-1].bidamount);//refund previous highest bidder money with the highest bid amount currently
+        }
+        const newbid = new Bid(AuctionID, sessionUser.getUserID(), Amount);
+        console.log(newbid);
+        Wallet.updateWalletBalance(sessionWallet, sessionWallet.getBalance() - Amount);  //update sessionwallet -= Amount in database
 
-        await updatehighestbid(AuctionID, sessionUser.userID, await searchItem(fealks.item_id).buy_out_price); 
+        await updatehighestbid(AuctionID, sessionUser.getUserID(), await searchItem(fealks.item_id).buy_out_price); 
         
-        await insert(purchase_history, {user_id: sessionUser.userID, item_id: fealks.item_id, final_price: await searchItem(fealks.item_id).buy_out_price}); //log purchase history
+        await insert('purchase_history', {user_id: sessionUser.getUserID(), item_id: fealks.item_id, final_price: await searchItem(fealks.item_id).buy_out_price}); //log purchase history
 
         await updateduedate(AuctionID, new Date());/*update duetime in database*/
 

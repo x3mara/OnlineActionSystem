@@ -38,7 +38,7 @@ export default class clientController{
         return res.redirect('/clientdashboard');
     }
 
-    async login(req, res){
+    async loginAsClient(req, res){
         const { username, password } = req.body;
         req.session.user = await User.verifyLogin(username, password);
         if (req.session.user == false) {
