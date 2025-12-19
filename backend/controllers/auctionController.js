@@ -52,10 +52,11 @@ export default class auctionController{
     }
 
     async viewAuctionDetails(auctionID, username){
+        console.log("Auction ID in controller: " + auctionID);
         const auction = await Auction.getAuctiondetails(auctionID);
         const sellerName = await Auction.getSellerName(auctionID);
         const bidders = await Auction.getAllbidders(auctionID);  
-        const userBid = await getbidfromusernameandauction(user, auctionID);
+        const userBid = await getbidfromusernameandauction(username, auctionID);
         const imgpath = await Item.getItemImgId(auction.item_id);
 
         let max = -1;
