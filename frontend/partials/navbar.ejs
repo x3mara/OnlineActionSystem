@@ -33,12 +33,9 @@
                 <div class="profile-dropdown" aria-hidden="true">
                     <div class="pd-row pd-row--header">
                         <div class="pd-avatar">U</div>
-                        <% if (username && email) { %>
+                        <% if (username) { %>
                             <div class="pd-name">
                                 <%= username %>
-                            </div>
-                            <div class="pd-email">
-                                <%= email %>
                             </div>
                             <% } else { %>
                                 <div class="pd-name">Guest</div>
