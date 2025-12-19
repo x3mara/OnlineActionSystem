@@ -97,9 +97,15 @@ export default class clientController{
     }
 
     async insertBankDetails(req, res){
-        const { bankName, cvv, expiry, cardNumber } = req.body;
-        let bank_Details = new bankDetails(bankName, req.session.wallet.getWalletID(),  cvv, expiry, cardNumber);
+        const { name, cvv, exp, number } = req.body;
+        let bank_Details = new bankDetails(name, req.session.wallet,  cvv, exp, number);
         bankDetails.insertBankDetails(bank_Details);
+    }
+
+    async updateBankDetails(req, res){
+        const { name, cvv, exp, number } = req.body;
+        let bank_Details = new bankDetails(name, req.session.wallet,  cvv, exp, number);
+        bankDetails.updateBankDetails(bank_Details);
     }
 
     async depositFromBank(req, res){
