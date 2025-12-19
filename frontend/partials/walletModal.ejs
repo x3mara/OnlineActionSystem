@@ -1,157 +1,163 @@
-<!-- Wallet Modal -->
-<div class="wallet-modal" id="walletModal" aria-hidden="true">
+<!-- WALLET MODAL (NEW, NO CLASS COLLISIONS) -->
+<div id="walletModal" class="wallet-modal" aria-hidden="true">
   <div class="wallet-backdrop" data-wallet-close></div>
 
   <div class="wallet-panel" role="dialog" aria-modal="true" aria-labelledby="walletTitle">
     <button class="wallet-close" type="button" aria-label="Close" data-wallet-close>✕</button>
 
-    <h2 class="wallet-title" id="walletTitle">My Wallet</h2>
-
-    <!-- MAIN VIEW -->
+    <!-- VIEW 1: MAIN -->
     <section class="wallet-view is-active" data-view="main">
-      <div class="wallet-row">
-        <span class="wallet-label">Current balance</span>
-        <span class="wallet-value">$ <span id="walletBalanceMain">300</span></span>
+      <h2 class="wallet-title" id="walletTitle">My Wallet</h2>
+
+      <div class="wallet-center">
+        <!-- FLIP CARD -->
+        <div class="wallet-cc" aria-label="Wallet card">
+          <div class="wallet-cc__inner">
+            <!-- FRONT -->
+            <div class="wallet-cc__front">
+              <div class="wallet-cc__bg"></div>
+              <div class="wallet-cc__glow"></div>
+
+              <!-- Brand -->
+              <div class="wallet-cc__brand">VISA</div>
+
+              <!-- Contactless -->
+              <div class="wallet-cc__contactless" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="46" height="56">
+                  <path
+                    fill="none"
+                    stroke="#f9f9f9"
+                    stroke-width="6"
+                    stroke-linecap="round"
+                    d="m35,3a50,50 0 0,1 0,50M24,8.5a39,39 0 0,1 0,39M13.5,13.55a28.2,28.5 0 0,1 0,28.5M3,19a18,17 0 0,1 0,18"
+                  />
+                </svg>
+              </div>
+
+              <div class="wallet-cc__chip"></div>
+
+              <div class="wallet-cc__holder">John Doe</div>
+              <div class="wallet-cc__number">1234 5678 9000 1234</div>
+              <div class="wallet-cc__valid">12/24</div>
+            </div>
+
+            <!-- BACK -->
+            <div class="wallet-cc__back">
+              <div class="wallet-cc__signature">John Doe</div>
+              <div class="wallet-cc__seccode">123</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="wallet-hint">Hover me ;)</div>
       </div>
 
       <div class="wallet-actions">
-        <button class="wallet-btn" type="button" data-open-view="deposit">Deposit</button>
-        <button class="wallet-btn" type="button" data-open-view="withdraw">Withdraw</button>
+        <button class="wallet-action" type="button" data-open-view="deposit">Deposit</button>
+        <button class="wallet-action" type="button" data-open-view="withdraw">Withdraw</button>
+        <button class="wallet-action wallet-action--plus" type="button">Add Card</button>
       </div>
     </section>
 
-    <!-- DEPOSIT VIEW -->
-    <section class="wallet-view" data-view="deposit">
-      <button class="wallet-back" type="button" data-open-view="main">← Back</button>
-
-      <h3 class="wallet-subtitle">Deposit</h3>
-
-      <div class="wallet-row">
-        <span class="wallet-label">Current balance</span>
-        <span class="wallet-value">$ <span id="walletBalanceDeposit">300</span></span>
+    <!-- VIEW 2: DEPOSIT -->
+    <section class="wallet-view" data-view="deposit" aria-labelledby="depositTitle">
+      <div class="wallet-formhead">
+        <button class="wallet-backbtn" type="button" data-open-view="main">← Back</button>
+        <h2 class="wallet-title" id="depositTitle">Deposit</h2>
       </div>
 
-      <div class="wallet-row">
-        <span class="wallet-label">New balance</span>
-        <span class="wallet-value wallet-green">$ <span id="walletNewDeposit">300</span></span>
+      <div class="wallet-sheet">
+        <div class="wallet-sheet__top">
+          <div>
+            <div class="wallet-muted">Current Balance</div>
+            <div class="wallet-balance">$ <span id="walletBalanceDeposit">300</span></div>
+          </div>
+
+          
+        </div>
+
+        <label class="wallet-field">
+          <span class="wallet-field__label">Deposit amount</span>
+          <input class="wallet-input" type="number" min="1" placeholder="e.g. 100" />
+        </label>
+
+        <button class="wallet-primary" type="button">Confirm Deposit</button>
       </div>
-
-      <input id="depositAmount" class="wallet-input" type="number" min="0" placeholder="Deposit amount" />
-
-      <button class="wallet-confirm" type="button" id="confirmDeposit">Confirm Deposit</button>
     </section>
 
-    <!-- WITHDRAW VIEW -->
-    <section class="wallet-view" data-view="withdraw">
-      <button class="wallet-back" type="button" data-open-view="main">← Back</button>
-
-      <h3 class="wallet-subtitle">Withdraw</h3>
-
-      <div class="wallet-row">
-        <span class="wallet-label">Current balance</span>
-        <span class="wallet-value">$ <span id="walletBalanceWithdraw">300</span></span>
+    <!-- VIEW 3: WITHDRAW -->
+    <section class="wallet-view" data-view="withdraw" aria-labelledby="withdrawTitle">
+      <div class="wallet-formhead">
+        <button class="wallet-backbtn" type="button" data-open-view="main">← Back</button>
+        <h2 class="wallet-title" id="withdrawTitle">Withdraw</h2>
       </div>
 
-      <div class="wallet-row">
-        <span class="wallet-label">New balance</span>
-        <span class="wallet-value wallet-red">$ <span id="walletNewWithdraw">300</span></span>
+      <div class="wallet-sheet">
+        <div class="wallet-sheet__top">
+          <div>
+            <div class="wallet-muted">Current Balance</div>
+            <div class="wallet-balance">$ <span id="walletBalanceWithdraw">300</span></div>
+          </div>
+
+          
+        </div>
+
+        <label class="wallet-field">
+          <span class="wallet-field__label">Withdraw amount</span>
+          <input class="wallet-input" type="number" min="1" placeholder="e.g. 50" />
+        </label>
+
+        <button class="wallet-primary" type="button">Confirm Withdraw</button>
       </div>
-
-      <input id="withdrawAmount" class="wallet-input" type="number" min="0" placeholder="Withdraw amount" />
-
-      <button class="wallet-confirm" type="button" id="confirmWithdraw">Confirm Withdraw</button>
     </section>
+
   </div>
 </div>
 
 <script>
-(function () {
+  (function () {
   const modal = document.getElementById("walletModal");
   if (!modal) return;
 
-  let balance = 300;
-
-  const views = modal.querySelectorAll("[data-view]");
-
-  const balMain = modal.querySelector("#walletBalanceMain");
-  const balDep  = modal.querySelector("#walletBalanceDeposit");
-  const balWit  = modal.querySelector("#walletBalanceWithdraw");
-
-  const newDep  = modal.querySelector("#walletNewDeposit");
-  const newWit  = modal.querySelector("#walletNewWithdraw");
-
-  const depInput = modal.querySelector("#depositAmount");
-  const witInput = modal.querySelector("#withdrawAmount");
-
-  const confirmDeposit = modal.querySelector("#confirmDeposit");
-  const confirmWithdraw = modal.querySelector("#confirmWithdraw");
+  const views = modal.querySelectorAll(".wallet-view");
 
   function showView(name) {
     views.forEach(v => v.classList.toggle("is-active", v.dataset.view === name));
   }
 
-  function renderBalances() {
-    if (balMain) balMain.textContent = balance;
-    if (balDep) balDep.textContent = balance;
-    if (balWit) balWit.textContent = balance;
-    if (newDep) newDep.textContent = balance;
-    if (newWit) newWit.textContent = balance;
-  }
-
-  function openModal() {
-    modal.classList.add("is-open");
-    modal.setAttribute("aria-hidden", "false");
-    showView("main");
-    renderBalances();
-    if (depInput) depInput.value = "";
-    if (witInput) witInput.value = "";
-  }
-
-  function closeModal() {
-    modal.classList.remove("is-open");
-    modal.setAttribute("aria-hidden", "true");
-    showView("main");
-  }
-
-  // Make global function you can call from navbar button
-  window.openWallet = openModal;
-
+  // close
   modal.addEventListener("click", (e) => {
-    if (e.target.closest("[data-wallet-close]")) closeModal();
+    const close = e.target.closest("[data-wallet-close]");
+    if (close) {
+      modal.classList.remove("is-open");
+      document.body.classList.remove("modal-open");
+      modal.setAttribute("aria-hidden", "true");
+      showView("main");
+    }
 
-    const openBtn = e.target.closest("[data-open-view]");
-    if (openBtn) {
-      const view = openBtn.dataset.openView;
-      showView(view);
-      renderBalances();
-      if (depInput) depInput.value = "";
-      if (witInput) witInput.value = "";
+    const openViewBtn = e.target.closest("[data-open-view]");
+    if (openViewBtn) {
+      showView(openViewBtn.dataset.openView);
     }
   });
 
-  depInput?.addEventListener("input", () => {
-    const v = Math.max(0, Number(depInput.value || 0));
-    newDep.textContent = balance + v;
+  // optional: ESC to close
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal.classList.contains("is-open")) {
+      modal.classList.remove("is-open");
+      document.body.classList.remove("modal-open");
+      modal.setAttribute("aria-hidden", "true");
+      showView("main");
+    }
   });
 
-  witInput?.addEventListener("input", () => {
-    const v = Math.max(0, Number(witInput.value || 0));
-    newWit.textContent = Math.max(0, balance - v);
-  });
-
-  confirmDeposit?.addEventListener("click", () => {
-    const v = Math.max(0, Number(depInput.value || 0));
-    balance += v;
-    renderBalances();
+  // expose open function (optional)
+  window.openWallet = function () {
+    modal.classList.add("is-open");
+    document.body.classList.add("modal-open");
+    modal.setAttribute("aria-hidden", "false");
     showView("main");
-  });
-
-  confirmWithdraw?.addEventListener("click", () => {
-    const v = Math.max(0, Number(witInput.value || 0));
-    balance = Math.max(0, balance - v);
-    renderBalances();
-    showView("main");
-  });
-
+  };
 })();
+
 </script>
