@@ -211,3 +211,8 @@ export async function updateImg(username, imgpath){
   const [rows] = await pool.query(sql, [imgpath, username]);
   return rows;
 }
+export async function updateUsername(oldusername, newusername){
+  const sql = 'update users set username =? where username =?';
+  const [rows] = await pool.query(sql, [newusername, oldusername]);
+  return rows;
+}
