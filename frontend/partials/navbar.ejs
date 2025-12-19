@@ -47,7 +47,9 @@
                     <hr class="pd-sep" />
                     <div class="pd-row pd-row--actions">
                         <button class="pd-btn">Manage Profile</button>
-                        <button class="pd-btn">My Auctions</button>
+                        <form action="/myauctions" method="POST">
+                            <button class="pd-btn" type="submit">My Auctions</button>
+                        </form>
                         <button class="pd-btn">Sold items</button>
                         <a href="/wishlistedauctions">
                             <button class="pd-btn">Wishlist</button>
