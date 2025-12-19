@@ -152,7 +152,10 @@ app.get('/signup', (req, res) => {
   res.render('SignUp', { username: '' });
 });
 
-
+app.post('/myauctions', (req, res) => {
+  // const myauctions = await ControllerAU.getClientAuctions();
+  res.render('MyAuctions', {})
+})
 
 app.get('/login', (req, res) => {
   res.render('Login', {});
