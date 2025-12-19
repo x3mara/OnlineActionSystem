@@ -145,7 +145,11 @@ export async function getsellername(auction_id){
   const [rows] = await pool.query(sql, [auction_id]);
   return rows[0].username;
 }
-
+export async function getAllbidsforAuction(auction_id){
+  const sql = 'select bid.* from bid where auction_id =?';
+  const [rows] = await pool.query(sql, [auction_id]);
+  return rows;
+}
 export async function searchWalletbyid(id){
   const sql = 'select wallet.* from wallet join users on wallet.user_id = users.id where users.id =?';
   const [rows] = await pool.query(sql, [id]);
