@@ -12,7 +12,7 @@ export default class auctionController{
 
     async buyout(AuctionID, sessionUsername, sessionWalletID){
 
-        return await Auction.buyOut(sessionUsername, AuctionID, sessionWalletID);
+        return await Auction.buyOut(AuctionID, sessionUsername, sessionWalletID);
         
     }
 

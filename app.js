@@ -271,11 +271,14 @@ app.post('/auction/details', (req, res) => {
     });
 });
 app.post('/AuctionDetails/bid', (req,res) => {
-  console.log("HI:");
-  console.log(req.body);
   ControllerAU.bid(req.session.auctionData.auctionId,req.body.amount,req.session.user,req.session.wallet);
   res.redirect('/clientdashboard');
 });
+app.post('/AuctionDetails/buyout', (req,res) => {
+  ControllerAU.buyout(req.session.auctionData.auctionId,req.session.user,req.session.wallet);
+  res.redirect('/clientdashboard');
+});
+
 
 app.get('/manageprofile', async (req, res) => {
   res.render('ManageProfile', {

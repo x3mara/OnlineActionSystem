@@ -114,25 +114,22 @@ export default class Auction {
             return -2; //auction ended
         }
 
-        if(await searchwalletbyUserUsername(sessionUser) < await searchItem(fealks.item_id).buy_out_price) {//get wallet balance and compare it with buyout price
+        if(await searchwalletbyUserUsername(sessionUsername) < await searchItem(fealks.item_id).buy_out_price) {//get wallet balance and compare it with buyout price
             return -1;
         }
 
         if(bidrows.length){
-            if(Amount < bidrows[bidrows.length-1].bidamount/*get the highest bid amount currently*/ || Amount > await searchWalletbyid(sessionUser.userID).balance || Amount < fealks.starting_price) {
-                return -1;
-            }
-            console.log("Highest Biddah: " + highestbiddah);
-            const highest_bidder_wallet = Wallet.searchWallet(highestbiddah);
+            const highest_bidder_wallet = await Wallet.searchWallet(highestbiddah);
             Wallet.updateWalletBalance(highest_bidder_wallet, highest_bidder_wallet.balance + bidrows[bidrows.length-1].bidamount);//refund previous highest bidder money with the highest bid amount currently
         }
+        const Amount = await searchItem(fealks.item_id).buy_out_price;
         const newbid = new Bid(AuctionID, sessionUser.getUserID(), Amount);
         console.log(newbid);
         Wallet.updateWalletBalance(sessionWallet, sessionWallet.getBalance() - Amount);  //update sessionwallet -= Amount in database
 
-        await updatehighestbid(AuctionID, sessionUser.getUserID(), await searchItem(fealks.item_id).buy_out_price); 
+        await updatehighestbid(AuctionID, sessionUser.getUserID(), Amount); 
         
-        await insert('purchase_history', {user_id: sessionUser.getUserID(), item_id: fealks.item_id, final_price: await searchItem(fealks.item_id).buy_out_price}); //log purchase history
+        await insert('purchase_history', {user_id: sessionUser.getUserID(), item_id: fealks.item_id, final_price: Amount}); //log purchase history
 
         await updateduedate(AuctionID, new Date());/*update duetime in database*/
 
