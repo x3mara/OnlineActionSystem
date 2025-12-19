@@ -206,3 +206,8 @@ export async function getbidfromusernameandauction(username, auctionID){
   const [rows] = await pool.query(sql, [username, auctionID]);
   return rows;
 }
+export async function updateImg(username, imgpath){
+  const sql = 'update users set userimg =? where username =?';
+  const [rows] = await pool.query(sql, [imgpath, username]);
+  return rows;
+}
