@@ -22,8 +22,10 @@ export default class Client extends User{
     }
     
     static async fromSQL(data){
+        console.log(data);
         const client = new Client(data.username,data.password,data.email);
         client.setUserID(data.id);
+        client.setAvatar(data.userimg);
         // client.#suspicious = ;
         // client.#suspended = false;
         // client.#points = 0;

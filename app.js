@@ -157,8 +157,11 @@ app.get('/signup', (req, res) => {
 
 app.post('/myauctions', (req, res) => {
     const myauctions = ControllerAU.getClientAuctions(req.session.user);
-    myauctions.then(data => {
-        res.render('MyAuctions', {myAuctions: data});
+    myauctions.then(async data => {
+        res.render('MyAuctions', {
+          myAuctions: data,
+          balance: await ControllerWA.getBalance(req.session.user)
+        });
     }); 
 })
 
@@ -192,6 +195,7 @@ app.get('/clientdashboard', async (req, res) => {
   console.log(req.session.user);
   res.render('ClientDashboard', {
     username: req.session.user,
+    avatar: await ControllerCL.getAvatar(req.session.user),
     balance: await ControllerWA.getBalance(req.session.user),
     recommendedAuctions: await ControllerAU.getRecommendedAuctions(req.session.user),
     wishlistedAuctions: []
@@ -211,8 +215,12 @@ app.get('/AuctionDetails', async (req, res) => {
             sellerName: data.sellerName,
             bidders: data.bidders || [],
             userBid: data.userBid[0],
-            imgpath: data.imgpath[0]
-        });
+            imgpath: (data.imgpath && 
+                data.imgpath[0] && 
+                data.imgpath[0].itemimg) ? 
+                data.imgpath[0].itemimg : 
+                '/static/public/images/SignUpHero.png'
+            });
 });
 
 app.get('/logout', (req,res) => {
@@ -246,15 +254,25 @@ app.post('/auction/details', (req, res) => {
     });
 });
 
-app.get('/manageprofile', (req, res) => {
-  res.render('ManageProfile', {username: req.session.user, avatar: 'static/public/images/DefaultAvatar.png'});
+app.get('/manageprofile', async (req, res) => {
+  res.render('ManageProfile', {
+    username: req.session.user,
+    avatar: await ControllerCL.getAvatar(req.session.user),
+    balance: await ControllerWA.getBalance(req.session.user)
+  });
 });
 
 
-app.post('/manageprofile', upload.single('profilePic'), (req, res) => {
+app.post('/manageprofile', upload.single('profilePic'), async (req, res) => {
   console.log('Form data:', req.body);
   console.log('Uploaded file:', req.file);
-  res.render('ManageProfile', {username: req.session.user, avatar: 'static/public/images/DefaultAvatar.png'});
+  const newavatar = req.file.path;
+  ControllerCL.updateAvatar(req.session.user,newavatar);
+  res.render('ManageProfile', {
+    username: req.session.user, 
+    avatar: newavatar,
+    balance: await ControllerWA.getBalance(req.session.user)
+  });
 });
 
 

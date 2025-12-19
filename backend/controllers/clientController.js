@@ -33,10 +33,9 @@ export default class clientController{
         Wallet.insertWallet(sqlObjectWallet);
 
         req.session.wallet = sessionWallet.getWalletID();
-        req.session.user = sessionClient;
+        req.session.user = sessionClient.getUsername();
         return res.redirect('/clientdashboard');
-    } 
-
+    }
 
     async login(req, res){
         const { username, password } = req.body;
@@ -45,7 +44,7 @@ export default class clientController{
             return res.render('Login' , { success: false, field: "password", message: "Incorrect password" });
         } 
         else {
-            req.session.wallet = (await Wallet.fetchWallet(req.session.user)).wallet_id;
+            req.session.wallet = (await Wallet.fetchWallet(req.session.user))?.wallet_id;
         }
         
         return res.redirect('/clientdashboard');
@@ -59,6 +58,15 @@ export default class clientController{
         let points = client[0].points;
         let level = client[0].level;
         return res.render("nameOfScreen",{userIDdisplay, usernamedisplay, emaildisplay, points, level});
+    }
+
+    async updateAvatar(username, avatar){
+        const client = await Client.searchClient(username);
+        await client.updateAvatar(avatar);
+    }
+    async getAvatar(username){
+        const client = await Client.searchClient(username);
+        return await client.getAvatar();
     }
 
     async viewAllAuctions(req, res){

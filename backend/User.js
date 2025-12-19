@@ -1,11 +1,12 @@
-import {searchUser,searchClientbyusername} from "../Database/database.js";
+import {searchUser,searchClientbyusername,updateImg} from "../Database/database.js";
 export default class User{
     
     #userID;
     #username;
     #password;   
     #email;
-    #role;      
+    #role;
+    #avatar;
 
     toSQL(){
         return{
@@ -13,7 +14,8 @@ export default class User{
         username:this.#username,
         roles:'Client',
         password:this.#password,
-        email:this.#email};
+        email:this.#email,
+        avatar:this.#avatar};
     }
     // fromSQL(rows){
     //     #id:this.rows[0],
@@ -28,7 +30,7 @@ export default class User{
         this.#username = username;
         this.#password = password;
         this.#email = email;
-        
+        this.#avatar = 'static/public/images/DefaultAvatar.png';
     }
 
     static async searchClient(inputUsername){ // i dont really like this logic
@@ -45,14 +47,23 @@ export default class User{
     setEmail(email){this.#email = email;}
     getEmail(){return this.#email;}
     setUserID(userID){this.#userID = userID;}
+    getAvatar(){return this.#avatar;}
+    setAvatar(avatar){this.#avatar = avatar;}
 
+
+    updateAvatar(path){
+        this.#avatar = path;
+        updateImg(this.#username,path);
+    }
+
+    
 
     static async searchUserEntity(inputUsername){
         let rows = await searchUser(inputUsername);
         return rows;
     }
     
-   static async verifyLogin(inputUsername, inputPassword){
+    static async verifyLogin(inputUsername, inputPassword){
         let rows = await User.searchUserEntity(inputUsername);
         let user = rows[0];
         if(rows.length === 0){

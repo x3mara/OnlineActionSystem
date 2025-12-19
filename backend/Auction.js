@@ -2,7 +2,8 @@ import Bid from "./Bid.js";
 import Client from "./Client.js";
 import clientController from "./controllers/clientController.js";
 import walletController from "./controllers/walletController.js";
-import {searchAuction, updateduedate, searchWalletbyWalletID, searchWalletbyid, getsellername,searchItem, insert, viewBidsforAuction, searchClientbyid, updatewalletbalance, updatehighestbid , getEverythingWithItem , getImgs,getAllbidsforAuction, updatesuscounterauction} from "../Database/database.js";
+import {searchAuction, updateduedate, searchWalletbyWalletID, searchWalletbyid, getsellername,searchItem, insert, viewBidsforAuction, searchClientbyid, updatewalletbalance, updatehighestbid , getEverythingWithItem , getImgs,getAllbidsforAuction, updatesuscounterauction, searchwalletbyUserUsername} from "../Database/database.js";
+
 
 export default class Auction {
     auctionID;//int
@@ -42,8 +43,9 @@ export default class Auction {
         await insert("auction", sessionAuction.toSQL()); 
     }
 
-    async makeBid(AuctionID, Amount, sessionUser, sessionWallet) {
-        
+    async makeBid(AuctionID, Amount, sessionUsername, sessionWalletID) {
+        let sessionWallet = await searchWalletbyid(sessionWalletID);
+        let sessionUser = await Client.searchClient(sessionUsername);
         let fealks = await searchAuction(AuctionID);
         let datediff = new Date(fealks.due_date) - new Date(); 
         let highestbiddah = fealks.highest_bidder;
@@ -67,9 +69,9 @@ export default class Auction {
 
         newbid = new Bid(AuctionID, sessionUser.userID, Amount);
 
-        sessionWallet.setBalance(sessionWallet.getBalance() - Amount);
+        sessionWallet.setBalance(sessionWallet.balance - Amount);
 
-        await updatewalletbalance(await searchWalletbyWalletID(sessionWallet), sessionWallet.getBalance() - Amount)  //update sessionwallet -= Amount in database
+        await updatewalletbalance(await searchWalletbyWalletID(sessionWallet), sessionWallet.balance);  //update sessionwallet -= Amount in database
 
         if(datediff < (2 * 60 * 1000)) {
             await updateduedate(AuctionID, new Date(searchAuction(AuctionID).due_date + 2 * 60 * 1000));/*update duetime in database*/
@@ -77,41 +79,53 @@ export default class Auction {
 
         await updatehighestbid(AuctionID, sessionUser.userID, Amount);
         await insert("bid", newbid.toSQL());
+        return newbid;
 
     }
 
     async suspendAuction(AuctionID) {
-            updateWallets(searchClients(searchAuctions(AuctionID).highestBidder).wallet) += searchBids(AuctionID);//refund previous highest bidder money with the highest bid amount currently
-            updateAuctions(AuctionID).suspended = true;
-            updateAuctions(AuctionID).duetime = new Date(); //set duetime to current time to end auction
+
+            let fealks = await searchAuction(AuctionID);
+            let highestbiddah = fealks.highest_bidder;
+            const bidrows = await viewBidsforAuction(AuctionID);
+
+            await updatewalletbalance(await searchWalletbyid(highestbiddah), (await searchWalletbyid(highestbiddah).balance + bidrows[bidrows.length-1].bidamount));//refund previous highest bidder money with the highest bid amount currently
+            updateAuctionSuspendedStatus(AuctionID, true);
+            await updateduedate(AuctionID, new Date()); //set duetime to current time to end auction
 
     }
 
-    async buyOut(AuctionID) {
-        let datediff = searchAuctions(AuctionID).duetime - new Date(); 
+    async buyOut(AuctionID, sessionUsername, sessionWallet) {
+        let sessionUser = await Client.searchClient(sessionUsername);
+        let fealks = await searchAuction(AuctionID);
+        let datediff = new Date(fealks.due_date) - new Date(); 
+        let highestbiddah = fealks.highest_bidder;
+        const bidrows = await viewBidsforAuction(AuctionID);
+ 
         if (datediff <= 0) {
         return -2; //auction ended
         }
-        if(searchWallets(clientController.sessionClient.walletID).balance < searchBids(AuctionID).BuyoutPrice) {//get wallet balance and compare it with buyout price
+
+        if(await searchwalletbyUserUsername(sessionUser) < await searchItem(fealks.item_id).buy_out_price) {//get wallet balance and compare it with buyout price
         return -1;
         }
-        updateWallets(searchClients(searchAuctions(AuctionID).highestBidder).wallet) += searchBids(AuctionID);//refund previous highest bidder money with the highest bid amount currently
-         walletController.sessionWallet.setBalance(walletController.sessionWallet.getBalance() - searchBids(AuctionID).BuyoutPrice);
-        /*update sessionwallet -= BuyoutPrice in database*/
-        
-        searchAuctions(AuctionID).highestBidder = clientController.sessionClient; 
-        
-        //make sessionClient win auction
-        //update sessionCLient 
 
+        await updatewalletbalance(await searchWalletbyid(highestbiddah), (await searchWalletbyid(highestbiddah).balance + bidrows[bidrows.length-1].bidamount));//refund previous highest bidder money with the highest bid amount currently
+        sessionWallet.setBalance(sessionWallet.getBalance() - await searchItem(fealks.item_id).buy_out_price);
+        await updatewalletbalance(await searchWalletbyWalletID(sessionWallet), sessionWallet.getBalance());  //update sessionwallet -= Amount in database
 
-        searchAuctions(AuctionID).duetime = new Date(); //set duetime to current time to end auction
-        /*update duetime in database*/
+        await updatehighestbid(AuctionID, sessionUser.userID, await searchItem(fealks.item_id).buy_out_price); 
+        
+        await insert(purchase_history, {user_id: sessionUser.userID, item_id: fealks.item_id, final_price: await searchItem(fealks.item_id).buy_out_price}); //log purchase history
+
+        await updateduedate(AuctionID, new Date());/*update duetime in database*/
+
+        return searchAuction(AuctionID);
         
     }
 
     async showCurrentBidders(AuctionID) { 
-        return searchClients(searchBids(AuctionID).BidderID); //return list of bidders for the specified auction
+        // return searchClients(searchBids(AuctionID).BidderID); //return list of bidders for the specified auction
     }
 
     async showCurrentBids(){
