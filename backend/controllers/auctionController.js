@@ -2,6 +2,7 @@ import Item from "../Item.js";
 import Client from "../Client.js";
 import Auction from "../Auction.js";
 import { getAllAuctions } from "./qol.js";
+import { getMyAuctions } from "../../Database/database.js";
 export default class auctionController{
 
     async startAuction(req, res){
@@ -42,4 +43,11 @@ export default class auctionController{
             wishlistedAuctions: []
         });
     }
+
+    async getClientAuctions(){
+        const auctions = await Client.getMyAuctions();
+        const combinedData = await combineAuctions(auctions);
+        return combinedData;
+    }
+
 }
