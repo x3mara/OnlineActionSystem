@@ -150,3 +150,8 @@ export async function searchWalletbyWalletID(wallet_id){
   const [rows] = await pool.query(sql, [wallet_id]);
   return rows;
 }
+export async function getMyAuctions(user_id){
+     const sql = 'select auction.* from auction where seller_id =?';
+     const [rows] = await pool.query(sql,[user_id]);
+     return rows;
+}

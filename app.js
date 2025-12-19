@@ -9,6 +9,7 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 
+
 const app = express();
 const ControllerCL = new clientController();
 const ControllerAU = new auctionController();
@@ -152,7 +153,10 @@ app.get('/signup', (req, res) => {
   res.render('SignUp', { username: '' });
 });
 
-
+app.post('/myauctions', (req, res) => {
+  // const myauctions = await ControllerAU.getClientAuctions(req.session.user);
+  res.render('MyAuctions', {})
+})
 
 app.get('/login', (req, res) => {
   res.render('Login', {});
@@ -168,43 +172,20 @@ app.get('/sellitem', (req, res) => {
   res.render('SellItem', {});
 });
 
-app.post('/clientdashboard', (req, res) => {});
-
 app.get('/clientdashboard', async (req, res) => {
-  let auctions = await Client.viewAllAuctions();
-      
-  const itemPromises = auctions.map(auction => 
-      Item.getItemthroughID(auction.item_id) 
-  );
-  
-  const AuItems = await Promise.all(itemPromises);
-  
-  // Fetch images for each item
-  const imagePromises = AuItems.map(item => 
-      Item.getItemImgId(item ? item.id : null)
-  );
-  const ItemImages = await Promise.all(imagePromises);
-  
-  // Combine data with proper structure
-  const combinedData = auctions.map((auction, index) => {
-      const item = AuItems[index] || {};
-      const images = ItemImages[index] || [];
-      
-      return {
-          auction: auction,      
-          item: item,
-          ItemImage: images.length > 0 ?
-          images.map(img => img.itemimg):
-          'static/public/images/SignUpHero.png' // Get first image
-      };
-  });
-
-  return res.render('ClientDashboard', { 
-      username: req.session.user, 
-      recommendedAuctions: combinedData, 
-      wishlistedAuctions: [] 
-  });
+  getAllAuctions();
 });
+
+app.get('/AuctionDetails', (req, res) => {
+
+  const auction = req.session.auctionData;
+
+  //omar database function here
+
+  res.render('AuctionDetails', {auction: auction});
+
+});
+
 
 app.post('/wishlistedauctions', (req, res) => {
   res.render('WishlistedAuctions', {});
@@ -216,6 +197,18 @@ app.get('/wishlistedauctions', (req, res) => {
 
 app.post('/SignUpI', ControllerCL.register.bind(ControllerCL));
 app.post('/LoginI', ControllerCL.login.bind(ControllerCL));
+app.post('/auction/details', (req, res) => {
+    req.session.auctionData = auction; // Store full auction data
+    
+    req.session.save((err) => {
+        if (err) {
+            console.error('Session save error:', err);
+            return res.status(500).send('Error');
+        }
+        res.redirect('/AuctionDetails');
+    });
+});
+
 
 app.listen(3000, () => {
   console.log('Server is listening on port 3000');
