@@ -80,6 +80,7 @@ export default class Auction {
 
         await updatehighestbid(AuctionID, sessionUser.userID, Amount);
         await insert("bid", newbid.toSQL());
+        return newbid;
 
     }
 
@@ -119,6 +120,8 @@ export default class Auction {
         await insert(purchase_history, {user_id: sessionUser.userID, item_id: fealks.item_id, final_price: await searchItem(fealks.item_id).buy_out_price}); //log purchase history
 
         await updateduedate(AuctionID, new Date());/*update duetime in database*/
+
+        return searchAuction(AuctionID);
         
     }
 
