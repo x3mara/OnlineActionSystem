@@ -130,9 +130,9 @@ export async function searchItem(item_id){
   return rows;
 }
 
-export async function getEverythingWithItem(auctionID){
+export async function getEverythingWithItem(auction_id){
   const sql = 'select auction.* , item.* from auction join item on auction.item_id = item.id where auction.id =?';
-  const [rows] = await pool.query(sql, [auctionID]);
+  const [rows] = await pool.query(sql, [auction_id]);
   return rows;
 }
 
