@@ -398,11 +398,11 @@ input::placeholder {
   display: grid;
   grid-template-columns: 260px 1fr;
   gap: 28px;
-  background: linear-gradient(180deg, rgba(12,4,6,0.55), rgba(6,3,4,0.55));
-  border: 1px solid rgba(255,255,255,0.04);
+  background: linear-gradient(180deg, rgba(12, 4, 6, 0.55), rgba(6, 3, 4, 0.55));
+  border: 1px solid rgba(255, 255, 255, 0.04);
   padding: 26px;
   border-radius: 14px;
-  box-shadow: 0 14px 40px rgba(0,0,0,0.55);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55);
 }
 
 .manage-avatar {
@@ -417,9 +417,9 @@ input::placeholder {
   height: 180px;
   border-radius: 50%;
   object-fit: cover;
-  border: 4px solid rgba(186,0,54,0.18);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-  background: rgba(255,255,255,0.02);
+  border: 4px solid rgba(186, 0, 54, 0.18);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .avatar-actions {
@@ -433,61 +433,65 @@ input::placeholder {
   display: inline-block;
   padding: 10px 14px;
   border-radius: 10px;
-  background: rgba(186,0,54,0.14);
+  background: rgba(186, 0, 54, 0.14);
   color: #ffebf0;
-  border: 1px solid rgba(186,0,54,0.22);
+  border: 1px solid rgba(186, 0, 54, 0.22);
   cursor: pointer;
   font-weight: 600;
 }
 
 .muted {
-  color: rgba(255,255,255,0.5);
+  color: rgba(255, 255, 255, 0.5);
   font-size: 13px;
 }
 
-.file-input { display:none; }
+.file-input {
+  display: none;
+}
 
 .manage-form {
   display: block;
 }
 
 .field-row {
-  display:flex;
+  display: flex;
   flex-direction: column;
-  gap:8px;
-  margin-bottom:12px;
+  gap: 8px;
+  margin-bottom: 12px;
 }
 
 .field-row label {
-  color: rgba(255,255,255,0.85);
+  color: rgba(255, 255, 255, 0.85);
   font-weight: 700;
 }
 
 .field-row input[type="text"] {
   padding: 12px 14px;
   border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.06);
-  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.02);
   color: #fff;
   outline: none;
+  width: 500px;
+  height: 40px;
 }
 
 .field-row input[type="text"]:focus {
-  box-shadow: 0 10px 30px rgba(186,0,54,0.07);
-  border-color: rgba(186,0,54,0.45);
+  box-shadow: 0 10px 30px rgba(186, 0, 54, 0.07);
+  border-color: rgba(186, 0, 54, 0.45);
 }
 
 .form-actions {
-  display:flex;
-  gap:12px;
-  justify-content:flex-end;
-  margin-top:18px;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 18px;
 }
 
 .btn-ghost {
   background: transparent;
-  border: 1px solid rgba(255,255,255,0.06);
-  color: rgba(255,255,255,0.9);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.9);
   padding-top: 8px;
 }
 
@@ -496,18 +500,32 @@ input::placeholder {
   margin: 0 auto 16px;
   padding: 10px 12px;
   border-radius: 10px;
-  background: rgba(186,0,54,0.08);
+  background: rgba(186, 0, 54, 0.08);
   color: #ffd7e0;
-  border: 1px solid rgba(186,0,54,0.18);
+  border: 1px solid rgba(186, 0, 54, 0.18);
   text-align: center;
 }
 
 /* Responsive */
 @media (max-width: 780px) {
-  .manage-card { grid-template-columns: 1fr; }
-  .manage-avatar { flex-direction: row; gap:14px; justify-content:center; }
-  .manage-avatar img { width:110px; height:110px; }
-  .manage-title { font-size:22px; }
+  .manage-card {
+    grid-template-columns: 1fr;
+  }
+
+  .manage-avatar {
+    flex-direction: row;
+    gap: 14px;
+    justify-content: center;
+  }
+
+  .manage-avatar img {
+    width: 110px;
+    height: 110px;
+  }
+
+  .manage-title {
+    font-size: 22px;
+  }
 }
 
 
@@ -928,7 +946,7 @@ button.fav {
   gap: 14px
 }
 
-.wishlist-grid{
+.wishlist-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 14px
@@ -987,13 +1005,31 @@ button.fav {
 }
 
 /* Minimal interactive styles - non-layout affecting */
-.rec-card { transition: transform 180ms ease, box-shadow 180ms ease; }
-.rec-card:hover { transform: translateY(-6px); box-shadow: 0 14px 30px rgba(2,6,23,0.5); }
-.rec-card:active { transform: translateY(-3px); }
+.rec-card {
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
 
-.card-media .fav { transition: background 160ms ease, color 160ms ease, transform 120ms ease; }
-.card-media .fav:hover { transform: scale(1.06); }
-.card-media .fav.active { background: #28a745; color: #fff; }
+.rec-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 30px rgba(2, 6, 23, 0.5);
+}
+
+.rec-card:active {
+  transform: translateY(-3px);
+}
+
+.card-media .fav {
+  transition: background 160ms ease, color 160ms ease, transform 120ms ease;
+}
+
+.card-media .fav:hover {
+  transform: scale(1.06);
+}
+
+.card-media .fav.active {
+  background: #28a745;
+  color: #fff;
+}
 
 .card-body {
   padding: 12px
@@ -1753,8 +1789,6 @@ button.fav {
   padding: 18px;
   display: grid;
   place-items: center;
-  gap: 10px;
-  min-height: 220px;
 }
 
 .upload-btn {
@@ -1909,39 +1943,44 @@ button.fav {
 }
 
 /* WALLET MODAL (fix + avoid conflicts with sell modal) */
-#walletModal { display: none; }
-#walletModal.is-open { display: block; }
+#walletModal {
+  display: none;
+}
 
-#walletModal .modal-backdrop{
+#walletModal.is-open {
+  display: block;
+}
+
+#walletModal .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,.55);
+  background: rgba(0, 0, 0, .55);
   z-index: 999;
 }
 
-#walletModal .modal-panel{
+#walletModal .modal-panel {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: min(720px, calc(100vw - 32px));
-  background: rgba(10,10,10,.92);
-  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(10, 10, 10, .92);
+  border: 1px solid rgba(255, 255, 255, .08);
   border-radius: 18px;
   padding: 18px 18px 22px;
   z-index: 1000;
-  box-shadow: 0 20px 60px rgba(0,0,0,.55);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .55);
 }
 
-#walletModal .modal-close{
+#walletModal .modal-close {
   position: absolute;
   right: 12px;
   top: 12px;
   width: 38px;
   height: 38px;
   border-radius: 12px;
-  border: 1px solid rgba(255,255,255,.1);
-  background: rgba(0,0,0,.35);
+  border: 1px solid rgba(255, 255, 255, .1);
+  background: rgba(0, 0, 0, .35);
   color: #fff;
   cursor: pointer;
 }
@@ -1952,93 +1991,95 @@ button.fav {
    ============================== */
 
 /* Fix grid layout + header */
-.section-header{
+.section-header {
   justify-content: space-between !important;
 }
 
 .recommended .grid form,
-.recommended .grid .rec-form{
-  width:100%;
-  display:block;
-  margin:0;
+.recommended .grid .rec-form {
+  width: 100%;
+  display: block;
+  margin: 0;
 }
 
-.recommended .grid .rec-card-btn{
-  width:100%;
-  display:block;
+.recommended .grid .rec-card-btn {
+  width: 100%;
+  display: block;
   background: transparent !important;
-  border:0 !important;
-  padding:0 !important;
+  border: 0 !important;
+  padding: 0 !important;
 }
 
 /* Prevent global button hover transform on wrapper button */
 .rec-card-btn:hover,
-.rec-card-btn:active{
-  transform:none !important;
-  box-shadow:none !important;
+.rec-card-btn:active {
+  transform: none !important;
+  box-shadow: none !important;
 }
 
 /* --- Card itself (remove white border + make dark) --- */
-.rec-card{
-  width:100%;
-  border: 1px solid rgba(255,255,255,0.06) !important; /* no white frame */
-  background: rgba(0,0,0,0.28) !important;
+.rec-card {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  /* no white frame */
+  background: rgba(0, 0, 0, 0.28) !important;
   border-radius: 18px !important;
   overflow: hidden;
-  box-shadow: 0 14px 35px rgba(0,0,0,0.55) !important;
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.55) !important;
 }
 
 /* Dark media and bottom area */
-.card-media{
+.card-media {
   background: #070708 !important;
 }
 
 /* ✅ This is what was making it look “light” */
-.card-body{
-  background: rgba(0,0,0,0.35) !important;
+.card-body {
+  background: rgba(0, 0, 0, 0.35) !important;
   padding: 14px !important;
 }
 
 /* Text colors */
-.card-body h4{
-  color: #fff !important;        /* title white */
+.card-body h4 {
+  color: #fff !important;
+  /* title white */
   font-weight: 900 !important;
 }
 
-.card-body .desc{
-  color: rgba(255,255,255,0.70) !important;
+.card-body .desc {
+  color: rgba(255, 255, 255, 0.70) !important;
 }
 
 /* Tag chip dark */
-.tag{
-  background: rgba(255,255,255,0.06) !important;
-  color: rgba(255,255,255,0.90) !important;
-  border: 1px solid rgba(255,255,255,0.10) !important;
+.tag {
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: rgba(255, 255, 255, 0.90) !important;
+  border: 1px solid rgba(255, 255, 255, 0.10) !important;
 }
 
 /* Price */
-.current-bid{
+.current-bid {
   color: var(--accent) !important;
 }
 
 /* Timer text white */
-.card-media .time{
-  color:#fff !important;
-  background: rgba(0,0,0,0.55) !important;
-  border: 1px solid rgba(255,255,255,0.08);
+.card-media .time {
+  color: #fff !important;
+  background: rgba(0, 0, 0, 0.55) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 /* Seller tag */
-.card-media .seller-tag{
-  background: rgba(0,0,0,0.65) !important;
-  border: 1px solid rgba(255,255,255,0.08);
+.card-media .seller-tag {
+  background: rgba(0, 0, 0, 0.65) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 /* Hover style like your dark example */
-.rec-card:hover{
+.rec-card:hover {
   transform: translateY(-6px);
-  border-color: rgba(186,0,54,0.25) !important;
-  box-shadow: 0 18px 45px rgba(0,0,0,0.65) !important;
+  border-color: rgba(186, 0, 54, 0.25) !important;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.65) !important;
 }
 
 /* =========================================================
@@ -2048,34 +2089,41 @@ button.fav {
 
 /* 1) Make the grid stable (no weird wrapping) */
 .recommended .grid,
-.wishlist-grid{
+.wishlist-grid {
   display: grid !important;
   gap: 18px !important;
   align-items: start !important;
 }
 
 /* Desktop columns (match your screenshot look) */
-@media (min-width: 1200px){
+@media (min-width: 1200px) {
+
   .recommended .grid,
-  .wishlist-grid{
+  .wishlist-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
   }
 }
-@media (min-width: 900px) and (max-width: 1199px){
+
+@media (min-width: 900px) and (max-width: 1199px) {
+
   .recommended .grid,
-  .wishlist-grid{
+  .wishlist-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   }
 }
-@media (min-width: 600px) and (max-width: 899px){
+
+@media (min-width: 600px) and (max-width: 899px) {
+
   .recommended .grid,
-  .wishlist-grid{
+  .wishlist-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 }
-@media (max-width: 599px){
+
+@media (max-width: 599px) {
+
   .recommended .grid,
-  .wishlist-grid{
+  .wishlist-grid {
     grid-template-columns: 1fr !important;
   }
 }
@@ -2083,13 +2131,13 @@ button.fav {
 /* 2) Remove any layout weirdness from form/button wrappers */
 .recommended .grid form,
 .recommended .grid .rec-form,
-.wishlist-grid form{
+.wishlist-grid form {
   width: 100% !important;
   margin: 0 !important;
 }
 
 .recommended .grid .rec-card-btn,
-.wishlist-grid .rec-card-btn{
+.wishlist-grid .rec-card-btn {
   width: 100% !important;
   display: block !important;
   border: 0 !important;
@@ -2099,39 +2147,44 @@ button.fav {
 
 /* Stop global "button:hover" scaling from affecting card wrappers */
 .rec-card-btn:hover,
-.rec-card-btn:active{
+.rec-card-btn:active {
   transform: none !important;
   box-shadow: none !important;
 }
 
 /* 3) THE CARD: kill the “white border frame” + make it dark */
-.rec-card{
-  border: 0 !important;                        /* ✅ no white border */
-  background: rgba(0,0,0,0.38) !important;     /* ✅ dark shell */
+.rec-card {
+  border: 0 !important;
+  /* ✅ no white border */
+  background: rgba(0, 0, 0, 0.38) !important;
+  /* ✅ dark shell */
   border-radius: 20px !important;
   overflow: hidden !important;
-  box-shadow: 0 18px 55px rgba(0,0,0,0.60) !important;
-  transform: none !important;                   /* keep stable */
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.60) !important;
+  transform: none !important;
+  /* keep stable */
 }
 
 /* Subtle outline only (NOT white) */
-.rec-card{
-  outline: 1px solid rgba(255,255,255,0.05) !important;
+.rec-card {
+  outline: 1px solid rgba(255, 255, 255, 0.05) !important;
   outline-offset: -1px !important;
 }
 
 /* Hover: same dark vibe (no bright frame) */
-.rec-card:hover{
-  outline-color: rgba(186,0,54,0.22) !important;
-  box-shadow: 0 22px 70px rgba(0,0,0,0.70) !important;
+.rec-card:hover {
+  outline-color: rgba(186, 0, 54, 0.22) !important;
+  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.70) !important;
 }
 
 /* 4) Media (image area) */
-.card-media{
+.card-media {
   background: #050506 !important;
-  height: 180px !important;     /* gives the “big top” look */
+  height: 180px !important;
+  /* gives the “big top” look */
 }
-.card-media img{
+
+.card-media img {
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
@@ -2139,41 +2192,43 @@ button.fav {
 }
 
 /* 5) Timer: WHITE text */
-.card-media .time{
-  color: #fff !important; /* ✅ counter text white */
-  background: rgba(0,0,0,0.62) !important;
-  border: 1px solid rgba(255,255,255,0.10) !important;
+.card-media .time {
+  color: #fff !important;
+  /* ✅ counter text white */
+  background: rgba(0, 0, 0, 0.62) !important;
+  border: 1px solid rgba(255, 255, 255, 0.10) !important;
   border-radius: 10px !important;
   font-weight: 800 !important;
 }
 
 /* 6) Body: fully dark (remove that grey panel look) */
-.card-body{
-  background: rgba(0,0,0,0.60) !important;  /* ✅ dark bottom area */
+.card-body {
+  background: rgba(0, 0, 0, 0.60) !important;
+  /* ✅ dark bottom area */
   padding: 16px !important;
 }
 
 /* Title: WHITE (you said it was black) */
-.card-body h4{
+.card-body h4 {
   color: #fff !important;
   font-weight: 950 !important;
 }
 
 /* Description / small text */
-.card-body .desc{
-  color: rgba(255,255,255,0.72) !important;
+.card-body .desc {
+  color: rgba(255, 255, 255, 0.72) !important;
 }
 
 /* 7) Category chip / tag: dark chip (NOT white) */
-.tag{
-  background: rgba(255,255,255,0.08) !important;
-  color: rgba(255,255,255,0.92) !important;
-  border: 1px solid rgba(255,255,255,0.10) !important;
+.tag {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: rgba(255, 255, 255, 0.92) !important;
+  border: 1px solid rgba(255, 255, 255, 0.10) !important;
   border-radius: 12px !important;
 }
 
 /* 8) Price */
-.current-bid{
+.current-bid {
   color: var(--accent) !important;
   font-weight: 950 !important;
 }
@@ -2181,14 +2236,14 @@ button.fav {
 /* 9) Buttons inside cards: make sure NOTHING defaults to white */
 .rec-card button,
 .rec-card .small,
-.rec-card .btn{
-  background: rgba(255,255,255,0.06) !important;
+.rec-card .btn {
+  background: rgba(255, 255, 255, 0.06) !important;
   color: #fff !important;
-  border: 1px solid rgba(255,255,255,0.10) !important;
+  border: 1px solid rgba(255, 255, 255, 0.10) !important;
 }
 
 /* If you have a "Bid" primary button inside cards */
-.rec-card .small:not(.buyout){
+.rec-card .small:not(.buyout) {
   background: var(--accent) !important;
   border-color: var(--accent) !important;
   color: #fff !important;
@@ -2207,7 +2262,8 @@ button.fav {
 
 /* Reset the wrapper button so it doesn't look like a "white card" */
 .recommended .grid .card-link {
-  all: unset;                 /* nukes global button styles */
+  all: unset;
+  /* nukes global button styles */
   display: block;
   width: 100%;
   cursor: pointer;
@@ -2233,18 +2289,33 @@ button.fav {
 
 /* Force the dark look exactly like your old version */
 .recommended .rec-card {
-  background: linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.15)) !important;
-  border: 1px solid rgba(255,255,255,0.03) !important;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.15)) !important;
+  border: 1px solid rgba(255, 255, 255, 0.03) !important;
   border-radius: 12px !important;
   overflow: hidden;
 }
 
-.recommended .card-body h4 { color: #fff !important; }         /* title white */
-.recommended .card-media .time { color: #fff !important; }    /* timer white */
+.recommended .card-body h4 {
+  color: #fff !important;
+}
+
+/* title white */
+.recommended .card-media .time {
+  color: #fff !important;
+}
+
+/* timer white */
 
 /* keep buttons inside cards NOT white (if you add any later) */
-.recommended .small { background: var(--accent) !important; color:#fff !important; }
-.recommended .small.buyout { background:#333 !important; color:#fff !important; }
+.recommended .small {
+  background: var(--accent) !important;
+  color: #fff !important;
+}
+
+.recommended .small.buyout {
+  background: #333 !important;
+  color: #fff !important;
+}
 
 /* ==============================
    Recommended cards – equal height FIX
@@ -2252,17 +2323,17 @@ button.fav {
    ============================== */
 
 /* 1) Make every grid cell stretch to the tallest item in its row */
-.recommended .grid{
+.recommended .grid {
   align-items: stretch;
 }
 
 /* 2) Ensure the wrapper (form + button) stretches to fill the grid cell */
-.recommended .grid .auction-form{
+.recommended .grid .auction-form {
   height: 100%;
   margin: 0;
 }
 
-.recommended .grid .card-link{
+.recommended .grid .card-link {
   height: 100%;
   width: 100%;
   display: block;
@@ -2273,46 +2344,49 @@ button.fav {
 
 /* Disable the global hover transform for this wrapper button */
 .recommended .grid .card-link:hover,
-.recommended .grid .card-link:active{
+.recommended .grid .card-link:active {
   transform: none !important;
   box-shadow: none !important;
 }
 
 /* 3) Make the card itself fill the available height and distribute layout */
-.recommended .grid .rec-card{
+.recommended .grid .rec-card {
   height: 100%;
   display: flex;
   flex-direction: column;
 }
 
 /* 4) Fix the media height so all cards have identical top area */
-.recommended .grid .card-media{
-  height: 180px;              /* adjust to your taste (140/160/180) */
+.recommended .grid .card-media {
+  height: 180px;
+  /* adjust to your taste (140/160/180) */
   flex: 0 0 auto;
 }
 
 /* 5) Make the body take remaining height consistently */
-.recommended .grid .card-body{
+.recommended .grid .card-body {
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
 }
 
 /* 6) Push price to the bottom so short descriptions don't shrink the card */
-.recommended .grid .current-bid{
+.recommended .grid .current-bid {
   margin-top: auto;
 }
 
 /* Wallet balance button – reddish translucent style */
 .balance {
-  background: rgba(186, 0, 54, 0.18);          /* translucent red */
+  background: rgba(186, 0, 54, 0.18);
+  /* translucent red */
   border: 1px solid rgba(186, 0, 54, 0.45);
-  color: #ff4d73;                              /* red text */
+  color: #ff4d73;
+  /* red text */
   font-weight: 800;
   padding: 8px 14px;
   border-radius: 12px;
   cursor: pointer;
-  transition: 
+  transition:
     background 180ms ease,
     box-shadow 180ms ease,
     transform 160ms ease;
@@ -2342,7 +2416,8 @@ button.fav {
 
 /* Wallet balance button – same height as Sell */
 .balance {
-  height: 40px; /* 🔥 MATCHES .btn.sell */
+  height: 40px;
+  /* 🔥 MATCHES .btn.sell */
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -2385,6 +2460,7 @@ button.fav {
   transform: translateY(0);
   box-shadow: 0 0 8px rgba(186, 0, 54, 0.45);
 }
+
 /* =========================
    WALLET MODAL — FINAL (scoped)
    Paste at END of styles.css
@@ -2394,8 +2470,10 @@ button.fav {
 #walletModal {
   position: fixed;
   inset: 0;
-  display: none;              /* closed by default */
-  z-index: 10000;             /* above navbar + other modals */
+  display: none;
+  /* closed by default */
+  z-index: 10000;
+  /* above navbar + other modals */
 }
 
 /* toggle this class from JS */
@@ -2407,7 +2485,8 @@ button.fav {
 #walletModal .modal-backdrop {
   position: absolute;
   inset: 0;
-  display: block;             /* IMPORTANT: override your sell modal display:none */
+  display: block;
+  /* IMPORTANT: override your sell modal display:none */
   background: rgba(0, 0, 0, 0.62);
   backdrop-filter: blur(6px);
 }
@@ -2446,6 +2525,7 @@ button.fav {
 
   cursor: pointer;
 }
+
 #walletModal .modal-close:hover {
   border-color: rgba(186, 0, 54, 0.35);
   box-shadow: 0 0 18px rgba(186, 0, 54, 0.25);
@@ -2503,6 +2583,7 @@ button.fav {
     grid-template-columns: 1fr;
   }
 }
+
 /* =========================
    WALLET CREDIT CARD
    Fully isolated (wallet-cc)
@@ -2522,7 +2603,7 @@ button.fav {
   border-radius: 14px;
   transform-style: preserve-3d;
   transition: transform 600ms ease;
-  box-shadow: 0 0 30px rgba(0,0,0,.6);
+  box-shadow: 0 0 30px rgba(0, 0, 0, .6);
 }
 
 .wallet-cc:hover .wallet-cc__inner {
@@ -2557,7 +2638,7 @@ button.fav {
   left: -80px;
   width: 420px;
   height: 220px;
-  background: rgba(186,0,54,.35);
+  background: rgba(186, 0, 54, .35);
   filter: blur(25px);
   border-radius: 100%;
 }
@@ -2648,7 +2729,7 @@ button.fav {
 .wallet-cc__hint {
   margin-top: 10px;
   text-align: center;
-  color: rgba(255,255,255,.7);
+  color: rgba(255, 255, 255, .7);
   font-weight: 700;
 }
 
@@ -2688,7 +2769,7 @@ button.fav {
   padding: 34px 34px 28px;
   background: rgba(10, 10, 10, 0.82);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.55);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
   z-index: 1;
   max-height: calc(100vh - 96px);
   overflow: auto;
@@ -2726,7 +2807,7 @@ button.fav {
   padding: 26px;
   background: rgba(10, 10, 10, 0.9);
   border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: 0 28px 80px rgba(0,0,0,0.6);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.6);
   z-index: 2;
   max-height: calc(100vh - 96px);
   overflow: auto;
@@ -2746,8 +2827,8 @@ button.fav {
   width: 40px;
   height: 40px;
   border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.08);
-  background: rgba(0,0,0,0.25);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.25);
   color: #fff;
   cursor: pointer;
 }
@@ -2768,8 +2849,8 @@ button.fav {
   width: 46px;
   height: 46px;
   border-radius: 14px;
-  border: 1px solid rgba(255,255,255,0.10);
-  background: rgba(0,0,0,0.25);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(0, 0, 0, 0.25);
   color: #fff;
   cursor: pointer;
 }
@@ -2788,8 +2869,8 @@ button.fav {
 .wallet-action {
   height: 54px;
   border-radius: 18px;
-  border: 1px solid rgba(255,255,255,0.10);
-  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.06);
   color: #fff;
   font-weight: 700;
   font-size: 18px;
@@ -2797,7 +2878,7 @@ button.fav {
 }
 
 .wallet-action:hover {
-  background: rgba(255,255,255,0.10);
+  background: rgba(255, 255, 255, 0.10);
 }
 
 /* =========================
@@ -2818,7 +2899,7 @@ button.fav {
   border-radius: 14px;
   transform-style: preserve-3d;
   transition: transform 600ms ease;
-  box-shadow: 0 0 35px rgba(0,0,0,0.55);
+  box-shadow: 0 0 35px rgba(0, 0, 0, 0.55);
 }
 
 .wallet-card:hover .wallet-card__inner {
@@ -2889,7 +2970,7 @@ button.fav {
   font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.22em;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.35);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
 }
 
 .wallet-card__holder {
@@ -2899,7 +2980,7 @@ button.fav {
   color: #fff;
   font-size: 13px;
   letter-spacing: 0.18em;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.35);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
 }
 
 .wallet-card__valid {
@@ -2909,7 +2990,7 @@ button.fav {
   color: #fff;
   font-size: 13px;
   letter-spacing: 0.18em;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.35);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
 }
 
 /* BACK */
@@ -2924,7 +3005,7 @@ button.fav {
   left: 0;
   width: 100%;
   height: 44px;
-  background: rgba(0,0,0,0.55);
+  background: rgba(0, 0, 0, 0.55);
 }
 
 .wallet-card__signature {
@@ -2958,7 +3039,7 @@ button.fav {
 .wallet-card__hint {
   margin-top: 10px;
   text-align: center;
-  color: rgba(255,255,255,0.75);
+  color: rgba(255, 255, 255, 0.75);
   font-weight: 700;
 }
 
@@ -2972,6 +3053,7 @@ button.fav {
   z-index: 99999;
   display: none;
 }
+
 #walletModal.wallet-modal.is-open {
   display: block;
 }
@@ -2979,7 +3061,7 @@ button.fav {
 #walletModal .wallet-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.65);
+  background: rgba(0, 0, 0, 0.65);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
 }
@@ -2996,8 +3078,8 @@ button.fav {
 
   border-radius: 22px;
   background: rgba(12, 10, 12, 0.72);
-  border: 1px solid rgba(255,255,255,0.08);
-  box-shadow: 0 30px 90px rgba(0,0,0,0.70);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.70);
 
   padding: 26px;
   overflow: hidden;
@@ -3011,9 +3093,9 @@ button.fav {
   width: 46px;
   height: 46px;
   border-radius: 14px;
-  border: 1px solid rgba(255,255,255,0.10);
-  background: rgba(0,0,0,0.30);
-  color: rgba(255,255,255,0.92);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(0, 0, 0, 0.30);
+  color: rgba(255, 255, 255, 0.92);
   font-size: 22px;
   cursor: pointer;
 }
@@ -3029,6 +3111,7 @@ button.fav {
   display: none;
   height: 100%;
 }
+
 #walletModal .wallet-view.is-active {
   display: block;
 }
@@ -3052,7 +3135,7 @@ button.fav {
 }
 
 #walletModal .wallet-hint {
-  color: rgba(255,255,255,0.55);
+  color: rgba(255, 255, 255, 0.55);
   font-weight: 700;
 }
 
@@ -3071,21 +3154,22 @@ button.fav {
   min-width: 180px;
   height: 54px;
   border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
   color: #fff;
   font-weight: 900;
   cursor: pointer;
 }
 
 #walletModal .wallet-action:hover {
-  border-color: rgba(186,0,54,0.35);
-  box-shadow: 0 0 18px rgba(186,0,54,0.18);
+  border-color: rgba(186, 0, 54, 0.35);
+  box-shadow: 0 0 18px rgba(186, 0, 54, 0.18);
 }
 
 #walletModal .wallet-action--plus {
   position: relative;
 }
+
 #walletModal .wallet-action--plus::after {
   content: " +";
   opacity: 0.9;
@@ -3110,7 +3194,7 @@ button.fav {
   transition: transform 600ms ease;
   transform-style: preserve-3d;
   position: relative;
-  box-shadow: 0 0 25px 2px rgba(0,0,0,0.30);
+  box-shadow: 0 0 25px 2px rgba(0, 0, 0, 0.30);
 }
 
 #walletModal .wallet-cc:hover .wallet-cc__inner {
@@ -3139,11 +3223,9 @@ button.fav {
   width: 180%;
   height: 120%;
   border-radius: 100%;
-  background-image: linear-gradient(
-    to right top,
-    #ffd6dc, #f9a5ae, #f56f87, #e63b63, #d11145, #ba0036,
-    #a30036, #8f0031, #740028, #5a001f, #400015, #2b000f
-  );
+  background-image: linear-gradient(to right top,
+      #ffd6dc, #f9a5ae, #f56f87, #e63b63, #d11145, #ba0036,
+      #a30036, #8f0031, #740028, #5a001f, #400015, #2b000f);
   filter: blur(10px);
   opacity: 0.15;
 }
@@ -3154,12 +3236,10 @@ button.fav {
   top: 15%;
   width: 100%;
   height: 44px;
-  background-image: linear-gradient(
-    to right top,
-    #1a0007, #2b000f, #400015, #5a001f, #740028,
-    #740028, #740028, #740028,
-    #5a001f, #400015, #2b000f, #1a0007
-  );
+  background-image: linear-gradient(to right top,
+      #1a0007, #2b000f, #400015, #5a001f, #740028,
+      #740028, #740028, #740028,
+      #5a001f, #400015, #2b000f, #1a0007);
 }
 
 /* Front decor */
@@ -3172,6 +3252,7 @@ button.fav {
   background: linear-gradient(321.03deg, #d11145 0%, #5a001f 91.45%);
   border-top-left-radius: 100%;
 }
+
 #walletModal .wallet-cc__bg::before,
 #walletModal .wallet-cc__bg::after {
   content: "";
@@ -3182,8 +3263,14 @@ button.fav {
   background: linear-gradient(321.03deg, #d11145 0%, #5a001f 91.45%);
   border-top-left-radius: 100%;
 }
-#walletModal .wallet-cc__bg::before { right: -80px; }
-#walletModal .wallet-cc__bg::after  { right: -120px; }
+
+#walletModal .wallet-cc__bg::before {
+  right: -80px;
+}
+
+#walletModal .wallet-cc__bg::after {
+  right: -120px;
+}
 
 #walletModal .wallet-cc__glow {
   position: absolute;
@@ -3191,7 +3278,7 @@ button.fav {
   left: -70px;
   height: 220px;
   width: 420px;
-  background: rgba(186,0,54,0.40);
+  background: rgba(186, 0, 54, 0.40);
   filter: blur(12px);
   border-radius: 100%;
   transform: skew(-15deg, -15deg);
@@ -3227,6 +3314,7 @@ button.fav {
   background-color: #ffda7b;
   overflow: hidden;
 }
+
 #walletModal .wallet-cc__chip::before {
   content: "";
   position: absolute;
@@ -3240,6 +3328,7 @@ button.fav {
   border-radius: 100%;
   z-index: 2;
 }
+
 #walletModal .wallet-cc__chip::after {
   content: "";
   position: absolute;
@@ -3259,8 +3348,9 @@ button.fav {
   font-size: 14px;
   letter-spacing: 0.18em;
   font-weight: 800;
-  filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.35));
+  filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.35));
 }
+
 #walletModal .wallet-cc__number {
   position: absolute;
   left: 24px;
@@ -3269,8 +3359,9 @@ button.fav {
   font-size: 16px;
   font-weight: 800;
   letter-spacing: 0.18em;
-  filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.35));
+  filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.35));
 }
+
 #walletModal .wallet-cc__valid {
   position: absolute;
   right: 24px;
@@ -3279,8 +3370,9 @@ button.fav {
   font-size: 14px;
   letter-spacing: 0.18em;
   font-weight: 800;
-  filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.35));
+  filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.35));
 }
+
 #walletModal .wallet-cc__valid::before {
   content: "GOOD THRU";
   position: absolute;
@@ -3298,7 +3390,7 @@ button.fav {
   left: 16px;
   width: 70%;
   height: 34px;
-  background: rgb(238,236,236);
+  background: rgb(238, 236, 236);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -3306,15 +3398,17 @@ button.fav {
   font-size: 34px;
   font-weight: 500;
 }
+
 #walletModal .wallet-cc__signature::before {
   content: "Authorized Signature";
   position: absolute;
   top: -16px;
   left: 0;
   font-size: 9px;
-  color: rgb(238,236,236);
+  color: rgb(238, 236, 236);
   opacity: 0.95;
 }
+
 #walletModal .wallet-cc__seccode {
   position: absolute;
   top: 138px;
@@ -3324,7 +3418,7 @@ button.fav {
   display: grid;
   place-items: center;
   color: #5a001f;
-  background-color: rgb(238,236,236);
+  background-color: rgb(238, 236, 236);
   font-size: 11px;
 }
 
@@ -3344,8 +3438,8 @@ button.fav {
   height: 40px;
   padding: 0 12px;
   border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.10);
-  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.06);
   color: #fff;
   font-weight: 900;
   cursor: pointer;
@@ -3355,10 +3449,10 @@ button.fav {
   width: min(720px, 100%);
   margin: 0 auto;
   border-radius: 22px;
-  background: rgba(0,0,0,0.35);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   padding: 22px;
-  box-shadow: 0 18px 55px rgba(0,0,0,0.45);
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.45);
 }
 
 #walletModal .wallet-sheet__top {
@@ -3370,7 +3464,7 @@ button.fav {
 }
 
 #walletModal .wallet-muted {
-  color: rgba(255,255,255,0.62);
+  color: rgba(255, 255, 255, 0.62);
   font-weight: 800;
 }
 
@@ -3382,7 +3476,7 @@ button.fav {
 }
 
 #walletModal .wallet-bank {
-  color: rgba(255,255,255,0.75);
+  color: rgba(255, 255, 255, 0.75);
   font-weight: 900;
   margin-top: 10px;
 }
@@ -3394,15 +3488,15 @@ button.fav {
 }
 
 #walletModal .wallet-field__label {
-  color: rgba(255,255,255,0.75);
+  color: rgba(255, 255, 255, 0.75);
   font-weight: 850;
 }
 
 #walletModal .wallet-input {
   height: 54px;
   border-radius: 18px;
-  border: 1px solid rgba(255,255,255,0.10);
-  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.05);
   color: #fff;
   padding: 0 16px;
   outline: none;
@@ -3410,8 +3504,8 @@ button.fav {
 }
 
 #walletModal .wallet-input:focus {
-  border-color: rgba(186,0,54,0.35);
-  box-shadow: 0 0 0 3px rgba(186,0,54,0.12);
+  border-color: rgba(186, 0, 54, 0.35);
+  box-shadow: 0 0 0 3px rgba(186, 0, 54, 0.12);
 }
 
 #walletModal .wallet-primary {
@@ -3427,7 +3521,7 @@ button.fav {
 }
 
 #walletModal .wallet-primary:hover {
-  box-shadow: 0 0 18px rgba(186,0,54,0.45);
+  box-shadow: 0 0 18px rgba(186, 0, 54, 0.45);
 }
 
 /* Mobile */
@@ -3436,13 +3530,16 @@ button.fav {
     min-height: 560px;
     padding: 18px;
   }
+
   #walletModal .wallet-actions {
     gap: 12px;
     flex-wrap: wrap;
   }
+
   #walletModal .wallet-action {
     min-width: 140px;
   }
+
   #walletModal .wallet-cc {
     width: 320px;
     height: 200px;

@@ -103,9 +103,10 @@ id integer primary key auto_increment,
 namekek VARCHAR(255),
 wallet_id BIGINT,
 CVV integer,
-expiry_date VARCHAR(8),
+expirydate VARCHAR(8),
 card_number VARCHAR(16),
 amount integer,
 foreign key(wallet_id) references wallet(wallet_id) on delete set null
 );
 drop database auction_system;
+drop table bank_details;

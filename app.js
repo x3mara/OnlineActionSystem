@@ -191,9 +191,9 @@ app.get('/AuctionDetails', async (req, res) => {
         
 
         res.render('AuctionDetails', {
-            auction: data.auction[0],
-            sellerName: data.sellerName[0],
-            bidders: data.bidders,
+            auction: data.auction[0] || {}, // Safe access,
+            sellerName: data.sellerName,
+            bidders: data.bidders || [],
             userBid: data.userBid[0],
             imgpath: data.imgpath[0]
         });
