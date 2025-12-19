@@ -171,7 +171,7 @@ app.post('/sellitemI', upload.array('images', 5), (req, res) => {
 });
 
 app.get('/sellitem', (req, res) => {
-  res.render('SellItem');
+  res.render('SellItem', {});
 });
 
 app.get('/clientdashboard', async (req, res) => {
@@ -186,13 +186,16 @@ app.get('/AuctionDetails', async (req, res) => {
 
         const auctionId = req.params.auctionId;
         
-        const data = await ControllerAU.viewAuctionDetails(auctionId);
+        const data = await ControllerAU.viewAuctionDetails(auctionId , req.session.user);
         
+        
+
         res.render('AuctionDetails', {
-            auction: data.auction,
-            sellerName: data.sellerName,
+            auction: data.auction[0],
+            sellerName: data.sellerName[0],
             bidders: data.bidders,
-            user: req.session.user
+            userBid: data.userBid[0],
+            imgpath: data.imgpath[0]
         });
 });
 

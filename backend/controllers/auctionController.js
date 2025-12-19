@@ -2,7 +2,7 @@ import Item from "../Item.js";
 import Client from "../Client.js";
 import Auction from "../Auction.js";
 import { getAllAuctions, combineAuctions } from "./qol.js";
-import { getMyAuctions } from "../../Database/database.js";
+import { getMyAuctions , getbidfromusernameandauction } from "../../Database/database.js";
 export default class auctionController{
 
     async startAuction(req, res){
@@ -51,15 +51,29 @@ export default class auctionController{
         return combinedData;
     }
 
-    async viewAuctionDetails(req, res){
+    async viewAuctionDetails(req, username){
         const auction = await Auction.getAuctiondetails(auctionID);
         const sellerName = await Auction.getSellerName(auctionID);
         const bidders = await Auction.getAllbidders(auctionID);  
-        
+        const userBid = await getbidfromusernameandauction(user, auctionID);
+        const imgpath = await Item.getItemImgId(auction.item_id);
+
+        let max = -1;
+        if(userBid.length == 0){
+            max = 0;
+        } else{
+        userBid.forEach(bid => {
+            if (bid.bidamount > max) {
+                max = bid.bidamount;
+            }
+        });
+        }
         return {
             auction: auction,
             sellerName: sellerName,
-            bidders: bidders
+            bidders: bidders,
+            userBid: max,
+            imgpath: imgpath
         };
     }
 }
