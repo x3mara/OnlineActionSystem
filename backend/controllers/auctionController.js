@@ -51,7 +51,7 @@ export default class auctionController{
         return combinedData;
     }
 
-    async viewAuctionDetails(req, username){
+    async viewAuctionDetails(auctionID, username){
         const auction = await Auction.getAuctiondetails(auctionID);
         const sellerName = await Auction.getSellerName(auctionID);
         const bidders = await Auction.getAllbidders(auctionID);  
