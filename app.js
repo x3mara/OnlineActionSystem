@@ -195,7 +195,7 @@ app.get('/sellitem', (req, res) => {
 app.post('/card/add', async (req,res) => {
   let ret = await ControllerCL.updateBankDetails(req,res);
   console.log("ret: " + ret);
-  if(ret != undefined){
+  if(ret == null){
     await ControllerCL.insertBankDetails(req,res);
   }
   res.redirect('/clientdashboard');

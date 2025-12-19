@@ -32,7 +32,7 @@ export default class BankDetails{
     }
 
     static async updateBankDetails(bd){
-        await updateBankDetails(bd.wallet_id,bd.card_number,bd.expirydate,bd.CVV,bd.amount,bd.namekek); 
+        return await updateBankDetails(bd.wallet_id,bd.card_number,bd.expirydate,bd.CVV,bd.amount,bd.namekek); 
     }
 
     static async depositfromBank(walletID, amount){
