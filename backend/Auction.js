@@ -3,7 +3,6 @@ import Client from "./Client.js";
 import clientController from "./controllers/clientController.js";
 import walletController from "./controllers/walletController.js";
 import {searchAuction, updateduedate, searchWalletbyWalletID, searchWalletbyid, getsellername,searchItem, insert, viewBidsforAuction, searchClientbyid, updatewalletbalance, updatehighestbid , getEverythingWithItem , getImgs,getAllbidsforAuction, updatesuscounterauction, searchwalletbyUserUsername} from "../Database/database.js";
-import {searchClient} from "../backend/Client.js";
 
 
 export default class Auction {
@@ -46,7 +45,7 @@ export default class Auction {
 
     async makeBid(AuctionID, Amount, sessionUsername, sessionWalletID) {
         let sessionWallet = await searchWalletbyid(sessionWalletID);
-        let sessionUser = await searchClient(sessionUsername);
+        let sessionUser = await Client.searchClient(sessionUsername);
         let fealks = await searchAuction(AuctionID);
         let datediff = new Date(fealks.due_date) - new Date(); 
         let highestbiddah = fealks.highest_bidder;
@@ -97,7 +96,7 @@ export default class Auction {
     }
 
     async buyOut(AuctionID, sessionUsername, sessionWallet) {
-        let sessionUser = await searchClient(sessionUsername);
+        let sessionUser = await Client.searchClient(sessionUsername);
         let fealks = await searchAuction(AuctionID);
         let datediff = new Date(fealks.due_date) - new Date(); 
         let highestbiddah = fealks.highest_bidder;
@@ -126,7 +125,7 @@ export default class Auction {
     }
 
     async showCurrentBidders(AuctionID) { 
-        return searchClients(searchBids(AuctionID).BidderID); //return list of bidders for the specified auction
+        // return searchClients(searchBids(AuctionID).BidderID); //return list of bidders for the specified auction
     }
 
     async showCurrentBids(){
