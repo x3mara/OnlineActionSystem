@@ -12,14 +12,10 @@ export function randInt(min, max) {
 export async function getAllAuctions(){
     const auctions = await Client.viewAllAuctions();
     const combinedData = combineAuctions(auctions);
-    return res.render('ClientDashboard', { 
-      username: req.session.user, 
-      recommendedAuctions: combinedData, 
-      wishlistedAuctions: [] 
-    });
+    return combinedData;
 }
 
-async function combineAuctions(auctions) {
+export async function combineAuctions(auctions) {
     const itemPromises = auctions.map(auction => 
           Item.getItemthroughID(auction.item_id) 
       );
@@ -33,7 +29,7 @@ async function combineAuctions(auctions) {
       const ItemImages = await Promise.all(imagePromises);
       
       // Combine data with proper structure
-      return combinedData = auctions.map((auction, index) => {
+      const combinedData = auctions.map((auction, index) => {
           const item = AuItems[index] || {};
           const images = ItemImages[index] || [];
           
@@ -44,7 +40,8 @@ async function combineAuctions(auctions) {
               images.map(img => img.itemimg):
               'static/public/images/SignUpHero.png' // Get first image
           }; 
-    });
+        });
+        return combinedData;
 }
 
 
