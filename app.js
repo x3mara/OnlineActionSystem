@@ -175,7 +175,11 @@ app.get('/sellitem', (req, res) => {
 });
 
 app.get('/clientdashboard', async (req, res) => {
-  getAllAuctions(res);
+  res.render('ClientDashboard', {
+    username: req.session.user,
+    recommendedAuctions: await getAllAuctions(),
+    wishlistedAuctions: []
+  });
 });
 
 app.get('/AuctionDetails', (req, res) => {
@@ -213,6 +217,10 @@ app.post('/auction/details', (req, res) => {
         }
         res.redirect('/AuctionDetails');
     });
+});
+
+app.post('/manageprofile', (req, res) => {
+  console.log(req.body);
 });
 
 
