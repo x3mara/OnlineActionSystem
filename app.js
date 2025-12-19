@@ -231,8 +231,9 @@ app.get('/manageprofile', (req, res) => {
 });
 
 
-app.post('/manageprofile', (req, res) => {
-  console.log(req.body);
+app.post('/manageprofile', upload.single('profilePic'), (req, res) => {
+  console.log('Form data:', req.body);
+  console.log('Uploaded file:', req.file);
 });
 
 
