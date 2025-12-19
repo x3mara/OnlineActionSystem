@@ -3545,3 +3545,123 @@ button.fav {
     height: 200px;
   }
 }
+
+/* ===============================
+   ADMIN DASHBOARD – REPORT STYLES
+   Safe to paste into styles.css
+================================ */
+
+/* ---------- Shared ---------- */
+.report-pill {
+  background: rgba(186, 0, 54, 0.12);
+  color: #ba0036;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.report-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.admin-action {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  display: grid;
+  place-items: center;
+}
+
+.admin-action--ok:hover {
+  background: rgba(0, 200, 120, 0.18);
+  color: #00c878;
+}
+
+.admin-action--no:hover {
+  background: rgba(220, 60, 60, 0.18);
+  color: #dc3c3c;
+}
+
+/* ---------- USER REPORT CARDS ---------- */
+.report-user-card .card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.report-user-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.report-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ba0036, #5a001f);
+  color: #fff;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+}
+
+.report-user-info h4 {
+  margin: 0;
+}
+
+.report-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+/* ---------- AUCTION ADMIN FOOTER ---------- */
+.auction-admin-footer {
+  margin-top: auto;
+  padding-top: 14px;
+}
+
+.auction-admin-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.auction-bid {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.auction-reports-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Ensure admin controls stick to bottom */
+.rec-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.rec-card .card-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* ---------- Hover polish ---------- */
+.rec-card:hover .report-pill {
+  background: rgba(186, 0, 54, 0.18);
+}

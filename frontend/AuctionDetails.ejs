@@ -1,46 +1,19 @@
-<!doctype html>
-<html lang="en">
+<header class="navbar">
+    <%-include('./walletModal.ejs') %>
+    <div class="nav-inner">
+        <div class="nav-left">
+            <a href="/clientdashboard">
+                <img src="static/public/images/Logo.png" alt="logo" class="nav-logo" />
+            </a>
+            <nav class="nav-links">
+                <button class="nav-btn">Store</button>
+                <button class="nav-btn">Auctions</button>
+                <a class="nav-btn" href="/wishlistedauctions">Wishlist</a>
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Auction Details - 1X BID</title>
-  <link rel="stylesheet" href="/static/public/styles.css" />
-</head>
-
-<body class="dashboard-body">
-  <!-- NAVBAR (same structure you already use) -->
-  <%- include('./partials/navbar.ejs') %>
-
-  <!-- PAGE -->
-  <main class="auction-details-page">
-    <!-- LEFT -->
-    <section class="auction-left">
-      <!-- Section 1 -->
-      <div class="item-block">
-        <div class="item-topline">
-          <div>
-            <h1 class="item-title" id="itemName"><%= auction.item_name %></h1>
-
-            <!-- Seller row -->
-            <div class="seller-row">
-              <span class="dot-avatar" id="sellerAvatar">
-                <% if (sellerName && sellerName[0]) { %>
-                  <%= sellerName[0].toUpperCase() %>
-                <% } else { %>
-                  S
-                <% } %>
-              </span>
-
-              <button class="seller-name" id="sellerName" type="button">
-                <%= sellerName || 'Unknown Seller' %>
-              </button>
-            </div>
-          </div>
-
-          <button class="report-btn" id="reportBtn" type="button">Report</button>
+            </nav>
         </div>
 
+<<<<<<< HEAD
         <div class="item-media">
           <button class="wishlist-heart" id="wishBtn" type="button" aria-label="Add to wishlist" title="Add to wishlist">
             ❤
@@ -81,18 +54,22 @@
             <div class="hb-label">Highest bidder</div>
             <div class="hb-name" id="topBidderName"><%= auction.highest_bidder || 'No bids yet' %></div>
           </div>
+=======
+        <div class="nav-center">
+            <input id="search" class="search" type="search" placeholder="Search auctions, items or sellers..."
+                aria-label="Search" />
+>>>>>>> e66ea8cff8e74f8efd69e8fbb755d6e9852bf9d8
         </div>
 
-        <div class="time-left">
-          <span class="live-dot" aria-hidden="true"></span>
-          <span>Time left:</span>
-          <strong id="timeLeft" class="js-timer" data-end="<%= auction.due_date %>">--:--:--</strong>
-        </div>
+        <div class="nav-right">
+            <a href="/sellitem">
+                <button class="btn sell">+ Sell</button>
+            </a>
 
-        <!-- default -->
-        <button class="to-bid-btn" id="getToBidBtn" type="button">
-          Get to bid
-        </button>
+            <button class="balance" id="balanceBtn" type="button" aria-haspopup="dialog" aria-expanded="false">
+                <img src="static/public/Icons/coin.png" alt="" class="balance-icon">
+                $<span id="balance"><%= balance %></span>
+            </button>
 
         <!-- expanded -->
         <form action="/AuctionDetails/bid" method="POST" class="bid-actions" id="bidActions">
@@ -104,45 +81,31 @@
         </form>
       </div>
 
-      <div class="auction-tags" id="tags">
-        <span class="tag"><%= auction.item_tag %></span>
-      </div>
-
-      <!-- Section 4: Bidders -->
-      <div class="bidders-box">
-        <div class="bidders-head">
-          <h3>Bidders</h3>
-          <div class="bids-col-label">Bids</div>
-        </div>
-
-        <div class="bidders-list" id="biddersList">
-          <% if (bidders && bidders.length > 0) { %>
-            <% bidders.forEach(bidder => { %>
-              <div class="bidder-row">
-                <button class="flag-btn" type="button">⚑</button>
-
-                <button class="nameplate" type="button">
-                  <span class="dot-avatar">
-                    <% if (bidder.username && bidder.username[0]) { %>
-                      <%= bidder.username.charAt(0).toUpperCase() %>
-                    <% } else { %>
-                      ?
-                    <% } %>
-                  </span>
-                  <span class="bidder-name">
-                    <%= bidder.username || 'Unknown' %>
-                  </span>
-                </button>
-
-                <div class="bid-amount">
-                  $<%= bidder.bidamount || 0 %>
+                    </div>
+                    <hr class="pd-sep" />
+                    <div class="pd-row pd-row--actions">
+                        <a href="/manageprofile">
+                        <button class="pd-btn">Manage Profile</button>
+                        </a>
+                        <form action="/myauctions" method="POST">
+                            <button class="pd-btn" type="submit">My Auctions</button>
+                        </form>
+                        <button class="pd-btn">Sold items</button>
+                        <a href="/wishlistedauctions">
+                            <button class="pd-btn">Wishlist</button>
+                        </a>
+                        <button class="pd-btn">My wallet</button>
+                    </div>
+                    <hr class="pd-sep" />
+                    <div class="pd-row pd-row--logout">
+                        <a href="/signup">
+                            <button class="pd-btn pd-logout">Log out</button>
+                        </a>
+                    </div>
                 </div>
-              </div>
-            <% }); %>
-          <% } else { %>
-            <div class="no-bidders">No bidders yet</div>
-          <% } %>
+            </div>
         </div>
+<<<<<<< HEAD
       </div>
     </section>
   </main>
@@ -199,3 +162,99 @@
 </body>
 
 </html>
+=======
+</header>
+<script>
+    (function () {
+        const avatar = document.querySelector('.profile .avatar');
+        const dropdown = document.querySelector('.profile .profile-dropdown');
+        if (!avatar || !dropdown) return;
+
+        function positionDropdown() {
+            const rect = avatar.getBoundingClientRect();
+            const pad = 8;
+            // place dropdown under avatar, aligned to avatar's right edge
+            const top = rect.bottom + pad + window.scrollY;
+            let left = rect.right - dropdown.offsetWidth + window.scrollX;
+            // keep within viewport
+            if (left < 8) left = 8;
+            if (left + dropdown.offsetWidth > window.innerWidth - 8) {
+                left = Math.max(8, window.innerWidth - dropdown.offsetWidth - 8);
+            }
+            dropdown.style.top = top + 'px';
+            dropdown.style.left = left + 'px';
+        }
+
+        document.addEventListener('click', function (e) {
+            // Toggle when clicking avatar
+            if (avatar.contains(e.target)) {
+                const open = dropdown.classList.toggle('show');
+                avatar.setAttribute('aria-expanded', open ? 'true' : 'false');
+                dropdown.setAttribute('aria-hidden', open ? 'false' : 'true');
+                if (open) {
+                    // compute position after it's visible to get correct width
+                    dropdown.style.display = 'block';
+                    // small timeout to ensure styles/layout applied
+                    requestAnimationFrame(positionDropdown);
+                } else {
+                    dropdown.style.display = 'none';
+                }
+                return;
+            }
+
+            // Close when clicking outside
+            if (!dropdown.contains(e.target)) {
+                dropdown.classList.remove('show');
+                avatar.setAttribute('aria-expanded', 'false');
+                dropdown.setAttribute('aria-hidden', 'true');
+                dropdown.style.display = 'none';
+            }
+        });
+
+        // Close on Escape
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                dropdown.classList.remove('show');
+                avatar.setAttribute('aria-expanded', 'false');
+                dropdown.setAttribute('aria-hidden', 'true');
+                dropdown.style.display = 'none';
+            }
+        });
+
+        // Reposition on resize/scroll while open
+        window.addEventListener('resize', () => { if (dropdown.classList.contains('show')) positionDropdown(); });
+        window.addEventListener('scroll', () => { if (dropdown.classList.contains('show')) positionDropdown(); });
+    })();
+</script>
+<script>
+  (function(){
+    const btn = document.getElementById('balanceBtn');
+    const modal = document.getElementById('walletModal');
+    if (!btn || !modal) return;
+
+    function openModal(){
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+      btn.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(){
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      btn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    btn.addEventListener('click', openModal);
+
+    modal.addEventListener('click', (e) => {
+      if (e.target.matches('[data-close="wallet"]')) closeModal();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+    });
+  })();
+</script>
+>>>>>>> e66ea8cff8e74f8efd69e8fbb755d6e9852bf9d8

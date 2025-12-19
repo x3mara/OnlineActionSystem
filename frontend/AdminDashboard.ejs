@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Dashboard - 1X BID</title>
+  <link rel="stylesheet" href="/static/public/styles.css" />
+</head>
+
+<body class="dashboard-body">
+
+<%- include('./partials/adminNavbar.ejs') %>
+
+
+<main class="dashboard-main">
+
+  <!-- ADMIN HEADER -->
+  <section class="profile-card">
+    <div class="profile-info">
+      <h2>Welcome, <span class="username">Admin</span></h2>
+    </div>
+  </section>
+
+  <!-- =======================
+       MOST REPORTED USERS
+  ======================== -->
+  <section class="recommended">
+    <div class="section-header">
+      <h3>Most Reported Users</h3>
+      <a class="view-all" href="#">View all →</a>
+    </div>
+
+    <div class="grid">
+
+      <!-- HARD-CODED USER CARD -->
+      <article class="rec-card report-user-card">
+        <div class="card-body">
+
+          <div class="report-user-head">
+            <div class="report-avatar">J</div>
+
+            <div class="report-user-info">
+              <h4>john_doe</h4>
+
+              <div class="report-meta-row">
+                <div class="report-pill">20 reports</div>
+
+                <div class="report-actions">
+                  <button class="admin-action admin-action--ok" title="Accept">✓</button>
+                  <button class="admin-action admin-action--no" title="Decline">✕</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </article>
+
+      <!-- HARD-CODED USER CARD -->
+      <article class="rec-card report-user-card">
+        <div class="card-body">
+
+          <div class="report-user-head">
+            <div class="report-avatar">S</div>
+
+            <div class="report-user-info">
+              <h4>scammer_77</h4>
+
+              <div class="report-meta-row">
+                <div class="report-pill">18 reports</div>
+
+                <div class="report-actions">
+                  <button class="admin-action admin-action--ok">✓</button>
+                  <button class="admin-action admin-action--no">✕</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- =======================
+       MOST REPORTED AUCTIONS
+  ======================== -->
+  <section class="recommended" style="margin-top:32px;">
+    <div class="section-header">
+      <h3>Most Reported Auctions</h3>
+      <a class="view-all" href="#">View all →</a>
+    </div>
+
+    <div class="grid">
+
+      <% recommendedAuctions.forEach(a => { %>
+
+        <form action="/auction/details" method="POST" class="auction-form">
+          <input type="hidden" name="auctionId" value="<%= a.auction.id %>">
+
+          <button type="submit" class="card-link">
+            <article class="rec-card">
+
+              <div class="card-media">
+                <span class="time js-timer" data-end="<%= a.auction.due_date %>">--:--:--</span>
+                <img src="<%= a.ItemImage %>" alt="<%= a.item.item_name %>">
+                <div class="seller-tag"><%= a.auction.seller_name %></div>
+              </div>
+
+              <div class="card-body">
+
+                <h4><%= a.title %></h4>
+
+                <p class="desc">
+                  <%= a.item.item_desc %>
+                </p>
+
+                <div class="tags">
+                  <span class="tag"><%= a.item.item_tag %></span>
+                </div>
+
+                <!-- ADMIN FOOTER (STICKS TO BOTTOM) -->
+                <div class="auction-admin-footer">
+
+                  <div class="auction-admin-meta">
+                    <div class="auction-bid">
+                      $<%= a.auction.highest_bid ? a.auction.highest_bid : a.item.starting_price %>
+                    </div>
+
+                    <div class="auction-reports-row">
+                      <div class="report-pill">
+                        <%= a.auction.sus_counter %> reports
+                      </div>
+
+                      <div class="report-actions">
+                        <button type="button" class="admin-action admin-action--ok">✓</button>
+                        <button type="button" class="admin-action admin-action--no">✕</button>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            </article>
+          </button>
+        </form>
+
+      <% }) %>
+
+    </div>
+  </section>
+
+</main>
+
+<script>
+  function pad2(n) { return String(n).padStart(2, '0'); }
+
+  function formatRemaining(ms) {
+    if (ms <= 0) return "ENDED";
+    const total = Math.floor(ms / 1000);
+    const h = Math.floor(total / 3600);
+    const m = Math.floor((total % 3600) / 60);
+    const s = total % 60;
+    return `${pad2(h)}:${pad2(m)}:${pad2(s)}`;
+  }
+
+  function tickTimers() {
+    const now = Date.now();
+    document.querySelectorAll('.js-timer').forEach(el => {
+      const end = new Date(el.dataset.end).getTime();
+      el.textContent = formatRemaining(end - now);
+    });
+  }
+
+  tickTimers();
+  setInterval(tickTimers, 1000);
+</script>
+
+</body>
+</html>
