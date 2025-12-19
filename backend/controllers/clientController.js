@@ -8,6 +8,7 @@ import { getAllAuctions } from './qol.js';
 import Auction from '../Auction.js';
 import bankDetails from '../bankDetails.js';
 import { withdrawtoBank } from '../../Database/database.js';
+import BankDetails from '../bankDetails.js';
 export default class clientController{
 
 
@@ -69,6 +70,11 @@ export default class clientController{
         return await client.getAvatar();
     }
 
+    async getCardDetails(username){
+        const wallet = (await Wallet.searchWallet(username)).wallet_id;
+        return await BankDetails.getBankDetails(wallet);
+    }
+
     async viewAllAuctions(req, res){
         return auctions = await  Client.viewAllAuctions();
     }
@@ -97,9 +103,15 @@ export default class clientController{
     }
 
     async insertBankDetails(req, res){
-        const { bankName, cvv, expiry, cardNumber } = req.body;
-        let bank_Details = new bankDetails(bankName, req.session.wallet.getWalletID(),  cvv, expiry, cardNumber);
+        const { name, cvv, exp, number } = req.body;
+        let bank_Details = new bankDetails(name, req.session.wallet,  cvv, exp, number);
         bankDetails.insertBankDetails(bank_Details);
+    }
+
+    async updateBankDetails(req, res){
+        const { name, cvv, exp, number } = req.body;
+        let bank_Details = new bankDetails(name, req.session.wallet,  cvv, exp, number);
+        return bankDetails.updateBankDetails(bank_Details);
     }
 
     async depositFromBank(req, res){
