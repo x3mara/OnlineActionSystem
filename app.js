@@ -173,6 +173,12 @@ app.get('/clientdashboard', async (req, res) => {
 
 app.get('/AuctionDetails', (req, res) => {
 
+  const auction = req.session.auctionData;
+
+  //omar database function here
+
+  res.render('AuctionDetails', {auction: auction});
+
 });
 
 
