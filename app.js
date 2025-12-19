@@ -203,10 +203,9 @@ app.post('/card/add', async (req,res) => {
 
 app.get('/clientdashboard', async (req, res) => {
   console.log(req.session.user);
-  console.log((await ControllerCL.getCardDetails(req.session.user))[0]);
   res.render('ClientDashboard', {
     username: req.session.user,
-    card: (await ControllerCL.getCardDetails(req.session.user))[0],
+    card: await ControllerCL.getCardDetails(req.session.user),
     avatar: await ControllerCL.getAvatar(req.session.user),
     balance: await ControllerWA.getBalance(req.session.user),
     recommendedAuctions: await ControllerAU.getRecommendedAuctions(req.session.user),
@@ -224,6 +223,8 @@ app.get('/AuctionDetails', async (req, res) => {
 
         res.render('AuctionDetails', {
             balance: await ControllerWA.getBalance(req.session.user),
+            card: await ControllerCL.getCardDetails(req.session.user),
+            avatar: await ControllerCL.getAvatar(req.session.user),
             auction: data.auction[0] || {}, // Safe access,
             sellerName: data.sellerName,
             bidders: data.bidders || [],
@@ -265,6 +266,11 @@ app.post('/auction/details', (req, res) => {
         }
         res.redirect('/AuctionDetails');
     });
+});
+app.post('/AuctionDetails/bid', (req,res) => {
+  console.log(req.body);
+  ControllerAU.bid(req.session.auctionData.auctionId,req.body.amount,req.session.user,req.session.wallet);
+  res.redirect('/clientdashboard');
 });
 
 app.get('/manageprofile', async (req, res) => {

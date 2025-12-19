@@ -72,7 +72,7 @@ export default class clientController{
 
     async getCardDetails(username){
         const wallet = (await Wallet.searchWallet(username)).wallet_id;
-        return await BankDetails.getBankDetails(wallet);
+        return (await BankDetails.getBankDetails(wallet))[0];
     }
 
     async viewAllAuctions(req, res){

@@ -5,23 +5,14 @@ import { getAllAuctions, combineAuctions } from "./qol.js";
 import { getMyAuctions , getbidfromusernameandauction } from "../../Database/database.js";
 export default class auctionController{
 
-    async bid(req, res){
-
-        const {AuctionID, BidAmount, sessionUsername, sessionWalletID} = req.body;
-
-        const newbid = await makeBid(AuctionID, BidAmount, sessionUsername, sessionWalletID);
-
-        return res.render('DetailedAuctionPage', { newbid });
+    async bid(AuctionID, BidAmount, sessionUsername, sessionWalletID){
+        return await Auction.makeBid(AuctionID, BidAmount, sessionUsername, sessionWalletID);
 
     }
 
-    async buyout(req, res){
+    async buyout(AuctionID, sessionUsername, sessionWalletID){
 
-        const {AuctionID, sessionUsername, sessionWalletID} = req.body;
-        
-        const result = await Buyout(sessionUsername, AuctionID, sessionWalletID);
-
-        return res.render('DetailedAuctionPage', { result });
+        return await Auction.buyOut(sessionUsername, AuctionID, sessionWalletID);
         
     }
 
@@ -78,6 +69,9 @@ export default class auctionController{
         const bidders = await Auction.getAllbidders(auctionID);  
         const userBid = await getbidfromusernameandauction(username, auctionID);
         const imgpath = await Item.getItemImgId(auction[0].item_id);
+        
+        // console.log(auction[0].highest_bidder);
+        auction[0].highest_bidder = (await Client.searchClientID(auction[0].highest_bidder)).getUsername();
 
         let max = -1;
         if(userBid.length == 0){

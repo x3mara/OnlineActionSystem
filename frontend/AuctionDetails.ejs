@@ -66,8 +66,8 @@
         <button class="leave-btn" id="leaveBtn" type="button">Leave</button>
 
         <div class="current-label">Current bid</div>
-        <div class="current-amount">$<span id="currentBid"><%= (userBid ? userBid : auction.starting_price) %></span></div>
-
+        <div class="current-amount">$<span id="currentBid"><%= auction.highest_bid %></span></div>
+<!-- (userBid ? userBid : auction.starting_price) -->
         <div class="highest-bidder">
           <span class="dot-avatar" id="topBidderIcon">
             <% if (auction.highest_bidder && auction.highest_bidder[0]) { %>
@@ -95,13 +95,13 @@
         </button>
 
         <!-- expanded -->
-        <div class="bid-actions" id="bidActions">
-          <input class="bid-input" id="bidInput" type="number" step="any" inputmode="numeric" placeholder="Bid amount" aria-label="Bid amount" />
-          <button class="bid-btn" id="bidBtn" type="button">Bid</button>
+        <form action="/AuctionDetails/bid" method="POST" class="bid-actions" id="bidActions">
+            <input class="bid-input" id="bidInput" name="amount" type="number" step="any" inputmode="numeric" placeholder="Bid amount" aria-label="Bid amount" />
+            <button class="bid-btn" id="bidBtn" type="submit">Bid</button>
           <button class="buyout-btn" id="buyoutBtn" type="button" data-buyout="<%-"$"+auction.buy_out_price %>">
             Buyout
           </button>
-        </div>
+        </form>
       </div>
 
       <div class="auction-tags" id="tags">
@@ -146,78 +146,13 @@
       </div>
     </section>
   </main>
-
   <script>
-    // ---- Search auto-resize (same logic you used) ----
-    const search = document.getElementById("search");
-    const MIN = 180, MAX = 520;
-
-    function resizeSearch() {
-      if (!search) return;
-      const tmp = document.createElement("span");
-      tmp.style.visibility = "hidden";
-      tmp.style.position = "absolute";
-      tmp.style.whiteSpace = "pre";
-      tmp.style.font = window.getComputedStyle(search).font;
-      tmp.textContent = search.value || search.placeholder;
-      document.body.appendChild(tmp);
-      const w = Math.min(MAX, Math.max(MIN, tmp.offsetWidth + 36));
-      search.style.width = w + "px";
-      document.body.removeChild(tmp);
-    }
-    search?.addEventListener("input", resizeSearch);
-    window.addEventListener("load", resizeSearch);
-
-    // ---- Bid behaviour (5% stepping) ----
     const bidCard = document.getElementById("bidCard");
     const getToBidBtn = document.getElementById("getToBidBtn");
     const leaveBtn = document.getElementById("leaveBtn");
     const bidActions = document.getElementById("bidActions");
-
-    const bidInput = document.getElementById("bidInput");
-    const bidBtn = document.getElementById("bidBtn");
-    const biddersList = document.getElementById("biddersList");
-
-    const currentBidEl = document.getElementById("currentBid");
-    const topBidderName = document.getElementById("topBidderName");
-    const topBidderIcon = document.getElementById("topBidderIcon");
-
     const yourBidRow = document.getElementById("yourBidRow");
-    const yourBidValue = document.getElementById("yourBidValue");
-
-    const currentUser = { name: "you", title: "Challenger" };
     let joined = false;
-
-    function currentBidNumber() {
-      return Number(String(currentBidEl.textContent).replace(/[^\d.]/g, "")) || 0;
-    }
-    function stepFromCurrentBid() {
-      const base = currentBidNumber();
-      return base > 0 ? base * 0.05 : 1;
-    }
-    function snapToStep(value) {
-      const step = stepFromCurrentBid();
-      if (!step) return value;
-      return Math.round(value / step) * step;
-    }
-    function formatMoney(n) {
-      return String(Math.round(n));
-    }
-
-    function addBidderRow({ name, title, amount }) {
-      const row = document.createElement("div");
-      row.className = "bidder-row";
-      row.innerHTML = `
-          <button class="flag-btn" type="button" aria-label="Report bidder">⚑</button>
-          <button class="nameplate" type="button" aria-label="Open bidder profile">
-            <span class="dot-avatar">${name[0].toUpperCase()}</span>
-            <span class="bidder-name">${name}</span>
-            <span class="title-tag">${title}</span>
-          </button>
-          <div class="bid-amount">$${formatMoney(amount)}</div>
-        `;
-      biddersList.prepend(row);
-    }
 
     getToBidBtn.addEventListener("click", () => {
       if (joined) return;
@@ -225,65 +160,17 @@
 
       bidCard.classList.add("joined");
 
-      // Suggest minimum next bid = current + 5%
-      const base = currentBidNumber();
-      const minNext = Math.ceil(base + base * 0.05);
-      bidInput.value = String(minNext);
-
-      // Add user as a bidder (0 until bids)
-      addBidderRow({ name: currentUser.name, title: currentUser.title, amount: 0 });
+      // // Suggest minimum next bid = current + 5%
+      // const base = currentBidNumber();
+      // const minNext = Math.ceil(base + base * 0.05);
+      // bidInput.value = String(minNext);
     });
-
     leaveBtn.addEventListener("click", () => {
       joined = false;
       bidCard.classList.remove("joined");
       if (yourBidRow) yourBidRow.style.display = "none";
     });
 
-    // Enforce 5% stepping while typing
-    bidInput.addEventListener("input", () => {
-      const base = currentBidNumber();
-      const raw = Number(bidInput.value);
-      if (!base || !raw) return;
-
-      const step = base * 0.05;
-      const minNext = base + step;
-      const snapped = snapToStep(raw);
-
-      bidInput.value = String(Math.max(minNext, snapped).toFixed(0));
-    });
-
-    bidBtn.addEventListener("click", () => {
-      if (!joined) return;
-
-      const base = currentBidNumber();
-      const step = base * 0.05;
-      const val = Number(bidInput.value);
-
-      if (!val || val < base + step) {
-        bidInput.value = String(Math.ceil(base + step));
-        return;
-      }
-
-      // Show "Your bid" under current bid
-      yourBidRow.style.display = "block";
-      yourBidValue.textContent = formatMoney(val);
-
-      // Update current bid + highest bidder UI
-      currentBidEl.textContent = formatMoney(val);
-      topBidderName.textContent = currentUser.name;
-      topBidderIcon.textContent = currentUser.name[0].toUpperCase();
-
-      // Add to bidders list
-      addBidderRow({ name: currentUser.name, title: currentUser.title, amount: val });
-
-      // Next suggested bid = new current + 5%
-      const next = Math.ceil(val + val * 0.05);
-      bidInput.value = String(next);
-    });
-  </script>
-  
-  <script>
     function pad2(n) { 
       return String(n).padStart(2, '0'); 
     }
@@ -308,21 +195,6 @@
 
     tickTimers();
     setInterval(tickTimers, 1000);
-  </script>
-  
-  <script>
-    const buyoutBtn = document.getElementById("buyoutBtn");
-
-    buyoutBtn?.addEventListener("click", () => {
-      const buyoutPrice = Number(buyoutBtn.dataset.buyout);
-      if (!buyoutPrice) return;
-
-      currentBidEl.textContent = buyoutPrice;
-      topBidderName.textContent = currentUser.name;
-      topBidderIcon.textContent = currentUser.name[0].toUpperCase();
-
-      alert("You bought out the auction!");
-    });
   </script>
 </body>
 

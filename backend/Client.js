@@ -1,6 +1,6 @@
 import User from "./User.js";
 import Wallet from "./Wallet.js";
-import {searchClientbyusername,insert, viewAllAuctions, getMyAuctions, updatesuscounteruser, updateUserSuspendedStatus} from "../Database/database.js";
+import {searchClientbyusername,insert, viewAllAuctions, getMyAuctions, updatesuscounteruser, updateUserSuspendedStatus, searchClientbyid} from "../Database/database.js";
 import session from "express-session";
 export default class Client extends User{
 
@@ -35,6 +35,14 @@ export default class Client extends User{
 
     static async searchClient(inputUsername){
         let rows = await searchClientbyusername(inputUsername);
+        if(rows.length == 0){
+            console.log("User Not Found");
+            return null;
+        }
+        return Client.fromSQL(rows[0]);
+    }
+    static async searchClientID(id){
+        let rows = await searchClientbyid(id);
         if(rows.length == 0){
             console.log("User Not Found");
             return null;
