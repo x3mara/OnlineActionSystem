@@ -98,5 +98,13 @@ item_id BIGINT,
 itemimg varchar(255),
 foreign key (item_id) references item(id)
 );
-
+create table bank_details(
+id integer primary key auto_increment,
+name VARCHAR(255),
+wallet_id BIGINT,
+CVV integer,
+card_number VARCHAR(16),
+amount integer,
+foreign key(wallet_id) references wallet(wallet_id) on delete set null
+);
 drop database auction_system;
