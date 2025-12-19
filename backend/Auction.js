@@ -145,7 +145,7 @@ export default class Auction {
     }
 
     static async  getSellerName(AuctionID){
-        return this.getsellername(AuctionID);
+        return getsellername(AuctionID);
     }
 
     static async getAllbidders(AuctionID){

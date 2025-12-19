@@ -184,8 +184,8 @@ app.get('/clientdashboard', async (req, res) => {
 
 app.get('/AuctionDetails', async (req, res) => {
 
-        const auctionId = req.session.auctionData;
-        
+        const auctionId = req.session.auctionData.auctionId;
+                console.log(req.session.auctionData);
         const data = await ControllerAU.viewAuctionDetails(auctionId , req.session.user);
         
         
@@ -216,7 +216,7 @@ app.post('/SignUpI', ControllerCL.register.bind(ControllerCL));
 app.post('/LoginI', ControllerCL.login.bind(ControllerCL));
 app.post('/auction/details', (req, res) => {
     req.session.auctionData = req.body; // Store full auction data
-    
+    console.log(req.body);  
     req.session.save((err) => {
         if (err) {
             console.error('Session save error:', err);
