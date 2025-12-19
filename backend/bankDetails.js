@@ -31,11 +31,11 @@ export default class BankDetails{
         await insertBankDetails(sessionBankDetails.toSQL()); 
     }
 
-    async depositfromBank(walletID, amount){
+    static async depositfromBank(walletID, amount){
         await depositfromBank(walletID, amount);
     }
 
-    async withdrawtoBank(walletID, amount){
+    static async withdrawtoBank(walletID, amount){
         await withdrawtoBank(walletID, amount);
     }
 

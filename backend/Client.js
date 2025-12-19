@@ -1,6 +1,6 @@
 import User from "./User.js";
 import Wallet from "./Wallet.js";
-import {searchClientbyusername,insert, viewAllAuctions, getMyAuctions, updatesuscounteruser} from "../Database/database.js";
+import {searchClientbyusername,insert, viewAllAuctions, getMyAuctions, updatesuscounteruser, updateUserSuspendedStatus} from "../Database/database.js";
 import session from "express-session";
 export default class Client extends User{
 
@@ -94,11 +94,11 @@ export default class Client extends User{
         return rows;
     }
 
-    async incrementSuspicious(id){
+    static async incrementSuspicious(id){
         await updatesuscounteruser(id);
     }
 
-    async suspendedUser(id){
-        updateUserSuspendedStatus(id, true);
+    static async suspendedUser(id){
+        await updateUserSuspendedStatus(id, true);
     }
 }
