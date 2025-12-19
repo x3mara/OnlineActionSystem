@@ -171,7 +171,7 @@ app.post('/sellitemI', upload.array('images', 5), (req, res) => {
 });
 
 app.get('/sellitem', (req, res) => {
-  res.render('partials/sellModal', {});
+  res.render('SellItem');
 });
 
 app.get('/clientdashboard', async (req, res) => {
