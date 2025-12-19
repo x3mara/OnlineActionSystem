@@ -3,7 +3,6 @@ import Client from "../Client.js";
 import Auction from "../Auction.js";
 import { getAllAuctions, combineAuctions } from "./qol.js";
 import { getMyAuctions , getbidfromusernameandauction } from "../../Database/database.js";
-import { get } from "lodash";
 export default class auctionController{
 
     async startAuction(req, res){
