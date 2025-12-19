@@ -1,329 +1,164 @@
-<!doctype html>
-<html lang="en">
+<header class="navbar">
+    <%-include('./walletModal.ejs') %>
+    <div class="nav-inner">
+        <div class="nav-left">
+            <a href="/clientdashboard">
+                <img src="static/public/images/Logo.png" alt="logo" class="nav-logo" />
+            </a>
+            <nav class="nav-links">
+                <button class="nav-btn">Store</button>
+                <button class="nav-btn">Auctions</button>
+                <a class="nav-btn" href="/wishlistedauctions">Wishlist</a>
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Auction Details - 1X BID</title>
-  <link rel="stylesheet" href="/static/public/styles.css" />
-</head>
-
-<body class="dashboard-body">
-  <!-- NAVBAR (same structure you already use) -->
-  <%- include('./partials/navbar.ejs') %>
-
-  <!-- PAGE -->
-  <main class="auction-details-page">
-    <!-- LEFT -->
-    <section class="auction-left">
-      <!-- Section 1 -->
-      <div class="item-block">
-        <div class="item-topline">
-          <div>
-            <h1 class="item-title" id="itemName"><%= auction.item_name %></h1>
-
-            <!-- Seller row -->
-            <div class="seller-row">
-              <span class="dot-avatar" id="sellerAvatar">
-                <% if (sellerName && sellerName[0]) { %>
-                  <%= sellerName[0].toUpperCase() %>
-                <% } else { %>
-                  S
-                <% } %>
-              </span>
-
-              <button class="seller-name" id="sellerName" type="button">
-                <%= sellerName || 'Unknown Seller' %>
-              </button>
-            </div>
-          </div>
-
-          <button class="report-btn" id="reportBtn" type="button">Report</button>
+            </nav>
         </div>
 
-        <div class="item-media">
-          <button class="wishlist-heart" id="wishBtn" type="button" aria-label="Add to wishlist" title="Add to wishlist">
-            ❤
-          </button>
-
-          <img src="<%= imgpath %>" alt="Auction item" id="itemImg" />
-        </div>
-      </div>
-
-      <!-- Section 2 -->
-      <div class="desc-card">
-        <h3>Description</h3>
-        <p id="itemDesc">
-          <%= auction.item_desc %>
-        </p>
-      </div>
-    </section>
-
-    <!-- RIGHT -->
-    <section class="auction-right">
-      <!-- Section 3: Bidding Corner -->
-      <div class="bid-card" id="bidCard">
-        <button class="leave-btn" id="leaveBtn" type="button">Leave</button>
-
-        <div class="current-label">Current bid</div>
-        <div class="current-amount">$<span id="currentBid"><%= (userBid ? userBid : auction.starting_price) %></span></div>
-
-        <div class="highest-bidder">
-          <span class="dot-avatar" id="topBidderIcon">
-            <% if (auction.highest_bidder && auction.highest_bidder[0]) { %>
-              <%= auction.highest_bidder[0].toUpperCase() %>
-            <% } else { %>
-              A
-            <% } %>
-          </span>
-
-          <div class="hb-text">
-            <div class="hb-label">Highest bidder</div>
-            <div class="hb-name" id="topBidderName"><%= auction.highest_bidder || 'No bids yet' %></div>
-          </div>
+        <div class="nav-center">
+            <input id="search" class="search" type="search" placeholder="Search auctions, items or sellers..."
+                aria-label="Search" />
         </div>
 
-        <div class="time-left">
-          <span class="live-dot" aria-hidden="true"></span>
-          <span>Time left:</span>
-          <strong id="timeLeft" class="js-timer" data-end="<%= auction.due_date %>">--:--:--</strong>
-        </div>
+        <div class="nav-right">
+            <a href="/sellitem">
+                <button class="btn sell">+ Sell</button>
+            </a>
 
-        <!-- default -->
-        <button class="to-bid-btn" id="getToBidBtn" type="button">
-          Get to bid
-        </button>
+            <button class="balance" id="balanceBtn" type="button" aria-haspopup="dialog" aria-expanded="false">
+                <img src="static/public/Icons/coin.png" alt="" class="balance-icon">
+                $<span id="balance"><%= balance %></span>
+            </button>
 
-        <!-- expanded -->
-        <div class="bid-actions" id="bidActions">
-          <input class="bid-input" id="bidInput" type="number" step="any" inputmode="numeric" placeholder="Bid amount" aria-label="Bid amount" />
-          <button class="bid-btn" id="bidBtn" type="button">Bid</button>
-          <button class="buyout-btn" id="buyoutBtn" type="button" data-buyout="<%-"$"+auction.buy_out_price %>">
-            Buyout
-          </button>
-        </div>
-      </div>
+            <div class="profile">
+                <button class="avatar" aria-haspopup="true" aria-expanded="false">U</button>
+                <div class="profile-dropdown" aria-hidden="true">
+                    <div class="pd-row pd-row--header">
+                        <div class="pd-avatar">U</div>
+                        <% if (username && email) { %>
+                            <div class="pd-name">
+                                <%= username %>
+                            </div>
+                            <div class="pd-email">
+                                <%= email %>
+                            </div>
+                            <% } else { %>
+                                <div class="pd-name">Guest</div>
+                                <% } %>
 
-      <div class="auction-tags" id="tags">
-        <span class="tag"><%= auction.item_tag %></span>
-      </div>
-
-      <!-- Section 4: Bidders -->
-      <div class="bidders-box">
-        <div class="bidders-head">
-          <h3>Bidders</h3>
-          <div class="bids-col-label">Bids</div>
-        </div>
-
-        <div class="bidders-list" id="biddersList">
-          <% if (bidders && bidders.length > 0) { %>
-            <% bidders.forEach(bidder => { %>
-              <div class="bidder-row">
-                <button class="flag-btn" type="button">⚑</button>
-
-                <button class="nameplate" type="button">
-                  <span class="dot-avatar">
-                    <% if (bidder.username && bidder.username[0]) { %>
-                      <%= bidder.username.charAt(0).toUpperCase() %>
-                    <% } else { %>
-                      ?
-                    <% } %>
-                  </span>
-                  <span class="bidder-name">
-                    <%= bidder.username || 'Unknown' %>
-                  </span>
-                </button>
-
-                <div class="bid-amount">
-                  $<%= bidder.bidamount || 0 %>
+                    </div>
+                    <hr class="pd-sep" />
+                    <div class="pd-row pd-row--actions">
+                        <a href="/manageprofile">
+                        <button class="pd-btn">Manage Profile</button>
+                        </a>
+                        <form action="/myauctions" method="POST">
+                            <button class="pd-btn" type="submit">My Auctions</button>
+                        </form>
+                        <button class="pd-btn">Sold items</button>
+                        <a href="/wishlistedauctions">
+                            <button class="pd-btn">Wishlist</button>
+                        </a>
+                        <button class="pd-btn">My wallet</button>
+                    </div>
+                    <hr class="pd-sep" />
+                    <div class="pd-row pd-row--logout">
+                        <a href="/signup">
+                            <button class="pd-btn pd-logout">Log out</button>
+                        </a>
+                    </div>
                 </div>
-              </div>
-            <% }); %>
-          <% } else { %>
-            <div class="no-bidders">No bidders yet</div>
-          <% } %>
+            </div>
         </div>
-      </div>
-    </section>
-  </main>
+</header>
+<script>
+    (function () {
+        const avatar = document.querySelector('.profile .avatar');
+        const dropdown = document.querySelector('.profile .profile-dropdown');
+        if (!avatar || !dropdown) return;
 
-  <script>
-    // ---- Search auto-resize (same logic you used) ----
-    const search = document.getElementById("search");
-    const MIN = 180, MAX = 520;
+        function positionDropdown() {
+            const rect = avatar.getBoundingClientRect();
+            const pad = 8;
+            // place dropdown under avatar, aligned to avatar's right edge
+            const top = rect.bottom + pad + window.scrollY;
+            let left = rect.right - dropdown.offsetWidth + window.scrollX;
+            // keep within viewport
+            if (left < 8) left = 8;
+            if (left + dropdown.offsetWidth > window.innerWidth - 8) {
+                left = Math.max(8, window.innerWidth - dropdown.offsetWidth - 8);
+            }
+            dropdown.style.top = top + 'px';
+            dropdown.style.left = left + 'px';
+        }
 
-    function resizeSearch() {
-      if (!search) return;
-      const tmp = document.createElement("span");
-      tmp.style.visibility = "hidden";
-      tmp.style.position = "absolute";
-      tmp.style.whiteSpace = "pre";
-      tmp.style.font = window.getComputedStyle(search).font;
-      tmp.textContent = search.value || search.placeholder;
-      document.body.appendChild(tmp);
-      const w = Math.min(MAX, Math.max(MIN, tmp.offsetWidth + 36));
-      search.style.width = w + "px";
-      document.body.removeChild(tmp);
+        document.addEventListener('click', function (e) {
+            // Toggle when clicking avatar
+            if (avatar.contains(e.target)) {
+                const open = dropdown.classList.toggle('show');
+                avatar.setAttribute('aria-expanded', open ? 'true' : 'false');
+                dropdown.setAttribute('aria-hidden', open ? 'false' : 'true');
+                if (open) {
+                    // compute position after it's visible to get correct width
+                    dropdown.style.display = 'block';
+                    // small timeout to ensure styles/layout applied
+                    requestAnimationFrame(positionDropdown);
+                } else {
+                    dropdown.style.display = 'none';
+                }
+                return;
+            }
+
+            // Close when clicking outside
+            if (!dropdown.contains(e.target)) {
+                dropdown.classList.remove('show');
+                avatar.setAttribute('aria-expanded', 'false');
+                dropdown.setAttribute('aria-hidden', 'true');
+                dropdown.style.display = 'none';
+            }
+        });
+
+        // Close on Escape
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                dropdown.classList.remove('show');
+                avatar.setAttribute('aria-expanded', 'false');
+                dropdown.setAttribute('aria-hidden', 'true');
+                dropdown.style.display = 'none';
+            }
+        });
+
+        // Reposition on resize/scroll while open
+        window.addEventListener('resize', () => { if (dropdown.classList.contains('show')) positionDropdown(); });
+        window.addEventListener('scroll', () => { if (dropdown.classList.contains('show')) positionDropdown(); });
+    })();
+</script>
+<script>
+  (function(){
+    const btn = document.getElementById('balanceBtn');
+    const modal = document.getElementById('walletModal');
+    if (!btn || !modal) return;
+
+    function openModal(){
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+      btn.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
     }
-    search?.addEventListener("input", resizeSearch);
-    window.addEventListener("load", resizeSearch);
 
-    // ---- Bid behaviour (5% stepping) ----
-    const bidCard = document.getElementById("bidCard");
-    const getToBidBtn = document.getElementById("getToBidBtn");
-    const leaveBtn = document.getElementById("leaveBtn");
-    const bidActions = document.getElementById("bidActions");
-
-    const bidInput = document.getElementById("bidInput");
-    const bidBtn = document.getElementById("bidBtn");
-    const biddersList = document.getElementById("biddersList");
-
-    const currentBidEl = document.getElementById("currentBid");
-    const topBidderName = document.getElementById("topBidderName");
-    const topBidderIcon = document.getElementById("topBidderIcon");
-
-    const yourBidRow = document.getElementById("yourBidRow");
-    const yourBidValue = document.getElementById("yourBidValue");
-
-    const currentUser = { name: "you", title: "Challenger" };
-    let joined = false;
-
-    function currentBidNumber() {
-      return Number(String(currentBidEl.textContent).replace(/[^\d.]/g, "")) || 0;
-    }
-    function stepFromCurrentBid() {
-      const base = currentBidNumber();
-      return base > 0 ? base * 0.05 : 1;
-    }
-    function snapToStep(value) {
-      const step = stepFromCurrentBid();
-      if (!step) return value;
-      return Math.round(value / step) * step;
-    }
-    function formatMoney(n) {
-      return String(Math.round(n));
+    function closeModal(){
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      btn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
     }
 
-    function addBidderRow({ name, title, amount }) {
-      const row = document.createElement("div");
-      row.className = "bidder-row";
-      row.innerHTML = `
-          <button class="flag-btn" type="button" aria-label="Report bidder">⚑</button>
-          <button class="nameplate" type="button" aria-label="Open bidder profile">
-            <span class="dot-avatar">${name[0].toUpperCase()}</span>
-            <span class="bidder-name">${name}</span>
-            <span class="title-tag">${title}</span>
-          </button>
-          <div class="bid-amount">$${formatMoney(amount)}</div>
-        `;
-      biddersList.prepend(row);
-    }
+    btn.addEventListener('click', openModal);
 
-    getToBidBtn.addEventListener("click", () => {
-      if (joined) return;
-      joined = true;
-
-      bidCard.classList.add("joined");
-
-      // Suggest minimum next bid = current + 5%
-      const base = currentBidNumber();
-      const minNext = Math.ceil(base + base * 0.05);
-      bidInput.value = String(minNext);
-
-      // Add user as a bidder (0 until bids)
-      addBidderRow({ name: currentUser.name, title: currentUser.title, amount: 0 });
+    modal.addEventListener('click', (e) => {
+      if (e.target.matches('[data-close="wallet"]')) closeModal();
     });
 
-    leaveBtn.addEventListener("click", () => {
-      joined = false;
-      bidCard.classList.remove("joined");
-      if (yourBidRow) yourBidRow.style.display = "none";
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
     });
-
-    // Enforce 5% stepping while typing
-    bidInput.addEventListener("input", () => {
-      const base = currentBidNumber();
-      const raw = Number(bidInput.value);
-      if (!base || !raw) return;
-
-      const step = base * 0.05;
-      const minNext = base + step;
-      const snapped = snapToStep(raw);
-
-      bidInput.value = String(Math.max(minNext, snapped).toFixed(0));
-    });
-
-    bidBtn.addEventListener("click", () => {
-      if (!joined) return;
-
-      const base = currentBidNumber();
-      const step = base * 0.05;
-      const val = Number(bidInput.value);
-
-      if (!val || val < base + step) {
-        bidInput.value = String(Math.ceil(base + step));
-        return;
-      }
-
-      // Show "Your bid" under current bid
-      yourBidRow.style.display = "block";
-      yourBidValue.textContent = formatMoney(val);
-
-      // Update current bid + highest bidder UI
-      currentBidEl.textContent = formatMoney(val);
-      topBidderName.textContent = currentUser.name;
-      topBidderIcon.textContent = currentUser.name[0].toUpperCase();
-
-      // Add to bidders list
-      addBidderRow({ name: currentUser.name, title: currentUser.title, amount: val });
-
-      // Next suggested bid = new current + 5%
-      const next = Math.ceil(val + val * 0.05);
-      bidInput.value = String(next);
-    });
-  </script>
-  
-  <script>
-    function pad2(n) { 
-      return String(n).padStart(2, '0'); 
-    }
-
-    function formatRemaining(ms) {
-      if (ms <= 0) return "ENDED";
-      const totalSec = Math.floor(ms / 1000);
-      const h = Math.floor(totalSec / 3600);
-      const m = Math.floor((totalSec % 3600) / 60);
-      const s = totalSec % 60;
-      return `${pad2(h)}:${pad2(m)}:${pad2(s)}`;
-    }
-
-    function tickTimers() {
-      const now = Date.now();
-      document.querySelectorAll('.js-timer').forEach(el => {
-        const endStr = el.getAttribute('data-end');
-        const end = new Date(endStr).getTime();
-        el.textContent = formatRemaining(end - now);
-      });
-    }
-
-    tickTimers();
-    setInterval(tickTimers, 1000);
-  </script>
-  
-  <script>
-    const buyoutBtn = document.getElementById("buyoutBtn");
-
-    buyoutBtn?.addEventListener("click", () => {
-      const buyoutPrice = Number(buyoutBtn.dataset.buyout);
-      if (!buyoutPrice) return;
-
-      currentBidEl.textContent = buyoutPrice;
-      topBidderName.textContent = currentUser.name;
-      topBidderIcon.textContent = currentUser.name[0].toUpperCase();
-
-      alert("You bought out the auction!");
-    });
-  </script>
-</body>
-
-</html>
+  })();
+</script>
