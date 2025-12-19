@@ -3,6 +3,7 @@ import express from 'express';
 import session from 'express-session';
 import clientController from './backend/controllers/clientController.js';
 import auctionController from './backend/controllers/auctionController.js';
+import walletController from './backend/controllers/walletController.js';
 import Client from './backend/Client.js';
 import Item from './backend/Item.js';
 import multer from 'multer';
@@ -13,6 +14,7 @@ import { getAllAuctions } from './backend/controllers/qol.js';
 const app = express();
 const ControllerCL = new clientController();
 const ControllerAU = new auctionController();
+const ControllerWA = new walletController();
 
 // Create static directory and subdirectories
 const staticDir = 'static';
@@ -160,6 +162,18 @@ app.post('/myauctions', (req, res) => {
     }); 
 })
 
+app.post('/deposit', (req, res) => {
+    console.log(req.body);
+    ControllerCL.depositFromBank(req, res);
+    res.redirect('/clientdashboard');
+})
+
+app.post('/withdraw', (req, res) => {
+    console.log(req.body);
+    ControllerCL.withdrawtoBank(req, res);
+    res.redirect('/clientdashboard');
+})
+
 app.get('/login', (req, res) => {
   res.render('Login', {});
 });
@@ -175,9 +189,11 @@ app.get('/sellitem', (req, res) => {
 });
 
 app.get('/clientdashboard', async (req, res) => {
+  console.log(req.session.user);
   res.render('ClientDashboard', {
     username: req.session.user,
-    recommendedAuctions: await getAllAuctions(),
+    balance: await ControllerWA.getBalance(req.session.user),
+    recommendedAuctions: await ControllerAU.getRecommendedAuctions(req.session.user),
     wishlistedAuctions: []
   });
 });
@@ -204,12 +220,16 @@ app.get('/logout', (req,res) => {
   res.redirect('/');
 })
 
-app.post('/wishlistedauctions', (req, res) => {
-  res.render('WishlistedAuctions', {});
+app.post('/wishlistedauctions', async (req, res) => {
+  res.render('WishlistedAuctions', {
+    balance: await ControllerWA.getBalance(req.session.user)
+  });
 });
 
-app.get('/wishlistedauctions', (req, res) => {
-  res.render('WishlistedAuctions', {});
+app.get('/wishlistedauctions', async (req, res) => {
+  res.render('WishlistedAuctions', {
+    balance: await ControllerWA.getBalance(req.session.user)
+  });
 });
 
 app.post('/SignUpI', ControllerCL.register.bind(ControllerCL));
@@ -234,6 +254,7 @@ app.get('/manageprofile', (req, res) => {
 app.post('/manageprofile', upload.single('profilePic'), (req, res) => {
   console.log('Form data:', req.body);
   console.log('Uploaded file:', req.file);
+  res.render('ManageProfile', {username: req.session.user, avatar: 'static/public/images/DefaultAvatar.png'});
 });
 
 
