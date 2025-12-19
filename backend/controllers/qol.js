@@ -9,7 +9,7 @@ export function randInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-export async function getAllAuctions(){
+export async function getAllAuctions(res){
     let auctions = await Client.viewAllAuctions();
           
       const itemPromises = auctions.map(auction => 

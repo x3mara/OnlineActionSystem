@@ -42,4 +42,9 @@ export default class auctionController{
             wishlistedAuctions: []
         });
     }
+
+    async getAllAuctionDetails(req, res){
+
+    }
+
 }
