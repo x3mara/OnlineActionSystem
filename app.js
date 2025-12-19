@@ -220,6 +220,10 @@ app.get('/AuctionDetails', (req, res) => {
 
 });
 
+app.get('/logout', (req,res) => {
+  req.session.destroy();
+  res.redirect('/');
+})
 
 app.post('/wishlistedauctions', (req, res) => {
   res.render('WishlistedAuctions', {});
