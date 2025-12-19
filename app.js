@@ -195,8 +195,12 @@ app.get('/AuctionDetails', async (req, res) => {
             sellerName: data.sellerName,
             bidders: data.bidders || [],
             userBid: data.userBid[0],
-            imgpath: data.imgpath[0]
-        });
+            imgpath: (data.imgpath && 
+                data.imgpath[0] && 
+                data.imgpath[0].itemimg) ? 
+                data.imgpath[0].itemimg : 
+                '/static/public/images/SignUpHero.png'
+            });
 });
 
 app.get('/logout', (req,res) => {
