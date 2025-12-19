@@ -194,3 +194,8 @@ export async function withdrawtoBank(wallet_id,amount){
   const [rows] = await pool.query('update bank_details set amount = amount + ? where wallet_id =?', [amount, wallet_id]);
   return rows;
 }
+export async function getbidfromusernameandauction(username, auctionID){
+  const sql = 'select bid.* from bid join users on bid.users_id = users.id where users.username =? and bid.auction_id =?';
+  const [rows] = await pool.query(sql, [username, auctionID]);
+  return rows;
+}
