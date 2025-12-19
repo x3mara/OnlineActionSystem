@@ -8,6 +8,7 @@ import Item from './backend/Item.js';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
+import { searchAuction } from './Database/database.js';
 
 const app = express();
 const ControllerCL = new clientController();
@@ -171,39 +172,7 @@ app.get('/sellitem', (req, res) => {
 app.post('/clientdashboard', (req, res) => {});
 
 app.get('/clientdashboard', async (req, res) => {
-  let auctions = await Client.viewAllAuctions();
-      
-  const itemPromises = auctions.map(auction => 
-      Item.getItemthroughID(auction.item_id) 
-  );
   
-  const AuItems = await Promise.all(itemPromises);
-  
-  // Fetch images for each item
-  const imagePromises = AuItems.map(item => 
-      Item.getItemImgId(item ? item.id : null)
-  );
-  const ItemImages = await Promise.all(imagePromises);
-  
-  // Combine data with proper structure
-  const combinedData = auctions.map((auction, index) => {
-      const item = AuItems[index] || {};
-      const images = ItemImages[index] || [];
-      
-      return {
-          auction: auction,      
-          item: item,
-          ItemImage: images.length > 0 ?
-          images.map(img => img.itemimg):
-          'static/public/images/SignUpHero.png' // Get first image
-      };
-  });
-
-  return res.render('ClientDashboard', { 
-      username: req.session.user, 
-      recommendedAuctions: combinedData, 
-      wishlistedAuctions: [] 
-  });
 });
 
 app.post('/wishlistedauctions', (req, res) => {
@@ -216,8 +185,9 @@ app.get('/wishlistedauctions', (req, res) => {
 
 app.post('/SignUpI', ControllerCL.register.bind(ControllerCL));
 app.post('/LoginI', ControllerCL.login.bind(ControllerCL));
-app.post('/auction/details',);
-
+app.post('/auction/details', searchAuction);
+app.get('/AuctionDetails', (req, res) => {
+});
 
 app.listen(3000, () => {
   console.log('Server is listening on port 3000');
