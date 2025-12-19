@@ -118,11 +118,7 @@ export async function viewOwnedCosmetics(user_id){
   const [rows] = await pool.query(sql, [user_id]);
   return rows;
 }
-export async function getImgs(item_id){
-  const sql = 'select* from itemimg where item_id =?';
-  const [rows] = await pool.query(sql, [item_id]);
-  return rows;
-}
+
 export async function searchAuction(auctionID){
   const sql = 'select * from auction where id =?';
   const [rows] = await pool.query(sql, [auctionID]);
@@ -139,6 +135,16 @@ export async function getEverythingWithItem(auctionID){
   const [rows] = await pool.query(sql, [auctionID]);
   return rows;
 }
+export async function getImgs(item_id){
+  const sql = 'select* from itemimg where item_id =?';
+  const [rows] = await pool.query(sql, [item_id]);
+  return rows;
+}
+export async function getsellername(auction_id){
+  const sql = 'select users.* from auction join users on auction.seller_id = users.id where auction.id =?';
+  const [rows] = await pool.query(sql, [auction_id]);
+  return rows[0].username;
+}
 
 export async function searchWalletbyid(id){
   const sql = 'select wallet.* from wallet join users on wallet.user_id = users.id where users.id =?';
@@ -154,4 +160,31 @@ export async function getMyAuctions(user_id){
      const sql = 'select auction.* from auction where seller_id =?';
      const [rows] = await pool.query(sql,[user_id]);
      return rows;
+}
+export async function  getBankDetails(wallet_id){
+  const sql = 'select * from bank_details where wallet_id =?';
+  const [rows] = await pool.query(sql, [wallet_id]);
+  return rows;
+}
+export async function insertBankDetails(TOSQL){
+  const sql = 'insert into bank_details set?';
+  const [rows] = await pool.query(sql, [TOSQL]);
+  return rows;
+}
+export async function depositfromBank(wallet_id,amount){
+  const sql = 'select * from bank_details where wallet_id =?';
+  const [rows] = await pool.query(sql, [wallet_id]);
+  if(rows.length ==0){
+    throw new Error ("No bank details found");
+  }
+  if(rows[0].amount < amount){
+    throw new Error ("Insufficient funds in bank account");
+  }
+  await pool.query('update bank_details set amount = amount - ? where wallet_id =?', [amount, wallet_id]);
+  await pool.query('update wallet set balance = balance + ? where wallet_id =?', [amount, wallet_id]);
+  
+}
+export async function withdrawtoBank(wallet_id,amount){
+  const [rows] = await pool.query('update bank_details set amount = amount + ? where wallet_id =?', [amount, wallet_id]);
+  return rows;
 }
