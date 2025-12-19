@@ -96,7 +96,7 @@
 
         <!-- expanded -->
         <form action="/AuctionDetails/bid" method="POST" class="bid-actions" id="bidActions">
-          <input class="bid-input" id="bidInput" type="number" step="any" inputmode="numeric" placeholder="Bid amount" aria-label="Bid amount" />
+          <input class="bid-input" id="bidInput" name="amount" type="number" step="any" inputmode="numeric" placeholder="Bid amount" aria-label="Bid amount" />
           <button class="bid-btn" id="bidBtn" type="submit">Bid</button>
           <form action="/AuctionDetails/buyout" method="POST"><button class="buyout-btn" id="buyoutBtn" type="submit" data-buyout="<%-"$"+auction.buy_out_price %>">
             Buyout

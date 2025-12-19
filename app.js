@@ -4,6 +4,7 @@ import session from 'express-session';
 import clientController from './backend/controllers/clientController.js';
 import auctionController from './backend/controllers/auctionController.js';
 import walletController from './backend/controllers/walletController.js';
+import authenticationController from './backend/controllers/authenticationController.js';
 import Client from './backend/Client.js';
 import Item from './backend/Item.js';
 import multer from 'multer';
@@ -15,6 +16,7 @@ const app = express();
 const ControllerCL = new clientController();
 const ControllerAU = new auctionController();
 const ControllerWA = new walletController();
+const AuthController = new authenticationController();
 
 // Create static directory and subdirectories
 const staticDir = 'static';
@@ -194,7 +196,6 @@ app.get('/sellitem', (req, res) => {
 
 app.post('/card/add', async (req,res) => {
   let ret = await ControllerCL.updateBankDetails(req,res);
-  console.log("ret: " + ret);
   if(ret == null){
     await ControllerCL.insertBankDetails(req,res);
   }
@@ -202,10 +203,12 @@ app.post('/card/add', async (req,res) => {
 })
 
 app.get('/clientdashboard', async (req, res) => {
-  console.log(req.session.user);
+  console.log("user: " + req.session.user);
+  const card = await ControllerCL.getCardDetails(req.session.user);
+  console.log("card: " + card);
   res.render('ClientDashboard', {
     username: req.session.user,
-    card: await ControllerCL.getCardDetails(req.session.user),
+    card: card,
     avatar: await ControllerCL.getAvatar(req.session.user),
     balance: await ControllerWA.getBalance(req.session.user),
     recommendedAuctions: await ControllerAU.getRecommendedAuctions(req.session.user),
@@ -255,7 +258,7 @@ app.get('/wishlistedauctions', async (req, res) => {
 });
 
 app.post('/SignUpI', ControllerCL.register.bind(ControllerCL));
-app.post('/LoginI', ControllerCL.login.bind(ControllerCL));
+app.post('/LoginI', AuthController.verifyLogin.bind(AuthController));
 app.post('/auction/details', (req, res) => {
     req.session.auctionData = req.body; // Store full auction data
     console.log(req.body);  
@@ -268,6 +271,7 @@ app.post('/auction/details', (req, res) => {
     });
 });
 app.post('/AuctionDetails/bid', (req,res) => {
+  console.log("HI:");
   console.log(req.body);
   ControllerAU.bid(req.session.auctionData.auctionId,req.body.amount,req.session.user,req.session.wallet);
   res.redirect('/clientdashboard');

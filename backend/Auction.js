@@ -50,9 +50,10 @@ export default class Auction {
         }
         const sessionWallet = await Wallet.searchWalletID(sessionWalletID);
         let sessionUser = await Client.searchClient(sessionUsername);
-        let fealks = await searchAuction(AuctionID);
+        let fealks = (await searchAuction(AuctionID))[0];
         let datediff = new Date(fealks.due_date) - new Date(); 
-        let highestbiddah = fealks.highest_bidder;
+        console.log(fealks.highest_bidder);
+        let highestbiddah = (await Client.searchClientID(fealks.highest_bidder)).getUsername();
 
         if (datediff <= 0) {
             return -2; //auction ended
@@ -73,7 +74,7 @@ export default class Auction {
             Wallet.updateWalletBalance(highest_bidder_wallet, highest_bidder_wallet.getBalance() + bidrows[bidrows.length-1].bidamount);//refund previous highest bidder money with the highest bid amount currently
         }
         const newbid = new Bid(AuctionID, sessionUser.getUserID(), Amount);
-        console.log(newbid);
+        console.log("Amount: " + Amount);
         Wallet.updateWalletBalance(sessionWallet, sessionWallet.getBalance() - Amount);  //update sessionwallet -= Amount in database
 
         if(datediff < (2 * 60 * 1000)) {

@@ -40,14 +40,8 @@ export default class clientController{
 
     async loginAsClient(req, res){
         const { username, password } = req.body;
-        req.session.user = await User.verifyLogin(username, password);
-        if (req.session.user == false) {
-            return res.render('Login' , { success: false, field: "password", message: "Incorrect password" });
-        } 
-        else {
-            req.session.wallet = (await Wallet.fetchWallet(req.session.user))?.wallet_id;
-        }
-        
+        req.session.user = username;
+        req.session.wallet = (await Wallet.fetchWallet(req.session.user))?.wallet_id;
         return res.redirect('/clientdashboard');
     }
 
@@ -71,7 +65,7 @@ export default class clientController{
     }
 
     async getCardDetails(username){
-        const wallet = (await Wallet.searchWallet(username)).wallet_id;
+        const wallet = (await Wallet.searchWallet(username)).getWalletID();
         return (await BankDetails.getBankDetails(wallet))[0];
     }
 
@@ -104,23 +98,35 @@ export default class clientController{
 
     async insertBankDetails(req, res){
         const { name, cvv, exp, number } = req.body;
+        if(!req.session.wallet){
+            req.session.wallet = (await Wallet.searchWallet(req.session.user)).getWalletID();
+        }
         let bank_Details = new bankDetails(name, req.session.wallet,  cvv, exp, number);
         bankDetails.insertBankDetails(bank_Details);
     }
 
     async updateBankDetails(req, res){
         const { name, cvv, exp, number } = req.body;
+        if(!req.session.wallet){
+            req.session.wallet = (await Wallet.searchWallet(req.session.user)).getWalletID();
+        }
         let bank_Details = new bankDetails(name, req.session.wallet,  cvv, exp, number);
         return bankDetails.updateBankDetails(bank_Details);
     }
 
     async depositFromBank(req, res){
         const { amount } = req.body;
+        if(!req.session.wallet){
+            req.session.wallet = (await Wallet.searchWallet(req.session.user)).getWalletID();
+        }
         bankDetails.depositfromBank(req.session.wallet, amount);
     }
 
     async withdrawtoBank(req, res){
         const { amount } = req.body;
+        if(!req.session.wallet){
+            req.session.wallet = (await Wallet.searchWallet(req.session.user)).getWalletID();
+        }
         await withdrawtoBank(req.session.wallet, amount);
     }
 

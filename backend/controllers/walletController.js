@@ -6,7 +6,7 @@ export default class walletController{
     }
 
     async getBalance(username){
-        return (await Wallet.searchWallet(username)).balance;
+        return (await Wallet.searchWallet(username)).getBalance();
     }
 
     async withdraw(req, res){

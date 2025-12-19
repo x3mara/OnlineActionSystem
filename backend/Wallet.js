@@ -13,7 +13,7 @@ export default class Wallet{
     }
 
     static async fromSQL(data){
-        console.log(data);2
+        console.log(data);
         const wallet = new Wallet(data.user_id);
         wallet.#walletID = data.wallet_id;
         wallet.#balance = data.balance;
@@ -36,6 +36,7 @@ export default class Wallet{
     setUserID(userID){this.#userID = userID;}
 
     static async searchWallet(username){
+        console.log("user: " + username);
         let rows = await searchwalletbyUserUsername(username);
         return Wallet.fromSQL(rows);
     }
