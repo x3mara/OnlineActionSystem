@@ -27,7 +27,7 @@
                     <label for="password" style="margin-bottom: 0.5rem; display: block;">Password</label>
                     <div class="password-field" style="margin-bottom: 1rem;">
                         <input id="password" name="password" type="password" autocomplete="current-password" required placeholder="Enter your password" />
-                        <button type="button" class="show-pass" aria-label="Show password">Show</button>
+                        <button type="button" class="show-pass" aria-label="Show password" aria-pressed="false">Show</button>
                     </div>
 
                     <div class="form-actions">
@@ -41,6 +41,35 @@
             </div>
         </main>
 
-        
+        <script>
+          document.addEventListener('DOMContentLoaded', function () {
+            const passInput = document.getElementById('password');
+            const toggleBtn = document.querySelector('.show-pass');
+
+            if (!passInput || !toggleBtn) return;
+
+            function updateButton() {
+              const isVisible = passInput.type === 'text';
+              toggleBtn.textContent = isVisible ? 'Hide' : 'Show';
+              toggleBtn.setAttribute('aria-pressed', isVisible);
+              toggleBtn.setAttribute('aria-label', isVisible ? 'Hide password' : 'Show password');
+            }
+
+            toggleBtn.addEventListener('click', function () {
+              passInput.type = passInput.type === 'password' ? 'text' : 'password';
+              updateButton();
+            });
+
+            // support keyboard activation (Space/Enter)
+            toggleBtn.addEventListener('keydown', function (e) {
+              if (e.key === ' ' || e.key === 'Enter') {
+                e.preventDefault();
+                toggleBtn.click();
+              }
+            });
+
+            updateButton();
+          });
+        </script>
     </body>
 </html>
