@@ -11,26 +11,31 @@
   <%- include('./partials/navbar.ejs') %>
   <main class="dashboard-main">
     <section class="manage-profile">
-      <h2>Manage profile</h2>
+      <h2 class="manage-title">Manage profile</h2>
 
-      <form action="/manageprofile" method="POST" enctype="multipart/form-data" class="profile-form">
-        <div class="profile-grid">
-          <div class="profile-left">
-            <label for="username">Username</label>
-            <input id="username" name="username" type="text" value="<%= username %>" required />
-
-            <label for="profilePic">Profile picture</label>
-            <div class="avatar-preview">
-              <img id="avatarImg" src="<%= avatar %>" alt="avatar" />
-            </div>
-            <input id="profilePic" name="profilePic" type="file" accept="image/*" />
-
-            <div class="form-actions">
-              <button type="submit" class="btn">Save changes</button>
-            </div>
+      <form action="/manageprofile" method="POST" enctype="multipart/form-data" class="manage-form"></form>
+      <div class="manage-card">
+        <div class="manage-avatar">
+          <img id="avatarImg" src="<%= avatar %>" alt="avatar" />
+          <div class="avatar-actions">
+            <label class="change-btn" for="profilePic">Change picture</label>
+            <input id="profilePic" name="profilePic" type="file" accept="image/*" class="file-input" />
+            <div class="muted">PNG/JPG — max 5MB</div>
           </div>
         </div>
-      </form>
+
+        
+          <div class="field-row">
+            <label for="username">Username</label>
+            <input id="username" name="username" type="text" value="<%= username %>" required />
+          </div>
+
+          <div class="form-actions">
+            <a href="/clientdashboard" class="btn btn-ghost">Cancel</a>
+            <button type="submit" class="btn">Save changes</button>
+          </div>
+        </form>
+      </div>
     </section>
   </main>
 
@@ -39,6 +44,8 @@
       const fileInput = document.getElementById('profilePic');
       const img = document.getElementById('avatarImg');
       if (!fileInput || !img) return;
+
+      // preview selected image
       fileInput.addEventListener('change', () => {
         const f = fileInput.files && fileInput.files[0];
         if (!f) return;

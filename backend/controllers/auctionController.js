@@ -51,4 +51,10 @@ export default class auctionController{
         return combinedData;
     }
 
+    async viewAuctionDetails(req, res){
+        const auctionID = req.body;
+        const auction = Auction.getAuctiondetails(auctionID);
+        const sellerName = Auction.getSellerName(auctionID);
+        const bidders = Auction.getAllbidders(auctionID);  
+    }
 }
