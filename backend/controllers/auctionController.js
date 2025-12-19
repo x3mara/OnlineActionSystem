@@ -52,9 +52,14 @@ export default class auctionController{
     }
 
     async viewAuctionDetails(req, res){
-        const auctionID = req.body;
-        const auction = Auction.getAuctiondetails(auctionID);
-        const sellerName = Auction.getSellerName(auctionID);
-        const bidders = Auction.getAllbidders(auctionID);  
+        const auction = await Auction.getAuctiondetails(auctionID);
+        const sellerName = await Auction.getSellerName(auctionID);
+        const bidders = await Auction.getAllbidders(auctionID);  
+        
+        return {
+            auction: auction,
+            sellerName: sellerName,
+            bidders: bidders
+        };
     }
 }
