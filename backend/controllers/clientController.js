@@ -33,7 +33,7 @@ export default class clientController{
         Wallet.insertWallet(sqlObjectWallet);
 
         req.session.wallet = sessionWallet.getWalletID();
-        req.session.user = sessionClient;
+        req.session.user = sessionClient.getUsername();
         return res.redirect('/clientdashboard');
     }
 
