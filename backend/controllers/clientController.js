@@ -8,6 +8,7 @@ import { getAllAuctions } from './qol.js';
 import Auction from '../Auction.js';
 import bankDetails from '../bankDetails.js';
 import { withdrawtoBank } from '../../Database/database.js';
+import BankDetails from '../bankDetails.js';
 export default class clientController{
 
 
@@ -67,6 +68,11 @@ export default class clientController{
     async getAvatar(username){
         const client = await Client.searchClient(username);
         return await client.getAvatar();
+    }
+
+    async getCardDetails(username){
+        const wallet = (await Wallet.searchWallet(username)).wallet_id;
+        return await BankDetails.getBankDetails(wallet);
     }
 
     async viewAllAuctions(req, res){

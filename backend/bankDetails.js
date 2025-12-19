@@ -1,4 +1,4 @@
-import {insertBankDetails, depositfromBank, withdrawtoBank, updateBankDetails} from "../Database/database.js";
+import {insertBankDetails, depositfromBank, withdrawtoBank, updateBankDetails, getBankDetails} from "../Database/database.js";
 export default class BankDetails{
 
     namekek ;
@@ -25,6 +25,10 @@ export default class BankDetails{
         expirydate: this.expirydate,
         card_number: this.card_number,
         amount: this.amount};
+    }
+
+    static async getBankDetails(walletid){
+        return await getBankDetails(walletid);
     }
 
     static async insertBankDetails(sessionBankDetails){
