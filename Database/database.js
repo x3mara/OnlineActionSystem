@@ -148,7 +148,7 @@ export async function getsellername(auction_id){
   return rows[0].username;
 }
 export async function getAllbidsforAuction(auction_id){
-  const sql = 'select bid.* from bid where auction_id =?';
+  const sql = 'select users.username,bid.bidamount from users join bid on users.id = bid.users_id where bid.auction_id =? order by bid.bidamount desc';
   const [rows] = await pool.query(sql, [auction_id]);
   return rows;
 }
