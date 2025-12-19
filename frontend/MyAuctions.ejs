@@ -12,12 +12,12 @@
                 <!-- Recommended -->
                 <div class="recommended">
                     <div class="section-header">
-                        <h3>Recommended Auctions</h3>
+                        <h3>My Auctions</h3>
                         <a class="view-all" href="#">View all →</a>
                     </div>
 
                     <div class="grid" id="recommendedGrid">
-                        <% recommendedAuctions.forEach(a=> { %>
+                        <% myAuctions.forEach(a=> { %>
                             <form action="/auction/details" method="POST" class="auction-form">
                                 <input type="hidden" name="auctionId" value="<%= a.auction.id %>">
                                 <button type="submit" class="card-link" aria-label="Open auction details">
