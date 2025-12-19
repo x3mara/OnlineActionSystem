@@ -2543,7 +2543,11 @@ button.fav {
 }
 
 .wallet-modal__panel {
-  position: relative;
+  /* absolutely center the panel inside the fixed modal container */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: min(820px, calc(100vw - 48px));
   border-radius: 22px;
   padding: 34px 34px 28px;
@@ -2551,6 +2555,8 @@ button.fav {
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 20px 60px rgba(0,0,0,0.55);
   z-index: 1;
+  max-height: calc(100vh - 96px);
+  overflow: auto;
 }
 
 .wallet-modal__title {
