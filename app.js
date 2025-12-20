@@ -247,13 +247,17 @@ app.get('/logout', (req,res) => {
 
 app.post('/wishlistedauctions', async (req, res) => {
   res.render('WishlistedAuctions', {
-    balance: await ControllerWA.getBalance(req.session.user)
+    balance: await ControllerWA.getBalance(req.session.user),
+    card: await ControllerCL.getCardDetails(req.session.user),
+    avatar: await ControllerCL.getAvatar(req.session.user)
   });
 });
 
 app.get('/wishlistedauctions', async (req, res) => {
   res.render('WishlistedAuctions', {
-    balance: await ControllerWA.getBalance(req.session.user)
+    balance: await ControllerWA.getBalance(req.session.user),
+    card: await ControllerCL.getCardDetails(req.session.user),
+    avatar: await ControllerCL.getAvatar(req.session.user)
   });
 });
 
@@ -298,10 +302,17 @@ app.post('/manageprofile', upload.single('profilePic'), async (req, res) => {
   res.render('ManageProfile', {
     username: req.session.user, 
     avatar: newavatar,
-    balance: await ControllerWA.getBalance(req.session.user)
+    balance: await ControllerWA.getBalance(req.session.user),
+    card: await ControllerCL.getCardDetails(req.session.user)
   });
 });
 
+
+app.get('/admindashboard', async (req,res) => {
+  res.render('AdminDashboard', {
+    recommendedAuctions: await ControllerAU.getRecommendedAuctions(req.session.user)
+  });
+})
 
 app.listen(3000, () => {
   console.log('Server is listening on port 3000');
