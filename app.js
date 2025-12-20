@@ -311,9 +311,7 @@ app.post('/manageprofile', upload.single('profilePic'), async (req, res) => {
 app.get('/admindashboard', async (req,res) => {
   res.render('AdminDashboard', {
     recommendedAuctions: await ControllerAU.getRecommendedAuctions(req.session.user),
-    username: req.session.user,
-    avatar: await ControllerCL.getAvatar(req.session.user),
-    balance: await ControllerWA.getBalance(req.session.user)
+    username: req.session.user
   });
 })
 
