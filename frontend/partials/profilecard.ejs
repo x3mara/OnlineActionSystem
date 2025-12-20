@@ -1,0 +1,15 @@
+<section class="profile-card">
+    <div class="profile-image">
+        <img src=<%= avatar ? avatar : '/static/public/images/Guest%20Avatar.png' %> alt="profile" />
+    </div>
+    <div class="profile-info">
+        <h2>Welcome, <span class="username"><%= username %></span></h2>
+        <div class="xp-card">
+            <div class="xp-label">XP</div>
+            <div class="xp-bar">
+                <div class="xp-fill" style="width:64%"></div>
+            </div>
+            <div class="xp-value">64%</div>
+        </div>
+    </div>
+</section>

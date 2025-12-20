@@ -284,7 +284,8 @@ app.get('/manageprofile', async (req, res) => {
   res.render('ManageProfile', {
     username: req.session.user,
     avatar: await ControllerCL.getAvatar(req.session.user),
-    balance: await ControllerWA.getBalance(req.session.user)
+    balance: await ControllerWA.getBalance(req.session.user),
+    card: await ControllerCL.getCardDetails(req.session.user)
   });
 });
 
