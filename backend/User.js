@@ -1,4 +1,4 @@
-import {searchUser,searchClientbyusername,updateImg} from "../Database/database.js";
+import {searchUser,searchClientbyusername,updateImg,viewAllClients} from "../Database/database.js";
 export default class User{
     
     #userID;
@@ -63,8 +63,9 @@ export default class User{
         return rows;
     }
 
-    async showCredentials(){
-        
+    async viewAllClients(){
+        const rows = await viewAllClients();
+        return rows;
     }
 }
 
