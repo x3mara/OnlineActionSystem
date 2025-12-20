@@ -130,7 +130,8 @@ export async function searchAuction(auctionID){
   return rows;
 }
 export async function searchItem(item_id){
-  const sql = `SELECT item.* FROM item WHERE item.id =?`;
+  console.log("pelas: " + item_id);
+  const sql = 'select * from item where id =?';
   const [rows] = await pool.query(sql, [item_id]);
   return rows;
 }

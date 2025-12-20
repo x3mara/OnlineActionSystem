@@ -71,7 +71,7 @@ export default class auctionController{
         const imgpath = await Item.getItemImgId(auction[0].item_id);
         
         // console.log(auction[0].highest_bidder);
-        auction[0].highest_bidder = (await Client.searchClientID(auction[0].highest_bidder)).getUsername();
+        if(auction[0].highest_bidder != null) auction[0].highest_bidder = (await Client.searchClientID(auction[0].highest_bidder)).getUsername();
 
         let max = -1;
         if(userBid.length == 0){
