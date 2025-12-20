@@ -53,7 +53,7 @@ export default class adminController{
     }
 
     async viewAllClients(req, res){
-        const clients = await Admin.viewAllClients();
+        const clients = await User.viewAllClients();
         res.render("nameOfScreen", { clients });
     }
 }

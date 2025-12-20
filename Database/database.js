@@ -21,7 +21,6 @@ export async function viewAllAuctions(){
   const [rows] =await pool.query(sql);
   return rows;
 }
-
 export async function searchUser(username){
   const sql = 'select * from users where username =?';
   const [rows] = await pool.query(sql, [username]);
@@ -53,7 +52,7 @@ export async function searchAdminbyusername(username){
   return rows;
 }
 
-export default async function viewAllClients(){
+export async function viewAllClients(){
   const sql ='select * from users where roles ="Client"';
   const [rows] = await pool.query(sql);
   return rows;
