@@ -14,12 +14,7 @@
 
 <main class="dashboard-main">
 
-  <!-- ADMIN HEADER -->
-  <section class="profile-card">
-    <div class="profile-info">
-      <h2>Welcome, <span class="username">Admin</span></h2>
-    </div>
-  </section>
+  <%- include('./partials/profilecard.ejs') %>
 
   <!-- =======================
        MOST REPORTED USERS
@@ -155,6 +150,29 @@
 </main>
 
 <script>
+  const search = document.getElementById('search');
+  const MIN = 180, MAX = 520;
+
+  function resizeSearch() {
+    if (!search) return;
+    const tmp = document.createElement('span');
+    tmp.style.visibility = 'hidden';
+    tmp.style.position = 'absolute';
+    tmp.style.whiteSpace = 'pre';
+    tmp.style.font = window.getComputedStyle(search).font;
+    tmp.textContent = search.value || search.placeholder;
+
+    document.body.appendChild(tmp);
+    const w = Math.min(MAX, Math.max(MIN, tmp.offsetWidth + 36));
+    search.style.width = w + 'px';
+    document.body.removeChild(tmp);
+  }
+
+  if (search) {
+    search.addEventListener('input', resizeSearch);
+    window.addEventListener('load', resizeSearch);
+  }
+
   function pad2(n) { return String(n).padStart(2, '0'); }
 
   function formatRemaining(ms) {
